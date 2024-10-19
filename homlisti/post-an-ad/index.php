@@ -228,7 +228,7 @@ var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; 
 <div class="listing-area">
     <div class="header-action">
         <ul class="header-btn">
-
+<!--
 			                <li class="compare-btn has-count-number button" style="">
                     <a class="item-btn"
                        data-toggle="tooltip"
@@ -238,7 +238,7 @@ var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; 
                         <i class="flaticon-left-and-right-arrows icon-round"></i>
                         <span class="count rt-compare-count">0</span>
                     </a>
-                </li>
+                </li>-->
 			
 <!--			                <li class="favourite has-count-number button" style="">
                     <a class="item-btn"
@@ -300,7 +300,7 @@ var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; 
     <div class="header-action">
         <ul class="header-btn">
 
-			                <li class="compare-btn has-count-number button" style="">
+<!--			                <li class="compare-btn has-count-number button" style="">
                     <a class="item-btn"
                        data-toggle="tooltip"
                        data-placement="bottom"
@@ -321,7 +321,7 @@ var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; 
                         <span class="count rt-header-favourite-count">0</span>
                     </a>
                 </li>
-			
+			-->
 			                <li class="login-btn button" style="">
                     <a class="item-btn"
                        data-toggle="tooltip"

@@ -4,7 +4,6 @@ session_start();
 if (isset($_SESSION['loggedin'])) {
     header("Location: /houserental-master/homlisti/NEWDashboard.php");
     exit();
-    //hiii assaasas
 }
 
 ?><!-- comment -->
@@ -3132,7 +3131,7 @@ if (isset($_SESSION['loggedin'])) {
               <div class="listing-area">
                 <div class="header-action">
                   <ul class="header-btn">
-                    <li class="compare-btn has-count-number button" style="">
+<!--                    <li class="compare-btn has-count-number button" style="">
                       <a
                         class="item-btn"
                         data-toggle="tooltip"
@@ -3145,7 +3144,7 @@ if (isset($_SESSION['loggedin'])) {
                         ></i>
                         <span class="count rt-compare-count">0</span>
                       </a>
-                    </li>
+                    </li>-->
 <!--
                     <li class="favourite has-count-number button" style="">
                       <a

@@ -4,6 +4,7 @@ session_start();
 if (isset($_SESSION['loggedin'])) {
     header("Location: /houserental-master/homlisti/NEWDashboard.php");
     exit();
+    //exit
 }
 
 ?><!-- comment -->

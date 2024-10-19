@@ -5,14 +5,14 @@ if (!isset($_SESSION['loggedin'])) {
     header("Location: /houserental-master/homlisti/my-account/index.php");
     exit();
 }
+include 'db_connection.php';
 
-$conn = mysqli_connect("localhost", "root", "", "house_rental");
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$uname = "22bmiit009@gmail.com";
+$uname = "22bmiit150@gmail.com";
 $sql = "SELECT id FROM tbl_users WHERE email = '$uname'";
 $result = mysqli_query($conn, $sql);
 
@@ -2670,20 +2670,20 @@ if (isset($_POST['btnsubmit'])) {
                     <select name="cid" id="category" required>
                         <option value="">Select Category</option>
                         <?php
-                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
-
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
-                        }
-
-                        $sql = "SELECT id, cname FROM tblcategory";
-                        $result = mysqli_query($conn, $sql);
-
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<option value='" . $row['id'] . "'>" . $row['cname'] . "</option>";
-                        }
-
-                        mysqli_close($conn);
+//                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
+//
+//                        if (!$conn) {
+//                            die("Connection failed: " . mysqli_connect_error());
+//                        }
+//
+//                        $sql = "SELECT id, cname FROM tblcategory";
+//                        $result = mysqli_query($conn, $sql);
+//
+//                        while ($row = mysqli_fetch_assoc($result)) {
+//                            echo "<option value='" . $row['id'] . "'>" . $row['cname'] . "</option>";
+//                        }
+//
+//                        mysqli_close($conn);
                         ?>
                     </select>
                 </div>
@@ -2940,7 +2940,7 @@ if (isset($_POST['btnsubmit'])) {
      Mirrored from www.radiustheme.com/demo/wordpress/themes/homlisti/my-account/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Jul 2024 13:27:52 GMT 
 </html>
  WP Optimize page cache - https://getwpo.com - Page not served from cache  -->
-//<?php
+<?php
 //session_start();
 //
 //if (isset($_SESSION['loggedin'])) {
@@ -3004,6 +3004,9 @@ if (isset($_POST['btnsubmit'])) {
             display:none;
         }</style></noscript><link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
         <link rel="alternate" type="application/rss+xml" title="HomListi &raquo; Feed" href="../feed/index.php" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
         <link rel="alternate" type="application/rss+xml" title="HomListi &raquo; Comments Feed" href="../comments/feed/index.php" />
         <script>
             var wpo_server_info_css = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; Windows 98)"}
@@ -3012,6 +3015,20 @@ if (isset($_POST['btnsubmit'])) {
             var wpo_server_info_css = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; Windows 98)"}
             var wpo_min4ee42faa = document.createElement("link"); wpo_min4ee42faa.rel = "stylesheet", wpo_min4ee42faa.type = "text/css", wpo_min4ee42faa.media = "async", wpo_min4ee42faa.href = "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700&amp;family=Ubuntu:ital,wght@0,300;0,400;0,500;0,600;0,700&amp;display=swap", wpo_min4ee42faa.onload = function() {wpo_min4ee42faa.media = "all"}, document.getElementsByTagName("head")[0].appendChild(wpo_min4ee42faa);</script>
         <style id='wp-block-library-theme-inline-css' type='text/css'>
+            .form-group {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+}
+
             .wp-block-audio :where(figcaption){
                 color:#555;
                 font-size:13px;
@@ -5026,6 +5043,47 @@ if (isset($_POST['btnsubmit'])) {
                 border-color: #000000;
             }
         </style>
+        <style>
+            
+            /* Center the form and expand its width */
+.container.fade-in {
+    max-width: 1200px; /* Increased width to 100% container */
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Form inputs padding */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Label and input styles */
+label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+}
+.form-select:focus {
+            border-color: #28a745; /* Green border on focus */
+            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25); /* Green shadow */
+        }
+
+/* Button Styling */
+input[type="submit"] {
+    padding: 12px 40px;
+    font-size: 18px;
+}
+
+/* Align text center for headings */
+.text-center {
+    text-align: center;
+}
+
+        </style>
         <link rel='stylesheet' id='wpo_min-header-0-css' href='../wp-content/cache/wpo-minify/1721845095/assets/wpo-minify-header-17003f4d.min.css' type='text/css' media='all' />
         <script type="text/javascript" src="../wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>
         <script type="text/javascript" id="wpo_min-header-0-js-extra">
@@ -5156,7 +5214,7 @@ if (isset($_POST['btnsubmit'])) {
                             <div class="listing-area">
                                 <div class="header-action">
                                     <ul class="header-btn">
-
+<!--
                                         <li class="compare-btn has-count-number button" style="">
                                             <a class="item-btn"
                                                data-toggle="tooltip"
@@ -5167,7 +5225,7 @@ if (isset($_POST['btnsubmit'])) {
                                                 <span class="count rt-compare-count">0</span>
                                             </a>
                                         </li>
-
+-->
 <!--                                        <li class="favourite has-count-number button" style="">
                                             <a class="item-btn"
                                                data-toggle="tooltip"
@@ -5191,14 +5249,14 @@ if (isset($_POST['btnsubmit'])) {
 
 
 
-                                        <li class="submit-btn header-add-property-btn" style="">
+<!--                                        <li class="submit-btn header-add-property-btn" style="">
                                             <a href="../post-an-ad/index.php" class="item-btn rt-animation-btn">
                                                 <span>
                                                     <i class="fas fa-plus-circle"></i>
                                                 </span>
                                                 <div class="btn-text">Add Property</div>
                                             </a>
-                                        </li>
+                                        </li>-->
 
                                         <li class="offcanvar_bar button" style="order: 99">
                                             <span class="sidebarBtn ">
@@ -5227,7 +5285,7 @@ if (isset($_POST['btnsubmit'])) {
                     <div class="listing-area">
                         <div class="header-action">
                             <ul class="header-btn">
-
+<!--
                                 <li class="compare-btn has-count-number button" style="">
                                     <a class="item-btn"
                                        data-toggle="tooltip"
@@ -5237,7 +5295,7 @@ if (isset($_POST['btnsubmit'])) {
                                         <i class="flaticon-left-and-right-arrows icon-round"></i>
                                         <span class="count rt-compare-count">0</span>
                                     </a>
-                                </li>
+                                </li>-->
 <!--
                                 <li class="favourite has-count-number button" style="">
                                     <a class="item-btn"
@@ -5262,14 +5320,14 @@ if (isset($_POST['btnsubmit'])) {
 
 
 
-                                <li class="submit-btn header-add-property-btn" style="">
+<!--                                <li class="submit-btn header-add-property-btn" style="">
                                     <a href="../post-an-ad/index.php" class="item-btn rt-animation-btn">
                                         <span>
                                             <i class="fas fa-plus-circle"></i>
                                         </span>
                                         <div class="btn-text">Add Property</div>
                                     </a>
-                                </li>
+                                </li>-->
 
                                 <li class="offcanvar_bar button" style="order: 99">
                                     <span class="sidebarBtn ">
@@ -5351,130 +5409,110 @@ if (isset($_POST['btnsubmit'])) {
                         <nav class="rtcl-breadcrumb"><a href="https://www.radiustheme.com/demo/wordpress/themes/homlisti">Home</a>&nbsp;<i class="fas fa-angle-right"></i>&nbsp;<span>My Account</span></nav>                </div>
 
                 </section>
-                <main class="site-main content-area ptb-100 homlisti-myaccount">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12 col-sm-12 col-12">
-                                <div class="page-content-block">
-                                    <div class="main-content">
-                                        <div class="clearfix">
-                                            <div id="post-95" class="post-95 page type-page status-publish">
-                                                <div class="rtcl">
-                                                    <div id="rtcl-user-login-wrapper" class="separate-registration-form">
-<div class="container fade-in">
-        <h2>Property Entry Form</h2>
-        <form action="property_page.php" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-<!--                 Category and Address -->
-                <div>
-                    <label for="category">Category:</label>
-                    <select name="cid" id="category" required>
-                        <option value="">Select Category</option>
-                        <?php
-                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
-
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
-                        }
-
-                        $sql = "SELECT id, cname FROM tblcategory";
-                        $result = mysqli_query($conn, $sql);
-
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<option value='" . $row['id'] . "'>" . $row['cname'] . "</option>";
-                        }
-
-                        mysqli_close($conn);
-                        ?>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" maxlength="255" required>
-                </div>
-<!--
-                 Rent -->
-                <div>
-                    <label for="rent">Rent:</label>
-                    <input type="number" step="0.01" id="rent" name="rent" placeholder="Rent" required>
-                </div>
-
-<!--                 Bedrooms -->
-                <div>
-                    <label for="bedroom">Bedrooms:</label>
-                    <input type="number" id="bedroom" name="bedroom" placeholder="Bedrooms" required>
-                </div>
-
-<!--                 Bathrooms -->
-                <div>
-                    <label for="bathroom">Bathrooms:</label>
-                    <input type="number" id="bathroom" name="bathroom" placeholder="Bathrooms" required>
-                </div>
-
-<!--                 Kitchen -->
-                <div>
-                    <label for="kitchen">Kitchen:</label>
-                    <input type="number" id="kitchen" name="kitchen" placeholder="Kitchen" required>
-                </div>
-
-<!--                 Floor -->
-                <div>
-                    <label for="floor">Floor:</label>
-                    <input type="number" id="floor" name="floor" placeholder="Floor" required>
-                </div>
-
-<!--                 Parking -->
-                <div>
-                    <label for="parking">Parking:</label>
-                    <input type="number" min="0" max="1" id="parking" name="parking" placeholder="Parking (0 or 1)" required>
-                </div>
-
-<!--                 Property Size -->
-                <div>
-                    <label for="size">Property Size (in square feet):</label>
-                    <input type="number" step="0.01" id="size" name="size" placeholder="Size">
-                </div>
-
-<!--                 Description -->
-                <div style="flex: 1 1 100%;">
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description" rows="3"></textarea>
-                </div>
-
-<!--                 Upload Document -->
-                <div>
-                    <label for="document">Upload Document:</label>
-                    <input type="file" id="document" name="document" required>
-                </div>
-<!--
-                 Upload House Image -->
-                <div>
-                    <label for="house_image">Upload House Image:</label>
-                    <input type="file" id="house_image" name="house_image" required>
-                </div>
-            </div>
-
-<!--             Submit Button -->
-            <input type="submit" name="btnsubmit" value="Submit">
-        </form>
-    </div>
-
-                                                         
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="page-pagination">
-                                        </div>
-                                    </div>
-
+<main class="site-main content-area ptb-100 homlisti-myaccount">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Property Entry Form</h2>
+                        <form action="property_page.php" method="POST" enctype="multipart/form-data">
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3">
+                                    <label for="category" class="form-label">Category:</label>
+                                    <select class="form-control" name="cid" id="category" required>
+                                        <option value="" disabled selected>Select Category</option>
+                                        <?php
+                                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
+                                        if (!$conn) {
+                                            die("Connection failed: " . mysqli_connect_error());
+                                        }
+                                        $sql = "SELECT id, cname FROM tblcategory";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['cname']) . "</option>";
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </select>
+                                </div>
+                                                   <div class="col-md-6">
+                                    <label for="address" class="form-label">Address:</label>
+                                    <input type="text" class="form-control" id="address" name="address" maxlength="255" required>
                                 </div>
                             </div>
-                        </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="rent" class="form-label">Rent:</label>
+                                    <input type="number" step="0.01" class="form-control" id="rent" name="rent" placeholder="Rent" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="bedroom" class="form-label">Bedrooms:</label>
+                                    <input type="number" class="form-control" id="bedroom" name="bedroom" placeholder="Bedrooms" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="bathroom" class="form-label">Bathrooms:</label>
+                                    <input type="number" class="form-control" id="bathroom" name="bathroom" placeholder="Bathrooms" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="kitchen" class="form-label">Kitchen:</label>
+                                    <input type="number" class="form-control" id="kitchen" name="kitchen" placeholder="Kitchen" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="floor" class="form-label">Floor:</label>
+                                    <input type="number" class="form-control" id="floor" name="floor" placeholder="Floor" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="parking" class="form-label">Parking:</label>
+                                    <input type="number" min="0" max="1" class="form-control" id="parking" name="parking" placeholder="Parking (0 or 1)" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="size" class="form-label">Property Size (in square feet):</label>
+                                <input type="number" step="0.01" class="form-control" id="size" name="size" placeholder="Size">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="document" class="form-label">Upload Document:</label>
+                                    <input type="file" class="form-control" id="document" name="document" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="house_image" class="form-label">Upload House Image:</label>
+                                    <input type="file" class="form-control" id="house_image" name="house_image" required>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-success btn-lg" name="btnsubmit" value="Submit">
+                            </div>
+                        </form>
                     </div>
-                </main>
-            </div><!-- #content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Ensure Bootstrap CSS is included -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+
             <footer id="site-footer" class="site-footer footer-wrap footer-style-1 is-border">
                 <div class="main-footer">
                     <div class="container">

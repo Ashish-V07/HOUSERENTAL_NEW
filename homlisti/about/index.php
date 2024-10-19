@@ -1292,8 +1292,8 @@
         .elementor-element{
             --widgets-spacing:0px 0px
         }
-        {
-        }
+        
+        
         h1.entry-title{
             display:var(--page-title-display)
         }

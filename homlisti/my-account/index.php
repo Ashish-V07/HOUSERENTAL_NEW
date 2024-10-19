@@ -2222,7 +2222,7 @@ mysqli_close($c);
                                 <div class="header-action">
                                     <ul class="header-btn">
 
-                                        <li class="compare-btn has-count-number button" style="">
+<!--                                        <li class="compare-btn has-count-number button" style="">
                                             <a class="item-btn"
                                                data-toggle="tooltip"
                                                data-placement="bottom"
@@ -2231,7 +2231,7 @@ mysqli_close($c);
                                                 <i class="flaticon-left-and-right-arrows icon-round"></i>
                                                 <span class="count rt-compare-count">0</span>
                                             </a>
-                                        </li>
+                                        </li>-->
 
 <!--                                        <li class="favourite has-count-number button" style="">
                                             <a class="item-btn"
@@ -2293,7 +2293,7 @@ mysqli_close($c);
                         <div class="header-action">
                             <ul class="header-btn">
 
-                                <li class="compare-btn has-count-number button" style="">
+<!--                                <li class="compare-btn has-count-number button" style="">
                                     <a class="item-btn"
                                        data-toggle="tooltip"
                                        data-placement="bottom"
@@ -2302,7 +2302,7 @@ mysqli_close($c);
                                         <i class="flaticon-left-and-right-arrows icon-round"></i>
                                         <span class="count rt-compare-count">0</span>
                                     </a>
-                                </li>
+                                </li>-->
 <!--
                                 <li class="favourite has-count-number button" style="">
                                     <a class="item-btn"

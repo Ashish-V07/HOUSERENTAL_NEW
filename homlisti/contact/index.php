@@ -2978,7 +2978,7 @@
                             <div class="listing-area">
                                 <div class="header-action">
                                     <ul class="header-btn">
-
+<!--
                                         <li class="compare-btn has-count-number button" style="">
                                             <a class="item-btn"
                                                data-toggle="tooltip"
@@ -2999,7 +2999,7 @@
                                                 <i class="flaticon-heart icon-round"></i>
                                                 <span class="count rt-header-favourite-count">0</span>
                                             </a>
-                                        </li>
+                                        </li>-->
 
                                         <li class="login-btn button" style="">
                                             <a class="item-btn"

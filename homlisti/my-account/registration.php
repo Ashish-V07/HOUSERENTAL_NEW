@@ -21,7 +21,7 @@ if (!$c) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['generate_otp'])) {
         // Check if the user already exists before generating OTP
-        if (!checkExistingUser($c, $_POST['email'], $_POST['aadhar'], $_POST['mobile_no'])) {
+        if (!checkExistingUser($c, $_POST['email'])) {
             storeFormData();
             sendotp();
         }
@@ -122,20 +122,22 @@ function registerUser($c) {
 
     $first_name = $formData['first_name'] ?? '';
     $last_name = $formData['last_name'] ?? '';
-    $mobile_no = $formData['mobile_no'] ?? '';
     $email = $formData['email'] ?? '';
-    $dob = $formData['dob'] ?? '';
-    $adhar = $formData['aadhar'] ?? '';
-    $address = $formData['address'] ?? '';
-    $password = $formData['password'] ?? '';
+       $password = $formData['password'] ?? '';
 
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $hashed_password = passwif(isset($_SESSION['success_pass']))
+    {
+    $msg = $_SESSION['success_pass'];
+    echo "<script>alert('$msg')</script>";
+    unset($_SESSION['success_pass']);
 
-    $query = "INSERT INTO tbl_users (fname, lname, mobile, email, dob, aadhar, address, password) 
-              VALUES ('$first_name', '$last_name', $mobile_no, '$email', '$dob', '$adhar', '$address', '$hashed_password')";
+    }ord_hash($password, PASSWORD_DEFAULT);
+
+    $query = "INSERT INTO tbl_users (fname, lname,  email, password) 
+              VALUES ('$first_name', '$last_name', '$email', '$hashed_password')";
 
     if (mysqli_query($c, $query)) {
-        echo '<script>alert("User registered successfully.");</script>';
+        $_SESSION['RMSG']="User registered successfully.";
         $_SESSION['email'] = $email; // Set session email
         header("Location: index.php");
     } else {
@@ -143,29 +145,16 @@ function registerUser($c) {
     }
 }
 
-function checkExistingUser($c, $email, $aadhar, $mobile) {
+function checkExistingUser($c, $email) {
     $emailQuery = "SELECT * FROM tbl_users WHERE email = '$email'";
-    $aadharQuery = "SELECT * FROM tbl_users WHERE aadhar = '$aadhar'";
-    $mobileQuery = "SELECT * FROM tbl_users WHERE mobile = $mobile";
-
+   
     $emailResult = mysqli_query($c, $emailQuery);
-    $aadharResult = mysqli_query($c, $aadharQuery);
-    $mobileResult = mysqli_query($c, $mobileQuery);
-
+   
     if (mysqli_num_rows($emailResult) > 0) {
         echo '<script>alert("Email already exists.");</script>';
         return true;
     }
 
-    if (mysqli_num_rows($aadharResult) > 0) {
-        echo '<script>alert("Aadhaar number already exists.");</script>';
-        return true;
-    }
-
-    if (mysqli_num_rows($mobileResult) > 0) {
-        echo '<script>alert("Mobile number already exists.");</script>';
-        return true;
-    }
 
     return false;
 }
@@ -201,47 +190,47 @@ function checkExistingUser($c, $email, $aadhar, $mobile) {
                 }, 1000);
             }
 
-            function validateMobileNo(input) {
-                // Allow only digits (remove non-digit characters)
-                input.value = input.value.replace(/\D/g, '');
-            }
+//            function validateMobileNo(input) {
+//                // Allow only digits (remove non-digit characters)
+//                input.value = input.value.replace(/\D/g, '');
+//            }
 
             function validateName(input) {
                 // Allow only alphabetic characters
                 input.value = input.value.replace(/[^A-Za-z]/g, '');
             }
 
-            function validateDate(input) {
-                var selectedDate = new Date(input.value);
-                var today = new Date();
-                var age = today.getFullYear() - selectedDate.getFullYear();
-                var month = today.getMonth() - selectedDate.getMonth();
-
-                if (month < 0 || (month === 0 && today.getDate() < selectedDate.getDate())) {
-                    age--;
-                }
-
-                var oldestDate = new Date();
-                oldestDate.setFullYear(today.getFullYear() - 100); // 100 years ago
-
-                if (selectedDate > today) {
-                    alert("Date cannot be in the future.");
-                    input.value = ''; // Clear the input if invalid
-                    return;
-                }
-
-                if (selectedDate < oldestDate) {
-                    alert("This date is not eligible for registration.");
-                    input.value = ''; // Clear the input if invalid
-                    return;
-                }
-
-                if (age < 18) {
-                    alert("You must be at least 18 years old.");
-                    input.value = ''; // Clear the input if invalid
-                    return;
-                }
-            }
+//            function validateDate(input) {
+//                var selectedDate = new Date(input.value);
+//                var today = new Date();
+//                var age = today.getFullYear() - selectedDate.getFullYear();
+//                var month = today.getMonth() - selectedDate.getMonth();
+//
+//                if (month < 0 || (month === 0 && today.getDate() < selectedDate.getDate())) {
+//                    age--;
+//                }
+//
+//                var oldestDate = new Date();
+//                oldestDate.setFullYear(today.getFullYear() - 100); // 100 years ago
+//
+//                if (selectedDate > today) {
+//                    alert("Date cannot be in the future.");
+//                    input.value = ''; // Clear the input if invalid
+//                    return;
+//                }
+//
+//                if (selectedDate < oldestDate) {
+//                    alert("This date is not eligible for registration.");
+//                    input.value = ''; // Clear the input if invalid
+//                    return;
+//                }
+//
+//                if (age < 18) {
+//                    alert("You must be at least 18 years old.");
+//                    input.value = ''; // Clear the input if invalid
+//                    return;
+//                }
+//            }
 
             window.onload = function () {
 <?php if (!$otp_verified && isset($_SESSION['otp_expiry_time'])): ?>
@@ -251,9 +240,9 @@ function checkExistingUser($c, $email, $aadhar, $mobile) {
 <?php endif; ?>
 
                 // Attach event listener to the date input field
-                document.getElementById('dob').addEventListener('change', function (event) {
-                    validateDate(event.target);
-                });
+//                document.getElementById('dob').addEventListener('change', function (event) {
+//                    validateDate(event.target);
+//                });
 
                 // Attach input validation for first and last names
                 document.getElementById('first_name').addEventListener('input', function (event) {
@@ -264,10 +253,10 @@ function checkExistingUser($c, $email, $aadhar, $mobile) {
                     validateName(event.target);
                 });
 
-                // Validate mobile number input
-                document.getElementById('mobile_no').addEventListener('input', function (event) {
-                    validateMobileNo(event.target);
-                });
+//                // Validate mobile number input
+//                document.getElementById('mobile_no').addEventListener('input', function (event) {
+//                    validateMobileNo(event.target);
+//                });
 
                 // Form submission validation
                 document.querySelector('form').addEventListener('submit', function (event) {
@@ -322,28 +311,28 @@ function checkExistingUser($c, $email, $aadhar, $mobile) {
                                 <label class="details" for="last_name">Last Name:</label>
                                 <input type="text" name="last_name" id="last_name" value="<?php echo htmlspecialchars($_SESSION['form_data']['last_name'] ?? ''); ?>" required>
                             </div>
-                            <div class="input-box">
+<!--                            <div class="input-box">
                                 <label class="details" for="mobile_no">Mobile No.:</label>
                                 <input type="text" name="mobile_no" id="mobile_no" maxlength="10" minlength="10" value="<?php echo htmlspecialchars($_SESSION['form_data']['mobile_no'] ?? ''); ?>" required>
-                            </div>
+                            </div>-->
                             <div class="input-box">
                                 <label class="details" for="email">Email Id:</label>
                                 <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($_SESSION['form_data']['email'] ?? ''); ?>" required>
-                            </div>
+                            </div><br>
 
-                            <div class="input-box">
+<!--                            <div class="input-box">
                                 <label class="details" for="dob">Date Of Birth:</label>
                                 <input type="date" name="dob" id="dob" value="<?php echo htmlspecialchars($_SESSION['form_data']['dob'] ?? ''); ?>" required>
-                            </div>
+                            </div>-->
 
-                            <div class="input-box">
+<!--                            <div class="input-box">
                                 <label class="details" for="aadhar">Aadhar Number:</label>
                                 <input type="text" maxlength="12" minlength="12" id="aadhar" name="aadhar" value="<?php echo htmlspecialchars($_SESSION['form_data']['aadhar'] ?? ''); ?>" required>
                             </div>
                             <div class="input-box">
                                 <label class="details" for="address">Address:</label>
                                 <textarea name="address" id="address" required><?php echo htmlspecialchars($_SESSION['form_data']['address'] ?? ''); ?></textarea>
-                            </div>
+                            </div>-->
 
                             <div class="input-box">
                                 <label class="details" for="password">Password:</label>
@@ -351,7 +340,7 @@ function checkExistingUser($c, $email, $aadhar, $mobile) {
                             </div>
                             <div class="input-box">
                                 <label class="details" for="cpassword">Confirm Password:</label>
-                                <input type="password" name="cpassword" id="cpassword" <?php echo htmlspecialchars($_SESSION['form_data']['cpassword'] ?? ''); ?>value='' required>
+                                <input type="password" name="cpassword" id="cpassword" value='<?php echo htmlspecialchars($_SESSION['form_data']['cpassword'] ?? ''); ?>' required>
                             </div>
                         </div>
                         <div class="button" colspan="2">

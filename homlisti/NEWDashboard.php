@@ -3168,8 +3168,8 @@ if (!isset($_SESSION['loggedin'])) {
                         class="item-btn"
                         data-toggle="tooltip"
                         data-placement="bottom"
-                        title=" logout"
-                        href="my-account/logout.php"
+                        title="Profile"
+                        href="profile.php"
                       >
                         <i class="flaticon-user-1 icon-round"></i>
                       </a>

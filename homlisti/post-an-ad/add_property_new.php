@@ -8,11 +8,19 @@ if (!isset($_SESSION['loggedin'])) {
 include 'db_connection.php';
 
 
+
+
+//if (!isset($_SESSION['email'])) {
+//    header("Location: login.php");
+//    exit();
+//}
+
+
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$uname = "22bmiit150@gmail.com";
+$uname = "22bmiit009@gmail.com";
 $sql = "SELECT id FROM tbl_users WHERE email = '$uname'";
 $result = mysqli_query($conn, $sql);
 
@@ -56,7 +64,7 @@ if (isset($_POST['btnsubmit'])) {
             mysqli_query($conn, $image_sql);
         }
 
-        echo "New property and image added successfully!";
+        echo '<script>alert("Property request submitted wait for Approval...")</script>';
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
@@ -90,7 +98,6 @@ if (isset($_POST['btnsubmit'])) {
 //    }
 //}
 ?>
-
 
 
 
@@ -5164,7 +5171,7 @@ input[type="submit"] {
                                                 <li id="menu-item-18057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18057"><a href="../home-6/index.php">Home 6</a></li>
                                             </ul>-->
                                         </li>
-                                        <li id="menu-item-4132" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="index.php" aria-current="page">About</a></li>
+                                        <li id="menu-item-4132" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../about/index.php" aria-current="page">About</a></li>
                                         <li id="menu-item-4386" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../property/affordable-green-villa-house-for-rent/index.php">Property</a>
 <!--                                            <ul class="sub-menu">
                                                 <li id="menu-item-4387" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4387"><a href="#">Column 1</a>
@@ -5417,7 +5424,7 @@ input[type="submit"] {
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h2 class="text-center mb-4">Property Entry Form</h2>
-                        <form action="property_page.php" method="POST" enctype="multipart/form-data">
+                        <form method="POST" enctype="multipart/form-data">
                             <div class="row mb-3">
                                 <div class="col-md-6 mb-3">
                                     <label for="category" class="form-label">Category:</label>

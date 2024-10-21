@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         if (password_verify($password, $stored_password)) {
             $_SESSION['loggedin'] = true;
             $_SESSION['email'] = $email; 
+           
             header("Location: /houserental-master/homlisti/NEWDashboard.php"); 
             exit();
         } else {

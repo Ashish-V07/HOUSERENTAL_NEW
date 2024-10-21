@@ -2886,14 +2886,14 @@ if (isset($_SESSION['loggedin'])) {
                   </a>
                 </div>
               </div>
-              <div id="main-navigation" class="navigation-area menu-center">
+             <div id="main-navigation" class="navigation-area menu-center">
                 <nav id="dropdown" class="template-main-menu">
                   <ul id="menu-main-navigation" class="menu">
                     <li
                       id="menu-item-4356"
-                      class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-4356"
+                      class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-3941 current_page_item menu-item-4132"
                     >
-                      <a href="">Home</a>
+                      <a href="NEWDashboard.php">Home</a>
 <!--                      <ul class="sub-menu">
                         <li
                           id="menu-item-4358"
@@ -2941,10 +2941,10 @@ if (isset($_SESSION['loggedin'])) {
                     </li>
                     <li
                       id="menu-item-4386"
-                      class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4386"
+                      class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4132"
                     >
-                      <a href="#">Property</a>
-                      <ul class="sub-menu">
+                      <a href="/houserental-master/homlisti/property/affordable-green-villa-house-for-rent/index.php">Property</a>
+<!--                      <ul class="sub-menu">
                         <li
                           id="menu-item-4387"
                           class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4387"
@@ -2999,8 +2999,8 @@ if (isset($_SESSION['loggedin'])) {
                                 href="all-properties/index128e.html?layout=fullwidth"
                                 >Properties Fullwidth</a
                               >
-                            </li>
-                            <li
+                            </li>-->
+<!--                            <li
                               id="menu-item-17444"
                               class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17444"
                             >
@@ -3030,7 +3030,7 @@ if (isset($_SESSION['loggedin'])) {
                           </ul>
                         </li>
                       </ul>
-                    </li>
+                    </li>-->
 <!--                    <li
                       id="menu-item-4733"
                       class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"
@@ -3088,8 +3088,8 @@ if (isset($_SESSION['loggedin'])) {
                           </ul>
                         </li>
                       </ul>
-                    </li>
-                    <li
+                    </li>-->
+<!--                    <li
                       id="menu-item-4736"
                       class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"
                     >
@@ -3117,9 +3117,8 @@ if (isset($_SESSION['loggedin'])) {
                           >
                         </li>
                       </ul>
-                    </li>
-                   --> 
-                   <li
+                    </li>-->
+                    <li
                       id="menu-item-4735"
                       class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"
                     >

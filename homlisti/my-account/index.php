@@ -2159,8 +2159,8 @@ mysqli_close($c);
                                              >
                                     </a>
                                 </div>
-                            </div>            <div id="main-navigation" class="navigation-area menu-center">
-                                <nav id="dropdown" class="template-main-menu"><ul id="menu-main-navigation" class="menu"><li id="menu-item-4356" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4356"><a href="../index.php">Home</a>
+                            </div>             <div id="main-navigation" class="navigation-area menu-center">
+                                <nav id="dropdown" class="template-main-menu"><ul id="menu-main-navigation" class="menu"><li id="menu-item-4356" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../index.php">Home</a>
 <!--                                            <ul class="sub-menu">
                                                 <li id="menu-item-4358" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-4358"><a href="../index.php">Home 1</a></li>
                                                 <li id="menu-item-4359" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4359"><a href="../home-2/index.php">Home 2</a></li>
@@ -2170,9 +2170,9 @@ mysqli_close($c);
                                                 <li id="menu-item-18057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18057"><a href="../home-6/index.php">Home 6</a></li>
                                             </ul>-->
                                         </li>
-                                        <li id="menu-item-4132" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4132"><a href="../about/index.php">About</a></li>
-                                        <li id="menu-item-4386" class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4386"><a href="#">Property</a>
-                                            <ul class="sub-menu">
+                                        <li id="menu-item-4132" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../about/index.php" aria-current="page">About</a></li>
+                                        <li id="menu-item-4386" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../property/affordable-green-villa-house-for-rent/index.php">Property</a>
+<!--                                            <ul class="sub-menu">
                                                 <li id="menu-item-4387" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4387"><a href="#">Column 1</a>
                                                     <ul class="sub-menu">
                                                         <li id="menu-item-9149" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-9149"><a href="../all-properties/index.php">Properties Grid</a></li>
@@ -2189,7 +2189,7 @@ mysqli_close($c);
                                                         <li id="menu-item-17445" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17445"><a href="../property/sky-pool-villa-house-for-sale/index.php">Single Property &#8211; Grid</a></li>
                                                     </ul>
                                                 </li>
-                                            </ul>
+                                            </ul>-->
                                         </li>
 <!--                                        <li id="menu-item-4733" class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"><a href="#">Pages</a>
                                             <ul class="sub-menu">
@@ -2207,8 +2207,8 @@ mysqli_close($c);
                                                     </ul>
                                                 </li>
                                             </ul>
-                                        </li>
-                                        <li id="menu-item-4736" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"><a href="#">Blog</a>
+                                        </li>-->
+<!--                                        <li id="menu-item-4736" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"><a href="#">Blog</a>
                                             <ul class="sub-menu">
                                                 <li id="menu-item-4615" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4615"><a href="../blog/index.php">Blog List</a></li>
                                                 <li id="menu-item-8849" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8849"><a href="../blog-grid/index.php">Blog Grid</a></li>
@@ -2458,11 +2458,7 @@ mysqli_close($c);
 
                                                                     <button type="submit" name="login" class="btn" value="login">
                                                                         Login                </button>
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" name="rememberme" id="rtcl-rememberme" value="forever">
-                                                                        <label class="form-check-label" for="rtcl-rememberme">
-                                                                            Remember Me                    </label>
-                                                                    </div>
+                                                                   
                                                                 </div>
                                                                 <div class="rtcl-form-group rtcl-form-group-no-margin-bottom">
                                                                     <p class="rtcl-forgot-password">

@@ -2895,7 +2895,7 @@ if (!isset($_SESSION['loggedin'])) {
                   <ul id="menu-main-navigation" class="menu">
                     <li
                       id="menu-item-4356"
-                      class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-4356"
+                      class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-3941 current_page_item menu-item-4132"
                     >
                       <a href="NEWDashboard.php">Home</a>
 <!--                      <ul class="sub-menu">
@@ -2945,10 +2945,10 @@ if (!isset($_SESSION['loggedin'])) {
                     </li>
                     <li
                       id="menu-item-4386"
-                      class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4386"
+                      class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4132"
                     >
-                      <a href="#">Property</a>
-                      <ul class="sub-menu">
+                      <a href="/houserental-master/homlisti/property/affordable-green-villa-house-for-rent/index.php">Property</a>
+<!--                      <ul class="sub-menu">
                         <li
                           id="menu-item-4387"
                           class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4387"
@@ -3003,8 +3003,8 @@ if (!isset($_SESSION['loggedin'])) {
                                 href="all-properties/index128e.html?layout=fullwidth"
                                 >Properties Fullwidth</a
                               >
-                            </li>
-                            <li
+                            </li>-->
+<!--                            <li
                               id="menu-item-17444"
                               class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17444"
                             >
@@ -3034,8 +3034,8 @@ if (!isset($_SESSION['loggedin'])) {
                           </ul>
                         </li>
                       </ul>
-                    </li>
-                    <li
+                    </li>-->
+<!--                    <li
                       id="menu-item-4733"
                       class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"
                     >
@@ -3092,8 +3092,8 @@ if (!isset($_SESSION['loggedin'])) {
                           </ul>
                         </li>
                       </ul>
-                    </li>
-                    <li
+                    </li>-->
+<!--                    <li
                       id="menu-item-4736"
                       class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"
                     >
@@ -3121,7 +3121,7 @@ if (!isset($_SESSION['loggedin'])) {
                           >
                         </li>
                       </ul>
-                    </li>
+                    </li>-->
                     <li
                       id="menu-item-4735"
                       class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"
@@ -3289,7 +3289,7 @@ if (!isset($_SESSION['loggedin'])) {
                   class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-4356"
                 >
                   <a href="#">Home</a>
-                  <ul class="sub-menu">
+<!--                  <ul class="sub-menu">
                     <li
                       class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-3344 current_page_item menu-item-4358"
                     >
@@ -3320,7 +3320,7 @@ if (!isset($_SESSION['loggedin'])) {
                     >
                       <a href="home-6/index.php">Home 6</a>
                     </li>
-                  </ul>
+                  </ul>-->
                 </li>
                 <li
                   class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4132"
@@ -3408,7 +3408,7 @@ if (!isset($_SESSION['loggedin'])) {
                     </li>
                   </ul>
                 </li>
-                <li
+<!--                <li
                   class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"
                 >
                   <a href="#">Pages</a>
@@ -3436,7 +3436,7 @@ if (!isset($_SESSION['loggedin'])) {
                           >
                         </li>
                       </ul>
-                    </li>
+                    </li>-->
                     <li
                       class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17273"
                     >
@@ -3456,10 +3456,10 @@ if (!isset($_SESSION['loggedin'])) {
                     </li>
                   </ul>
                 </li>
-                <li
+<!--                <li
                   class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"
                 >
-                  <a href="#">Blog</a>
+<!--                  <a href="#">Blog</a>
                   <ul class="sub-menu">
                     <li
                       class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4615"
@@ -3478,7 +3478,7 @@ if (!isset($_SESSION['loggedin'])) {
                         href="develop-relationships-with-human-resource/index.php"
                         >Blog Details</a
                       >
-                    </li>
+                    </li>-->
                   </ul>
                 </li>
                 <li

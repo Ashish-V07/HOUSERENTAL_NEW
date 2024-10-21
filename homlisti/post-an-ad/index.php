@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         if (password_verify($password, $stored_password)) {
             $_SESSION['loggedin'] = true;
             $_SESSION['email'] = $email; 
-            header("Location: add_property.php"); 
+            header("Location: add_property_new.php"); 
             exit();
         } else {
             echo '<script>alert("Invalid email or password.")</script>';
@@ -166,64 +166,65 @@ var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; 
                 >
             </a>
 		    </div>
-</div>            <div id="main-navigation" class="navigation-area menu-center">
-				<nav id="dropdown" class="template-main-menu"><ul id="menu-main-navigation" class="menu"><li id="menu-item-4356" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4356"><a href="../index.php">Home</a>
-<!--<ul class="sub-menu">
-	<li id="menu-item-4358" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-4358"><a href="../index.php">Home 1</a></li>
-	<li id="menu-item-4359" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4359"><a href="../home-2/index.php">Home 2</a></li>
-	<li id="menu-item-4357" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4357"><a href="../home-3/index.php">Home 3</a></li>
-	<li id="menu-item-7904" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7904"><a href="../home-4/index.php">Home 4</a></li>
-	<li id="menu-item-17181" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17181"><a href="../home-5/index.php">Home 5</a></li>
-	<li id="menu-item-18057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18057"><a href="../home-6/index.php">Home 6</a></li>
-</ul>-->
-</li>
-<li id="menu-item-4132" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4132"><a href="../about/index.php">About</a></li>
-<li id="menu-item-4386" class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4386"><a href="#">Property</a>
-<ul class="sub-menu">
-	<li id="menu-item-4387" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4387"><a href="#">Column 1</a>
-	<ul class="sub-menu">
-		<li id="menu-item-9149" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-9149"><a href="../all-properties/index.php">Properties Grid</a></li>
-		<li id="menu-item-15637" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-15637"><a href="../all-properties/indexd1fd.html?view=list">Properties List</a></li>
-		<li id="menu-item-16046" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16046"><a href="../listing-map/index.php">Properties Map Grid</a></li>
-		<li id="menu-item-16047" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16047"><a href="../listing-map/indexd1fd.html?view=list">Properties Map List</a></li>
-	</ul>
-</li>
-	<li id="menu-item-4391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4391"><a href="#">Column 2</a>
-	<ul class="sub-menu">
-		<li id="menu-item-15640" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-15640"><a href="../all-properties/index128e.html?layout=fullwidth">Properties Fullwidth</a></li>
-		<li id="menu-item-17444" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17444"><a href="../property/triple-story-house-for-rent/index.php">Single Property &#8211; Default</a></li>
-		<li id="menu-item-17418" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17418"><a href="../property/affordable-green-villa-house-for-rent/index.php">Single Property &#8211; Fullwidth</a></li>
-		<li id="menu-item-17445" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17445"><a href="../property/sky-pool-villa-house-for-sale/index.php">Single Property &#8211; Grid</a></li>
-	</ul>
-</li>
-</ul>
-</li>
-<!--<li id="menu-item-4733" class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"><a href="#">Pages</a>
-<ul class="sub-menu">
-	<li id="menu-item-17272" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17272"><a href="#">Column</a>
-	<ul class="sub-menu">
-		<li id="menu-item-15643" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15643"><a href="../agencies/index.php">Agencies</a></li>
-		<li id="menu-item-17451" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17451"><a href="../agents/index.php">Agents</a></li>
-		<li id="menu-item-17452" class="menu-item menu-item-type-post_type menu-item-object-rtcl_agent menu-item-17452"><a href="../agent/rosy_janner/index.php">Agent Details</a></li>
-	</ul>
-</li>
-	<li id="menu-item-17273" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17273"><a href="#">Column</a>
-	<ul class="sub-menu">
-		<li id="menu-item-8071" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8071"><a href="../pricing-table/index.php">Pricing Table</a></li>
-		<li id="menu-item-4734" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4734"><a href="../error-404.html">404 Error</a></li>
-	</ul>
-</li>
-</ul>
-</li>
-<li id="menu-item-4736" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"><a href="#">Blog</a>
-<ul class="sub-menu">
-	<li id="menu-item-4615" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4615"><a href="../blog/index.php">Blog List</a></li>
-	<li id="menu-item-8849" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8849"><a href="../blog-grid/index.php">Blog Grid</a></li>
-	<li id="menu-item-17271" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-17271"><a href="../develop-relationships-with-human-resource/index.php">Blog Details</a></li>
-</ul>
-</li>-->
-<li id="menu-item-4735" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../contact/index.php">Contact</a></li>
-</ul></nav>            </div>
+</div>            
+              <div id="main-navigation" class="navigation-area menu-center">
+                                <nav id="dropdown" class="template-main-menu"><ul id="menu-main-navigation" class="menu"><li id="menu-item-4356" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../index.php">Home</a>
+<!--                                            <ul class="sub-menu">
+                                                <li id="menu-item-4358" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-4358"><a href="../index.php">Home 1</a></li>
+                                                <li id="menu-item-4359" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4359"><a href="../home-2/index.php">Home 2</a></li>
+                                                <li id="menu-item-4357" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4357"><a href="../home-3/index.php">Home 3</a></li>
+                                                <li id="menu-item-7904" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7904"><a href="../home-4/index.php">Home 4</a></li>
+                                                <li id="menu-item-17181" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17181"><a href="../home-5/index.php">Home 5</a></li>
+                                                <li id="menu-item-18057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18057"><a href="../home-6/index.php">Home 6</a></li>
+                                            </ul>-->
+                                        </li>
+                                        <li id="menu-item-4132" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../about/index.php" aria-current="page">About</a></li>
+                                        <li id="menu-item-4386" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../property/affordable-green-villa-house-for-rent/index.php">Property</a>
+<!--                                            <ul class="sub-menu">
+                                                <li id="menu-item-4387" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4387"><a href="#">Column 1</a>
+                                                    <ul class="sub-menu">
+                                                        <li id="menu-item-9149" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-9149"><a href="../all-properties/index.php">Properties Grid</a></li>
+                                                        <li id="menu-item-15637" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-15637"><a href="../all-properties/indexd1fd.html?view=list">Properties List</a></li>
+                                                        <li id="menu-item-16046" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16046"><a href="../listing-map/index.php">Properties Map Grid</a></li>
+                                                        <li id="menu-item-16047" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16047"><a href="../listing-map/indexd1fd.html?view=list">Properties Map List</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li id="menu-item-4391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4391"><a href="#">Column 2</a>
+                                                    <ul class="sub-menu">
+                                                        <li id="menu-item-15640" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-15640"><a href="../all-properties/index128e.html?layout=fullwidth">Properties Fullwidth</a></li>
+                                                        <li id="menu-item-17444" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17444"><a href="../property/triple-story-house-for-rent/index.php">Single Property &#8211; Default</a></li>
+                                                        <li id="menu-item-17418" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17418"><a href="../property/affordable-green-villa-house-for-rent/index.php">Single Property &#8211; Fullwidth</a></li>
+                                                        <li id="menu-item-17445" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17445"><a href="../property/sky-pool-villa-house-for-sale/index.php">Single Property &#8211; Grid</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>-->
+                                        </li>
+<!--                                        <li id="menu-item-4733" class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"><a href="#">Pages</a>
+                                            <ul class="sub-menu">
+                                                <li id="menu-item-17272" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17272"><a href="#">Column</a>
+                                                    <ul class="sub-menu">
+                                                        <li id="menu-item-15643" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15643"><a href="../agencies/index.php">Agencies</a></li>
+                                                        <li id="menu-item-17451" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17451"><a href="../agents/index.php">Agents</a></li>
+                                                        <li id="menu-item-17452" class="menu-item menu-item-type-post_type menu-item-object-rtcl_agent menu-item-17452"><a href="../agent/rosy_janner/index.php">Agent Details</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li id="menu-item-17273" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17273"><a href="#">Column</a>
+                                                    <ul class="sub-menu">
+                                                        <li id="menu-item-8071" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8071"><a href="../pricing-table/index.php">Pricing Table</a></li>
+                                                        <li id="menu-item-4734" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4734"><a href="../error-404.html">404 Error</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>-->
+<!--                                        <li id="menu-item-4736" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"><a href="#">Blog</a>
+                                            <ul class="sub-menu">
+                                                <li id="menu-item-4615" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4615"><a href="../blog/index.php">Blog List</a></li>
+                                                <li id="menu-item-8849" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8849"><a href="../blog-grid/index.php">Blog Grid</a></li>
+                                                <li id="menu-item-17271" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-17271"><a href="../develop-relationships-with-human-resource/index.php">Blog Details</a></li>
+                                            </ul>
+                                        </li>-->
+                                        <li id="menu-item-4735" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../contact/index.php">Contact</a></li>
+                                    </ul></nav>            </div>
 			
 <div class="listing-area">
     <div class="header-action">
@@ -459,11 +460,7 @@ var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; 
                 <div class="form-group d-flex align-items-center">
                     <button type="submit" name="login" class="btn btn-primary" value="login">
 						Login                    </button>
-                    <div class="form-check">
-                        <input type="checkbox" name="rememberme" id="rtcl-rememberme" value="forever">
-                        <label class="form-check-label" for="rtcl-rememberme">
-							Remember Me                        </label>
-                    </div>
+                   
                 </div>
                 <div class="form-group">
                     <p class="rtcl-forgot-password">

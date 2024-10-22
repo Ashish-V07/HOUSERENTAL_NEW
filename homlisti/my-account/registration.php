@@ -125,22 +125,17 @@ function registerUser($c) {
     $email = $formData['email'] ?? '';
        $password = $formData['password'] ?? '';
 
-    $hashed_password = passwif(isset($_SESSION['success_pass']))
-    {
-    $msg = $_SESSION['success_pass'];
-    echo "<script>alert('$msg')</script>";
-    unset($_SESSION['success_pass']);
-
-    }ord_hash($password, PASSWORD_DEFAULT);
-
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+   
     $query = "INSERT INTO tbl_users (fname, lname,  email, password) 
               VALUES ('$first_name', '$last_name', '$email', '$hashed_password')";
 
     if (mysqli_query($c, $query)) {
         $_SESSION['RMSG']="User registered successfully.";
-        $_SESSION['email'] = $email; // Set session email
+        // Set session email
         header("Location: index.php");
     } else {
+        
         echo '<script>alert("Error: ' . mysqli_error($c) . '");</script>';
     }
 }

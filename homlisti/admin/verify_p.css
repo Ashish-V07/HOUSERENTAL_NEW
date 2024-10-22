@@ -1,0 +1,62 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    width: 80%;
+    margin: 20px auto;
+}
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.card-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
+}
+.card-body {
+    padding: 20px;
+}
+.card-body table {
+    width: 100%;
+    margin-bottom: 10px;
+    border-collapse: collapse;
+}
+.card-body td {
+    padding: 10px;
+    vertical-align: top;
+}
+.card-body img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+.buttons {
+    margin-top: 20px;
+}
+.buttons input[type='submit'] {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+.allow {
+    background-color: green;
+}
+.deny {
+    background-color: red;
+    margin-left: 10px;
+}

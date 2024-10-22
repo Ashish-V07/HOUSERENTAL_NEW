@@ -53,14 +53,13 @@ if (isset($_POST['update_profile'])) {
     $sql = "UPDATE tbl_users SET fname='$fname', lname='$lname', mobile='$mobile', email='$email', dob='$dob', aadhar='$aadhar', address='$address' WHERE email='$email'";
 
     if ($conn->query($sql) === TRUE) {
-        $_SESSION['UPDATE_MSG']="Profile Updated Successfully...";
+        $_SESSION['UPDATE_MSG'] = "Profile Updated Successfully...";
         header("Location: profile.php"); // Redirect to the profile page after update
     } else {
-        $_SESSION['UPDATE_MSG']="Profile Updated Successfully...";
-        header("Loaction:profile.php");
+        $_SESSION['UPDATE_MSG'] = "Profile not updated. Please try again.";
+        header("Location: profile.php");
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -71,19 +70,55 @@ if (isset($_POST['update_profile'])) {
     <title>User Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Sidebar Styles */
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .sidebar ul li a:hover {
+            color: #ffc107;
+        }
+
+        /* Profile container with left margin for the sidebar */
         .profile-container {
+            margin-left: 240px; /* Ensure there's space for the sidebar */
             margin-top: 50px;
         }
+
         .profile-image {
             width: 150px;
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
         }
+
         .profile-card {
             padding: 20px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
+
         .user-info {
             margin-top: 20px;
         }
@@ -91,12 +126,23 @@ if (isset($_POST['update_profile'])) {
 </head>
 <body>
 
+<!-- Sidebar -->
+<div class="sidebar">
+    <ul>
+         <li><a href="NEWDashboard.php">Home</a></li>
+        <li><a href="Profile.php">Profile Overview</a></li>
+        <li><a href="Profile1.php">Update Profile</a></li>
+        <li><a href="changePassword.php">Change Password</a></li>
+        <li><a href="/houserental-master/homlisti/my-account/logout.php">Logout</a></li>
+    </ul>
+</div>
+
+<!-- Main Profile Container -->
 <div class="container profile-container">
     <div class="row">
         <!-- Profile Image Section -->
         <div class="col-md-4">
             <div class="text-center">
-                <!-- Fetch and display the image from the database -->
                 <img src="fetch_image.php" class="profile-image" alt="Profile Image">
                 <h2 class="mt-3"><?php echo $user['fname'] . " " . $user['lname']; ?></h2>
             </div>
@@ -145,6 +191,7 @@ if (isset($_POST['update_profile'])) {
         </div>
     </div>
 </div>
+
 <script>
     // JavaScript to ensure the user is at least 18 years old
     document.getElementById('dob').addEventListener('change', function() {
@@ -161,12 +208,8 @@ if (isset($_POST['update_profile'])) {
             this.setCustomValidity("");
         }
     });
-
-    // You can also add an event listener to validate the form before submission
-    document.getElementById('profileForm').addEventListener('submit', function(event) {
-        // Additional form validations can be added here
-    });
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

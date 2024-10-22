@@ -3568,7 +3568,7 @@ if (isset($_SESSION['loggedin'])) {
                               data-min-price="0"
                               data-max-price="5000"
                             >
-                              <div class="listing-category-list">
+<!--                              <div class="listing-category-list">
                                 <div
                                   class="search-item rtin-category search-radio search-radio-check rtcl-category-ajax"
                                 >
@@ -3655,7 +3655,7 @@ if (isset($_SESSION['loggedin'])) {
                                     </li>
                                   </ul>
                                 </div>
-                              </div>
+                              </div>-->
 
                               <div class="search-box">
                                 <div
@@ -3673,7 +3673,7 @@ if (isset($_SESSION['loggedin'])) {
                                   </div>
                                 </div>
 
-                                <div class="search-item search-select">
+<!--                                <div class="search-item search-select">
                                   <select
                                     class="select2"
                                     name="filters[ad_type]"
@@ -3684,53 +3684,46 @@ if (isset($_SESSION['loggedin'])) {
                                     <option value="buy">Buy</option>
                                     <option value="rent">Rent</option>
                                   </select>
-                                </div>
+                                </div>-->
 
                                 <div
                                   class="search-item search-select rtin-location"
                                 >
-                                  <select
-                                    name="rtcl_location"
+                                   
+                                    
+                                    <select 
                                     id="rtcl-location-search-2813977249"
-                                    class="select2 rtcl-location-search"
-                                  >
-                                    <option value="" selected="selected">
-                                      Select Location
-                                    </option>
-                                    <option class="level-0" value="california">
-                                      California
-                                    </option>
-                                    <option class="level-1" value="claremont">
-                                      &nbsp;&nbsp;&nbsp;Claremont
-                                    </option>
-                                    <option class="level-0" value="kansas">
-                                      Kansas
-                                    </option>
-                                    <option class="level-1" value="abilene">
-                                      &nbsp;&nbsp;&nbsp;Abilene
-                                    </option>
-                                    <option class="level-0" value="louisiana">
-                                      Louisiana
-                                    </option>
-                                    <option class="level-0" value="new-jersey">
-                                      New Jersey
-                                    </option>
-                                  </select>
+                                    class="select2 rtcl-location-search" name="cid" id="category" required>
+                                        <option value="" disabled selected>Select Category</option>
+                                        <?php
+                                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
+                                        if (!$conn) {
+                                            die("Connection failed: " . mysqli_connect_error());
+                                        }
+                                        $sql = "SELECT id, cname FROM tblcategory";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['cname']) . "</option>";
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </select>
+                                
                                 </div>
 
                                 <div class="search-item search-btn">
-                                  <button
+<!--                                  <button
                                     class="advanced-btn collapsed"
                                     type="button"
-                                  >
-                                    <i class="fas fa-sliders-h"></i>
-                                  </button>
+                                  >-->
+<!--                                    <i class="fas fa-sliders-h"></i>
+                                  </button>-->
                                   <button type="submit" class="submit-btn">
-                                    Search <i class="fas fa-search"></i>
+                                    Search
                                   </button>
                                 </div>
                               </div>
-                              <div
+<!--                              <div
                                 class="advanced-search-box"
                                 id="advanced-search"
                               >
@@ -3975,7 +3968,7 @@ if (isset($_SESSION['loggedin'])) {
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                              </div>-->
                             </form>
                           </div>
                         </div>
@@ -4323,14 +4316,6 @@ if (isset($_SESSION['loggedin'])) {
                         >
                           <div class="filter-wrapper">
                             <div class="isotope-classes-tab">
-                              <a
-                                class="nav-item current"
-                                data-filter=".sell172190245699"
-                                >Sell</a
-                              >
-                              <a class="nav-item" data-filter=".buy172190245699"
-                                >Buy</a
-                              >
                               <a
                                 class="nav-item"
                                 data-filter=".rent172190245699"

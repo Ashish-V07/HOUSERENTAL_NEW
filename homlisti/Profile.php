@@ -27,7 +27,7 @@ if ($conn->connect_error) {
 }
 
 // Assuming user_id is stored in session
-$email =$_SESSION['email'];
+$email = $_SESSION['email'];
 
 // Fetch user details
 $sql = "SELECT fname, lname, mobile, email, dob, aadhar, address FROM tbl_users WHERE email = '$email'";
@@ -39,7 +39,6 @@ if ($result->num_rows > 0) {
 } else {
     echo "No user data found.";
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -66,12 +65,36 @@ if ($result->num_rows > 0) {
         .user-info {
             margin-top: 20px;
         }
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            display: block;
+            margin: 10px 0;
+        }
+        .sidebar a:hover {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
-    
 </head>
 <body>
- 
-<div class="container profile-container">
+
+<!-- Sidebar -->
+<?php include 'sidebaar.php';?>
+
+<!-- Main Profile Content -->
+<div class="container profile-container" style="margin-left: 270px;">
     <div class="row">
         <!-- Profile Image Section -->
         <div class="col-md-4">
@@ -93,12 +116,7 @@ if ($result->num_rows > 0) {
                     <p><strong>Aadhar:</strong> <?php echo $row['aadhar']; ?></p>
                     <p><strong>Address:</strong> <?php echo $row['address']; ?></p>
                 </div>
-                <!-- Add the Update Profile button -->
-                <div class="text-center mt-4">
-                    <a href="Profile1.php" class="btn btn-primary">Update Profile</a>
-                     <!-- Logout Button -->
-                    <a href="/houserental-master/homlisti/my-account/logout.php" class="btn btn-danger ms-2">Logout</a>
-                </div>
+                
             </div>
         </div>
     </div>

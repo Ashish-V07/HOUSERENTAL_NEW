@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $query = "SELECT password,fname FROM tbl_users WHERE email = '$email'";
+    $query = "SELECT password,fname,id FROM tbl_users WHERE email = '$email' and User_Status='Active'";
     $nameQuery="select fname from tbl_users where email='$email'";
   
     $result = mysqli_query($c, $query);
@@ -45,17 +45,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         $row = mysqli_fetch_assoc($result);
         $stored_password = $row['password'];
         $_SESSION['name']=$row['fname'];
+        $_SESSION['user_id']=$row['id'];
         if (password_verify($password, $stored_password)) {
+            if($_POST['email'] == "22bmiit150@gmail.com")
+            {
+                 $_SESSION['loggedin'] = true;
+            $_SESSION['email'] = $email; 
+                header("Location: /houserental-master/homlisti/admin/dashboard.php");
+                die();
+            }
             $_SESSION['loggedin'] = true;
             $_SESSION['email'] = $email; 
            
             header("Location: /houserental-master/homlisti/NEWDashboard.php"); 
             exit();
         } else {
-            echo '<script>alert("Invalid email or password.")</script>';
+            echo '<script>alert("Invalid email or password or Your status is deactive.")</script>';
         }
     } else {
-      echo '<script>alert("Invalid email or password.")</script>';
+      echo '<script>alert("Invalid email or password or Your status is deactive.")</script>';
     }
 }
 

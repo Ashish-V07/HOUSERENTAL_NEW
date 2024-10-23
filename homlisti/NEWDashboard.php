@@ -4027,7 +4027,7 @@ if (!isset($_SESSION['loggedin'])) {
               data-id="ba0d1ce"
               data-element_type="section"
             >
-              <div class="elementor-container elementor-column-gap-default">
+<!--              <div class="elementor-container elementor-column-gap-default">
                 <div
                   class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-c2e8ff4"
                   data-id="c2e8ff4"
@@ -4045,10 +4045,10 @@ if (!isset($_SESSION['loggedin'])) {
                     >
                       <div class="elementor-widget-container">
                         <div class="section-title-wrapper">
-                          <!--Background Title-->
+                          Background Title
 
                           <div class="title-inner-wrapper">
-                            <!--Top Sub Title-->
+                            Top Sub Title
                             <div class="top-sub-title-wrap">
                               <span class="top-sub-title">
                                 <i
@@ -4060,13 +4060,13 @@ if (!isset($_SESSION['loggedin'])) {
                               </span>
                             </div>
 
-                            <!--Main Title-->
+                            Main Title
                             <h2 class="main-title">
                               We're going to became <br />
                               partners for the long run
                             </h2>
 
-                            <!--Description-->
+                            Description
                             <div class="description">
                               <p>
                                 Ghen an unknown printer took a galley of type
@@ -4227,9 +4227,9 @@ if (!isset($_SESSION['loggedin'])) {
                     </div>
                   </div>
                 </div>
-              </div>
-            </section>
-            <section
+              </div>-->
+            <!--</section>-->
+<!--            <section
               class="elementor-section elementor-top-section elementor-element elementor-element-111372a elementor-section-boxed elementor-section-height-default elementor-section-height-default rt-parallax-bg-no"
               data-id="111372a"
               data-element_type="section"
@@ -4268,7 +4268,7 @@ if (!isset($_SESSION['loggedin'])) {
                             >
                               <div class="elementor-widget-container">
                                 <div class="section-title-wrapper">
-                                  <!--Background Title-->
+                                  Background Title
                                   <div class="bg-title-wrap">
                                     <span class="background-title solid">
                                       Properties
@@ -4276,7 +4276,7 @@ if (!isset($_SESSION['loggedin'])) {
                                   </div>
 
                                   <div class="title-inner-wrapper">
-                                    <!--Top Sub Title-->
+                                    Top Sub Title
                                     <div class="top-sub-title-wrap">
                                       <span class="top-sub-title">
                                         <i
@@ -4288,12 +4288,12 @@ if (!isset($_SESSION['loggedin'])) {
                                       </span>
                                     </div>
 
-                                    <!--Main Title-->
+                                    Main Title
                                     <h2 class="main-title">
                                       Latest Properties
                                     </h2>
 
-                                    <!--Description-->
+                                    Description
                                   </div>
                                 </div>
                               </div>
@@ -4323,14 +4323,14 @@ if (!isset($_SESSION['loggedin'])) {
                         >
                           <div class="filter-wrapper">
                             <div class="isotope-classes-tab">
-<!--                              <a
+                              <a
                                 class="nav-item current"
                                 data-filter=".sell172190245699"
                                 >Sell</a
                               >
                               <a class="nav-item" data-filter=".buy172190245699"
                                 >Buy</a
-                              >-->
+                              >
                               <a
                                 class="nav-item"
                                 data-filter=".rent172190245699"
@@ -6951,8 +6951,8 @@ if (!isset($_SESSION['loggedin'])) {
                   </div>
                 </div>
               </div>
-            </section>
-            <section
+            </section>-->
+<!--            <section
               class="elementor-section elementor-top-section elementor-element elementor-element-9743c31 has-placeholder elementor-section-boxed elementor-section-height-default elementor-section-height-default rt-parallax-bg-no"
               data-id="9743c31"
               data-element_type="section"
@@ -7057,13 +7057,13 @@ if (!isset($_SESSION['loggedin'])) {
                     >
                       <div class="elementor-widget-container">
                         <div class="section-title-wrapper">
-                          <!--Background Title-->
+                          Background Title
                           <div class="bg-title-wrap">
                             <span class="background-title solid"> Choose </span>
                           </div>
 
                           <div class="title-inner-wrapper">
-                            <!--Top Sub Title-->
+                            Top Sub Title
                             <div class="top-sub-title-wrap">
                               <span class="top-sub-title">
                                 <i
@@ -7075,13 +7075,13 @@ if (!isset($_SESSION['loggedin'])) {
                               </span>
                             </div>
 
-                            <!--Main Title-->
+                            Main Title
                             <h2 class="main-title">
                               The experts in local and <br />
                               international property
                             </h2>
 
-                            <!--Description-->
+                            Description
                             <div class="description">
                               <p>
                                 Agent hen an unknown printer took a galley of
@@ -7171,7 +7171,7 @@ if (!isset($_SESSION['loggedin'])) {
                     >
                       <div class="elementor-widget-container">
                         <div class="section-title-wrapper">
-                          <!--Background Title-->
+                          Background Title
                           <div class="bg-title-wrap">
                             <span class="background-title solid">
                               Locations
@@ -7179,7 +7179,7 @@ if (!isset($_SESSION['loggedin'])) {
                           </div>
 
                           <div class="title-inner-wrapper">
-                            <!--Top Sub Title-->
+                            Top Sub Title
                             <div class="top-sub-title-wrap">
                               <span class="top-sub-title">
                                 <i
@@ -7191,10 +7191,10 @@ if (!isset($_SESSION['loggedin'])) {
                               </span>
                             </div>
 
-                            <!--Main Title-->
+                            Main Title
                             <h2 class="main-title">Find Your Neighborhood</h2>
 
-                            <!--Description-->
+                            Description
                           </div>
                         </div>
                       </div>
@@ -7421,8 +7421,8 @@ if (!isset($_SESSION['loggedin'])) {
                   </div>
                 </div>
               </div>
-            </section>
-            <section
+            </section>-->
+<!--            <section
               data-speed="0.5"
               data-bg-image="https://www.radiustheme.com/demo/wordpress/themes/homlisti/wp-content/uploads/2021/08/promo-bg-1.jpg"
               class="elementor-section elementor-top-section elementor-element elementor-element-f8c9b67 elementor-section-height-min-height rt-parallax-bg-yes elementor-section-boxed elementor-section-height-default elementor-section-items-middle rt-parallax-transition-off"
@@ -7449,10 +7449,10 @@ if (!isset($_SESSION['loggedin'])) {
                     >
                       <div class="elementor-widget-container">
                         <div class="section-title-wrapper">
-                          <!--Background Title-->
+                          Background Title
 
                           <div class="title-inner-wrapper">
-                            <!--Top Sub Title-->
+                            Top Sub Title
                             <div class="top-sub-title-wrap">
                               <span class="top-sub-title">
                                 <i
@@ -7464,13 +7464,13 @@ if (!isset($_SESSION['loggedin'])) {
                               </span>
                             </div>
 
-                            <!--Main Title-->
+                            Main Title
                             <h2 class="main-title">
                               Search Property Smarter,<br />
                               Quicker &amp; Anywhere
                             </h2>
 
-                            <!--Description-->
+                            Description
                           </div>
                         </div>
                       </div>
@@ -7529,7 +7529,7 @@ if (!isset($_SESSION['loggedin'])) {
                     >
                       <div class="elementor-widget-container">
                         <div class="section-title-wrapper">
-                          <!--Background Title-->
+                          Background Title
                           <div class="bg-title-wrap">
                             <span class="background-title solid">
                               Property For All
@@ -7537,11 +7537,11 @@ if (!isset($_SESSION['loggedin'])) {
                           </div>
 
                           <div class="title-inner-wrapper">
-                            <!--Top Sub Title-->
+                            Top Sub Title
 
-                            <!--Main Title-->
+                            Main Title
 
-                            <!--Description-->
+                            Description
                           </div>
                         </div>
                       </div>
@@ -7572,7 +7572,7 @@ if (!isset($_SESSION['loggedin'])) {
                     >
                       <div class="elementor-widget-container">
                         <div class="section-title-wrapper">
-                          <!--Background Title-->
+                          Background Title
                           <div class="bg-title-wrap">
                             <span class="background-title solid">
                               Our Agents
@@ -7580,17 +7580,17 @@ if (!isset($_SESSION['loggedin'])) {
                           </div>
 
                           <div class="title-inner-wrapper">
-                            <!--Top Sub Title-->
+                            Top Sub Title
                             <div class="top-sub-title-wrap">
                               <span class="top-sub-title">
                                 Expertise Is Here
                               </span>
                             </div>
 
-                            <!--Main Title-->
+                            Main Title
                             <h2 class="main-title">Our Exclusive Agetns</h2>
 
-                            <!--Description-->
+                            Description
                           </div>
                         </div>
                       </div>
@@ -8054,7 +8054,7 @@ if (!isset($_SESSION['loggedin'])) {
                             >
                               <div class="elementor-widget-container">
                                 <div class="section-title-wrapper">
-                                  <!--Background Title-->
+                                  Background Title
                                   <div class="bg-title-wrap">
                                     <span class="background-title solid">
                                       Numbers
@@ -8062,14 +8062,14 @@ if (!isset($_SESSION['loggedin'])) {
                                   </div>
 
                                   <div class="title-inner-wrapper">
-                                    <!--Top Sub Title-->
+                                    Top Sub Title
 
-                                    <!--Main Title-->
+                                    Main Title
                                     <h2 class="main-title">
                                       Real Estate by the Numbers
                                     </h2>
 
-                                    <!--Description-->
+                                    Description
                                     <div class="description">
                                       <p>
                                         In 2021 things look like this percentage
@@ -8308,7 +8308,7 @@ if (!isset($_SESSION['loggedin'])) {
                     >
                       <div class="elementor-widget-container">
                         <div class="section-title-wrapper">
-                          <!--Background Title-->
+                          Background Title
                           <div class="bg-title-wrap">
                             <span class="background-title solid">
                               Testimonials
@@ -8316,17 +8316,17 @@ if (!isset($_SESSION['loggedin'])) {
                           </div>
 
                           <div class="title-inner-wrapper">
-                            <!--Top Sub Title-->
+                            Top Sub Title
                             <div class="top-sub-title-wrap">
                               <span class="top-sub-title">
                                 Customer Reviews
                               </span>
                             </div>
 
-                            <!--Main Title-->
+                            Main Title
                             <h2 class="main-title">What’s Our Customer Say</h2>
 
-                            <!--Description-->
+                            Description
                           </div>
                         </div>
                       </div>
@@ -8527,7 +8527,7 @@ if (!isset($_SESSION['loggedin'])) {
                             >
                               <div class="elementor-widget-container">
                                 <div class="section-title-wrapper">
-                                  <!--Background Title-->
+                                  Background Title
                                   <div class="bg-title-wrap">
                                     <span class="background-title solid">
                                       Blogs
@@ -8535,7 +8535,7 @@ if (!isset($_SESSION['loggedin'])) {
                                   </div>
 
                                   <div class="title-inner-wrapper">
-                                    <!--Top Sub Title-->
+                                    Top Sub Title
                                     <div class="top-sub-title-wrap">
                                       <span class="top-sub-title">
                                         <i
@@ -8547,12 +8547,12 @@ if (!isset($_SESSION['loggedin'])) {
                                       </span>
                                     </div>
 
-                                    <!--Main Title-->
+                                    Main Title
                                     <h2 class="main-title">
                                       Latest Blog &amp; Posts
                                     </h2>
 
-                                    <!--Description-->
+                                    Description
                                   </div>
                                 </div>
                               </div>
@@ -8907,17 +8907,17 @@ if (!isset($_SESSION['loggedin'])) {
                     >
                       <div class="elementor-widget-container">
                         <div class="section-title-wrapper">
-                          <!--Background Title-->
+                          Background Title
 
                           <div class="title-inner-wrapper">
-                            <!--Top Sub Title-->
+                            Top Sub Title
 
-                            <!--Main Title-->
+                            Main Title
                             <h2 class="main-title">
                               Become a Real Estate Agent
                             </h2>
 
-                            <!--Description-->
+                            Description
                             <div class="description">
                               <p>
                                 We only work with the best companies around the
@@ -9006,7 +9006,7 @@ if (!isset($_SESSION['loggedin'])) {
           </div>
         </div>
       </div>
-      <!-- #content -->
+       #content -->
 
       <footer id="site-footer" class="site-footer footer-wrap footer-style-2">
         <div class="main-footer" style="">

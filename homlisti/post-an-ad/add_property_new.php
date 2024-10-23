@@ -20,7 +20,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$uname = "22bmiit009@gmail.com";
+$uname = $_SESSION['email'];
 $sql = "SELECT id FROM tbl_users WHERE email = '$uname'";
 $result = mysqli_query($conn, $sql);
 
@@ -28,8 +28,9 @@ if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $uid = $row['id'];  // Fetch user id
 } else {
-    echo "User not found!";
+    echo "<script>alert('User not found!');</script>";
 }
+
 if (isset($_POST['btnsubmit'])) {
     $cid = $_POST['cid'];
     $address = $_POST['address'];
@@ -42,33 +43,47 @@ if (isset($_POST['btnsubmit'])) {
     $description = $_POST['description'];
     $size = $_POST['size'];
 
-    // Handle document upload
+    // File validation for document (only PDF allowed)
     $document = NULL;
     if (isset($_FILES['document']) && $_FILES['document']['error'] == 0) {
-        $document = addslashes(file_get_contents($_FILES['document']['tmp_name']));
+        $documentType = mime_content_type($_FILES['document']['tmp_name']);
+        if ($documentType == 'application/pdf') {
+            $document = addslashes(file_get_contents($_FILES['document']['tmp_name']));
+        } else {
+            echo "<script>alert('Please upload only PDF files for the document.');</script>";
+            exit();
+        }
     }
 
-    $house_image = NULL;
-    if (isset($_FILES['house_image']) && $_FILES['house_image']['error'] == 0) {
-        $house_image = addslashes(file_get_contents($_FILES['house_image']['tmp_name']));
-    }
-
-    $sql = "INSERT INTO property (cid, uid, adress, rent, bedroom, bathroom, kitchen, floor, parking, description, size, document) 
+    // Insert property data
+    $sql = "INSERT INTO property (cid, uid, adress, rent, bedroom, bathroom, kitchen, floor, parking, description, size, document)
             VALUES ('$cid', '$uid', '$address', '$rent', '$bedroom', '$bathroom', '$kitchen', '$floor', '$parking', '$description', '$size', '$document')";
 
     if (mysqli_query($conn, $sql)) {
         $property_id = mysqli_insert_id($conn);
 
-        if ($house_image !== NULL) {
-            $image_sql = "INSERT INTO tblimage (sid, pid, image) VALUES (NULL, '$property_id', '$house_image')";
-            mysqli_query($conn, $image_sql);
+        // File validation for house images (only JPG, JPEG, PNG allowed)
+        if (isset($_FILES['house_image']) && count($_FILES['house_image']['tmp_name']) > 0) {
+            for ($i = 0; $i < count($_FILES['house_image']['tmp_name']); $i++) {
+                $imageType = mime_content_type($_FILES['house_image']['tmp_name'][$i]);
+                if ($imageType == 'image/jpeg' || $imageType == 'image/png') {
+                    $house_image = addslashes(file_get_contents($_FILES['house_image']['tmp_name'][$i]));
+                    $image_sql = "INSERT INTO tblimage (sid, pid, image) VALUES (NULL, '$property_id', '$house_image')";
+                    mysqli_query($conn, $image_sql);
+                } else {
+                    echo "<script>alert('Please upload only JPG, JPEG, or PNG images for house images.');</script>";
+                    exit();
+                }
+            }
         }
 
-        echo '<script>alert("Property request submitted wait for Approval...")</script>';
+        echo "<script>alert('Property request is submitted wait for approval!');</script>";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "<script>alert('Error adding property. Please check your inputs or try again later.');</script>";
     }
 }
+
+
 
 //if (isset($_POST['btnsubmit'])) {
 //    $cid = $_POST['cid'];
@@ -5500,7 +5515,7 @@ input[type="submit"] {
                                 </div>
                                 <div class="col-md-6">
                                     <label for="house_image" class="form-label">Upload House Image:</label>
-                                    <input type="file" class="form-control" id="house_image" name="house_image" required>
+                                    <input type="file" class="form-control" id="house_image" name="house_image[]" required multiple>
                                 </div>
                             </div>
 

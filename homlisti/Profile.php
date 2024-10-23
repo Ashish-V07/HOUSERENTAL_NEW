@@ -14,7 +14,7 @@ if (!isset($_SESSION['loggedin'])) {
 if(isset($_SESSION['UPDATE_MSG']))
 {
     $msg=$_SESSION['UPDATE_MSG'];
-    echo "<script>alert('$msg')</script>";
+    echo "<script>alert(".$msg.")</script>";
    unset($_SESSION['UPDATE_MSG']);
     
 }

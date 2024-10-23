@@ -167,7 +167,7 @@ if (isset($_POST['update_profile'])) {
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $user['email']; ?>" required>
+                        <input type="email" class="form-control" id="email" readonly name="email" value="<?php echo $user['email']; ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="dob" class="form-label">Date of Birth</label>
@@ -208,6 +208,73 @@ if (isset($_POST['update_profile'])) {
             this.setCustomValidity("");
         }
     });
+    function validateName(input) {
+                // Allow only alphabetic characters
+                input.value = input.value.replace(/[^A-Za-z]/g, '');
+            }
+            function validateDate(input) {
+                var selectedDate = new Date(input.value);
+                var today = new Date();
+                var age = today.getFullYear() - selectedDate.getFullYear();
+                var month = today.getMonth() - selectedDate.getMonth();
+
+                if (month < 0 || (month === 0 && today.getDate() < selectedDate.getDate())) {
+                    age--;
+                }
+
+                var oldestDate = new Date();
+                oldestDate.setFullYear(today.getFullYear() - 100); // 100 years ago
+
+                if (selectedDate > today) {
+                    alert("Date cannot be in the future.");
+                    input.value = ''; // Clear the input if invalid
+                    return;
+                }
+
+                if (selectedDate < oldestDate) {
+                    alert("This date is not eligible for registration.");
+                    input.value = ''; // Clear the input if invalid
+                    return;
+                }
+
+                if (age < 18) {
+                    alert("You must be at least 18 years old.");
+                    input.value = ''; // Clear the input if invalid
+                    return;
+                }
+            }
+            function validateMobileNo(input) {
+                // Allow only digits (remove non-digit characters)
+                input.value = input.value.replace(/\D/g, '');
+            }
+            window.onload = function () {
+
+
+                // Attach event listener to the date input field
+              
+
+                // Attach input validation for first and last names
+                document.getElementById('fname').addEventListener('input', function (event) {
+                    validateName(event.target);
+                });
+
+                document.getElementById('lname').addEventListener('input', function (event) {
+                    validateName(event.target);
+                });
+
+                // Validate mobile number input
+                document.getElementById('mobile').addEventListener('input', function (event) {
+                    validateMobileNo(event.target);
+                });
+  document.getElementById('aadhar').addEventListener('input', function (event) {
+                    validateMobileNo(event.target);
+                });
+                document.getElementById('dob').addEventListener('change', function (event) {
+                    validateDate(event.target);
+                });
+                // Form submission validation
+               
+            };
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

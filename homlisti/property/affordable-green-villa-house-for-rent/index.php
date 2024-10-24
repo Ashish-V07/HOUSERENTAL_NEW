@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -221,16 +224,24 @@ var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; 
                         <span class="count rt-header-favourite-count">0</span>
                     </a>
                 </li>-->
-			
-			                <li class="login-btn button" style="">
-                    <a class="item-btn"
-                       data-toggle="tooltip"
-                       data-placement="bottom"
-                       title=" Sign in"
-                       href="../../my-account/index.php">
-                        <i class="flaticon-user-1 icon-round"></i>
-                    </a>
-                </li>
+			 <li class="login-btn button" style="">
+                                            <a class="item-btn"
+                                               data-toggle="tooltip"
+                                               data-placement="bottom"
+                                               <?php if (isset($_SESSION['loggedin'])) { ?>
+                                                   title=" Profile"
+                                                   href="/houserental-master/homlisti/Profile.php">
+                                                   <?php }else
+                                                   {
+                                                       echo 'title=" sign in"';
+                                                   echo 'href="/houserental-master/homlisti/my-account/index.php">';
+                                                   }
+                                                   ?>
+
+                                                 
+                                                <i class="flaticon-user-1 icon-round"></i>
+                                            </a>
+                                        </li>
 			
 			
             
@@ -389,11 +400,16 @@ var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; 
 </div>
 		<div id="content" class="site-content">
 		
-		            <section class="breadcrumbs-banner style-1">
+<!--		            <section class="breadcrumbs-banner style-1">
                 <div class="container">
 					<nav class="rtcl-breadcrumb"><a href="https://www.radiustheme.com/demo/wordpress/themes/homlisti">Home</a>&nbsp;<i class="fas fa-angle-right"></i>&nbsp;<a href="../../listing-category/restaurant/index.php">Restaurant</a>&nbsp;<i class="fas fa-angle-right"></i>&nbsp;<span>Affordable Green Villa House for Rent</span></nav>                </div>
 
-            </section>
+            </section>-->
+                     <section class="breadcrumbs-banner style-1">
+                    <div class="container">
+                        <nav class="rtcl-breadcrumb"><a href="../index.php">Home</a>&nbsp;<i class="fas fa-angle-right"></i>&nbsp;<span>Property</span></nav>                </div>
+
+                </section>
 			
 <div id="primary" class="clearfix content-area single-product">
 <div id="rtcl-listing-17393" class="overview listing-item rtcl-listing-item post-17393 status-publish is-rent is-bump-up is-popular rtcl_category-restaurant rtcl_location-new-jersey">

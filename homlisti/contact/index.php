@@ -3021,11 +3021,21 @@ if(isset($_SESSION['FMSG']))
                                             <a class="item-btn"
                                                data-toggle="tooltip"
                                                data-placement="bottom"
-                                               title=" Sign in"
-                                               href="../my-account/index.php">
+                                               <?php if (isset($_SESSION['loggedin'])) { ?>
+                                                   title=" Profile"
+                                                   href="../Profile.php">
+                                                   <?php }else
+                                                   {
+                                                       echo 'title=" sign in"';
+                                                   echo 'href="../my-account/index.php">';
+                                                   }
+                                                   ?>
+
+                                                 
                                                 <i class="flaticon-user-1 icon-round"></i>
                                             </a>
                                         </li>
+
 
 
 
@@ -3088,15 +3098,25 @@ if(isset($_SESSION['FMSG']))
                                                                     </a>
                                                                 </li>-->
 
-                                <li class="login-btn button" style="">
-                                    <a class="item-btn"
-                                       data-toggle="tooltip"
-                                       data-placement="bottom"
-                                       title=" Sign in"
-                                       href="../my-account/index.php">
-                                        <i class="flaticon-user-1 icon-round"></i>
-                                    </a>
-                                </li>
+                               <li class="login-btn button" style="">
+                                            <a class="item-btn"
+                                               data-toggle="tooltip"
+                                               data-placement="bottom"
+                                               <?php if (isset($_SESSION['loggedin'])) { ?>
+                                                   title=" Profile"
+                                                   href="../Profile.php">
+                                                   <?php }else
+                                                   {
+                                                       echo 'title=" sign in"';
+                                                   echo 'href="../my-account/index.php">';
+                                                   }
+                                                   ?>
+
+                                                 
+                                                <i class="flaticon-user-1 icon-round"></i>
+                                            </a>
+                                        </li>
+
 
 
 

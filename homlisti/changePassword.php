@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .container form input {
-            width: 100%;
+            width: 90%;
             padding: 0.8rem;
             margin-bottom: 1rem;
             border: 1px solid #ccc;
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .container form button {
-            width: 100%;
+            width: 97%;
             padding: 0.8rem;
             background-color: #007bff;
             color: white;
@@ -127,10 +127,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .success {
             color: green;
         }
+         /* Sidebar Styles */
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .sidebar ul li a:hover {
+            color: #ffc107;
+        }
+
+        /* Profile container with left margin for the sidebar */
+        
     </style>
 </head>
 <body>
-    <?php include 'sidebaar.php';?>
+    <div class="sidebar">
+    <ul>
+         <li><a href="NEWDashboard.php">Home</a></li>
+        <li><a href="Profile.php">Profile Overview</a></li>
+        <li><a href="Profile1.php">Update Profile</a></li>
+        <li><a href="home.php">My Properties</a></li>
+        <li><a href="changePassword.php">Change Password</a></li>
+        <li><a href="/houserental-master/homlisti/my-account/logout.php">Logout</a></li>
+    </ul>
+</div>
     <div class="container">
         <h2>Change Password</h2>
         <form method="POST">

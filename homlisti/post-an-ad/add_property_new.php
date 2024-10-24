@@ -47,6 +47,7 @@ if (isset($_POST['btnsubmit'])) {
         $parking = $_POST['parking'];
         $description = $_POST['description'];
         $size = $_POST['size'];
+        $SecurityDeposit=$_POST['SDEPOSIT'];
 
         // File validation for document (only PDF allowed)
         $document = NULL;
@@ -56,13 +57,14 @@ if (isset($_POST['btnsubmit'])) {
                 $document = addslashes(file_get_contents($_FILES['document']['tmp_name']));
             } else {
                 echo "<script>alert('Please upload only PDF files for the document.');</script>";
-                exit();
+                
+                die();
             }
         }
 
         // Insert property data
-        $sql = "INSERT INTO property (cid, uid, adress, rent, bedroom, bathroom, kitchen, floor, parking, description, size, document)
-            VALUES ('$cid', '$uid', '$address', '$rent', '$bedroom', '$bathroom', '$kitchen', '$floor', '$parking', '$description', '$size', '$document')";
+        $sql = "INSERT INTO property (cid, uid, adress, rent, bedroom, bathroom, kitchen, floor, parking, description, size, document,SecurityDeposit)
+            VALUES ('$cid', '$uid', '$address', '$rent', '$bedroom', '$bathroom', '$kitchen', '$floor', '$parking', '$description', '$size', '$document','$SecurityDeposit')";
 
         if (mysqli_query($conn, $sql)) {
             $property_id = mysqli_insert_id($conn);
@@ -5073,7 +5075,15 @@ if (isset($_POST['btnsubmit'])) {
             }
         </style>
         <style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+input[type=number] {
+    -moz-appearance: textfield;
+}
             /* Center the form and expand its width */
             .container.fade-in {
                 max-width: 1200px; /* Increased width to 100% container */
@@ -5271,8 +5281,8 @@ if (isset($_POST['btnsubmit'])) {
                                             <a class="item-btn"
                                                data-toggle="tooltip"
                                                data-placement="bottom"
-                                               title=" Sign in"
-                                               href="index.php">
+                                               title=" Profile"
+                                               href="../Profile.php">
                                                 <i class="flaticon-user-1 icon-round"></i>
                                             </a>
                                         </li>
@@ -5452,18 +5462,18 @@ if (isset($_POST['btnsubmit'])) {
                                                     <label for="category" class="form-label">Category:</label>
                                                     <select class="form-control" name="cid" id="category" required>
                                                         <option value="" disabled selected>Select Category</option>
-<?php
-$conn = mysqli_connect("localhost", "root", "", "house_rental");
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-$sql = "SELECT id, cname FROM tblcategory";
-$result = mysqli_query($conn, $sql);
-while ($row = mysqli_fetch_assoc($result)) {
-    echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['cname']) . "</option>";
-}
-mysqli_close($conn);
-?>
+                                                        <?php
+                                                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
+                                                        if (!$conn) {
+                                                            die("Connection failed: " . mysqli_connect_error());
+                                                        }
+                                                        $sql = "SELECT id, cname FROM tblcategory";
+                                                        $result = mysqli_query($conn, $sql);
+                                                        while ($row = mysqli_fetch_assoc($result)) {
+                                                            echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['cname']) . "</option>";
+                                                        }
+                                                        mysqli_close($conn);
+                                                        ?>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6">
@@ -5507,12 +5517,17 @@ mysqli_close($conn);
 
                                             <div class="mb-3">
                                                 <label for="size" class="form-label">Property Size (in square feet):</label>
-                                                <input type="number" step="0.01" class="form-control" id="size" name="size" placeholder="Size">
+                                                <input type="number" step="0.01" class="form-control" id="size" name="size" placeholder="Size" required>
                                             </div>
-
+                                             
+                                            <div class="mb-3">
+                                                <label for="SDEPOSIT" class="form-label">Security Deposit:</label>
+                                                <input type="number" class="form-control" id="SDEPOSIT" name="SDEPOSIT" placeholder="Security Deposit" required>
+                                            </div>
+                                            
                                             <div class="mb-3">
                                                 <label for="description" class="form-label">Description:</label>
-                                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
                                             </div>
 
                                             <div class="row mb-3">

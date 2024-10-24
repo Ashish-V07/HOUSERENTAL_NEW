@@ -70,33 +70,58 @@ if ($result->num_rows > 0) {
         .user-info {
             margin-top: 20px;
         }
+        /* Sidebar Styles */
         .sidebar {
+            width: 220px;
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            width: 250px;
-            background-color: #f8f9fa;
-            padding-top: 20px;
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
         }
-        .sidebar a {
-            padding: 15px;
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: #fff;
             text-decoration: none;
-            font-size: 18px;
-            color: #333;
-            display: block;
-            margin: 10px 0;
+            font-size: 16px;
         }
-        .sidebar a:hover {
-            background-color: #007bff;
-            color: white;
+
+        .sidebar ul li a:hover {
+            color: #ffc107;
         }
+
+        /* Profile container with left margin for the sidebar */
+        .profile-container {
+            margin-left: 240px; /* Ensure there's space for the sidebar */
+            margin-top: 50px;
+        }
+
     </style>
 </head>
 <body>
 
 <!-- Sidebar -->
-<?php include 'sidebaar.php';?>
+<div class="sidebar">
+    <ul>
+         <li><a href="NEWDashboard.php">Home</a></li>
+        <li><a href="Profile.php">Profile Overview</a></li>
+        <li><a href="Profile1.php">Update Profile</a></li>
+        <li><a href="home.php">My Properties</a></li>
+        <li><a href="changePassword.php">Change Password</a></li>
+        <li><a href="/houserental-master/homlisti/my-account/logout.php">Logout</a></li>
+    </ul>
+</div>
 
 <!-- Main Profile Content -->
 <div class="container profile-container" style="margin-left: 270px;">
@@ -113,7 +138,7 @@ if ($result->num_rows > 0) {
         <!-- Profile Information Section -->
         <div class="col-md-8">
             <div class="profile-card">
-                <h3>User Information</h3>
+                <h3>Your Information</h3>
                 <div class="user-info">
                     <p><strong>Mobile:</strong> <?php echo $row['mobile']; ?></p>
                     <p><strong>Email:</strong> <?php echo $row['email']; ?></p>

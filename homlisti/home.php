@@ -37,36 +37,6 @@ $properties_result = mysqli_query($conn, $properties_sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Properties</title>
     <style>
-        /* Sidebar styling */
-        .sidebar {
-            width: 220px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #343a40;
-            color: #fff;
-            padding: 20px;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin: 15px 0;
-        }
-
-        .sidebar ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 16px;
-        }
-
-        .sidebar ul li a:hover {
-            color: #ffc107;
-        }
 
         /* Main content styles */
         body {
@@ -109,11 +79,7 @@ $properties_result = mysqli_query($conn, $properties_sql);
             body {
                 padding-left: 0;
             }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
+           
 
             table {
                 width: 100%;
@@ -125,7 +91,42 @@ $properties_result = mysqli_query($conn, $properties_sql);
                 padding: 8px;
             }
         }
+ /* Sidebar Styles */
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+        }
 
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .sidebar ul li a:hover {
+            color: #ffc107;
+        }
+
+        /* Profile container with left margin for the sidebar */
+        .profile-container {
+            margin-left: 240px; /* Ensure there's space for the sidebar */
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>

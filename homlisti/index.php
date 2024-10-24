@@ -3550,7 +3550,7 @@ if (isset($_SESSION['loggedin'])) {
                         </div>
                       </div>
                     </div>
-                    <div
+<!--                    <div
                       class="elementor-element elementor-element-2d71612 elementor-invisible elementor-widget elementor-widget-wp-widget-homlisti_advanced_search"
                       data-id="2d71612"
                       data-element_type="widget"
@@ -3563,12 +3563,12 @@ if (isset($_SESSION['loggedin'])) {
                         >
                           <div class="banner-box banner-layout-home1">
                             <form
-                              action="https://www.radiustheme.com/demo/wordpress/themes/homlisti/all-properties/"
+                              action="index.php"
                               class="advance-search-form rtcl-widget-search-form"
                               data-min-price="0"
                               data-max-price="5000"
                             >
-<!--                              <div class="listing-category-list">
+                              <div class="listing-category-list">
                                 <div
                                   class="search-item rtin-category search-radio search-radio-check rtcl-category-ajax"
                                 >
@@ -3657,7 +3657,7 @@ if (isset($_SESSION['loggedin'])) {
                                 </div>
                               </div>-->
 
-                              <div class="search-box">
+<!--                              <div class="search-box">
                                 <div
                                   class="search-item search-keyword search-select"
                                 >
@@ -3671,7 +3671,7 @@ if (isset($_SESSION['loggedin'])) {
                                       value=""
                                     />
                                   </div>
-                                </div>
+                                </div>-->
 
 <!--                                <div class="search-item search-select">
                                   <select
@@ -3686,7 +3686,7 @@ if (isset($_SESSION['loggedin'])) {
                                   </select>
                                 </div>-->
 
-                                <div
+<!--                                <div
                                   class="search-item search-select rtin-location"
                                 >
                                    
@@ -3696,33 +3696,33 @@ if (isset($_SESSION['loggedin'])) {
                                     class="select2 rtcl-location-search" name="cid" id="category" required>
                                         <option value="" disabled selected>Select Category</option>
                                         <?php
-                                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
-                                        if (!$conn) {
-                                            die("Connection failed: " . mysqli_connect_error());
-                                        }
-                                        $sql = "SELECT id, cname FROM tblcategory";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['cname']) . "</option>";
-                                        }
-                                        mysqli_close($conn);
+//                                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
+//                                        if (!$conn) {
+//                                            die("Connection failed: " . mysqli_connect_error());
+//                                        }
+//                                        $sql = "SELECT id, cname FROM tblcategory";
+//                                        $result = mysqli_query($conn, $sql);
+//                                        while ($row = mysqli_fetch_assoc($result)) {
+//                                            echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['cname']) . "</option>";
+//                                        }
+//                                        mysqli_close($conn);
                                         ?>
                                     </select>
                                 
                                 </div>
 
                                 <div class="search-item search-btn">
-<!--                                  <button
+                                  <button
                                     class="advanced-btn collapsed"
                                     type="button"
-                                  >-->
-<!--                                    <i class="fas fa-sliders-h"></i>
-                                  </button>-->
+                                  >
+                                    <i class="fas fa-sliders-h"></i>
+                                  </button>
                                   <button type="submit" class="submit-btn">
                                     Search
                                   </button>
                                 </div>
-                              </div>
+                              </div>-->
 <!--                              <div
                                 class="advanced-search-box"
                                 id="advanced-search"

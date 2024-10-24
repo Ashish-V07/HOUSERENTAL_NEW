@@ -7,9 +7,6 @@ if (!isset($_SESSION['loggedin'])) {
 }
 include 'db_connection.php';
 
-
-
-
 //if (!isset($_SESSION['email'])) {
 //    header("Location: login.php");
 //    exit();
@@ -32,54 +29,63 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 if (isset($_POST['btnsubmit'])) {
-    $cid = $_POST['cid'];
-    $address = $_POST['address'];
-    $rent = $_POST['rent'];
-    $bedroom = $_POST['bedroom'];
-    $bathroom = $_POST['bathroom'];
-    $kitchen = $_POST['kitchen'];
-    $floor = $_POST['floor'];
-    $parking = $_POST['parking'];
-    $description = $_POST['description'];
-    $size = $_POST['size'];
+    $asql = "SELECT aadhar FROM tbl_users WHERE email = '$uname'";
 
-    // File validation for document (only PDF allowed)
-    $document = NULL;
-    if (isset($_FILES['document']) && $_FILES['document']['error'] == 0) {
-        $documentType = mime_content_type($_FILES['document']['tmp_name']);
-        if ($documentType == 'application/pdf') {
-            $document = addslashes(file_get_contents($_FILES['document']['tmp_name']));
-        } else {
-            echo "<script>alert('Please upload only PDF files for the document.');</script>";
-            exit();
-        }
-    }
+    $ar = mysqli_query($conn, $asql);
+    $res = mysqli_fetch_assoc($ar);
+    if (!$res['aadhar'] > 0) {
+        echo "<script>alert('Addhar is not updated please update Profile');</script>";
+    } else {
 
-    // Insert property data
-    $sql = "INSERT INTO property (cid, uid, adress, rent, bedroom, bathroom, kitchen, floor, parking, description, size, document)
-            VALUES ('$cid', '$uid', '$address', '$rent', '$bedroom', '$bathroom', '$kitchen', '$floor', '$parking', '$description', '$size', '$document')";
+        $cid = $_POST['cid'];
+        $address = $_POST['address'];
+        $rent = $_POST['rent'];
+        $bedroom = $_POST['bedroom'];
+        $bathroom = $_POST['bathroom'];
+        $kitchen = $_POST['kitchen'];
+        $floor = $_POST['floor'];
+        $parking = $_POST['parking'];
+        $description = $_POST['description'];
+        $size = $_POST['size'];
 
-    if (mysqli_query($conn, $sql)) {
-        $property_id = mysqli_insert_id($conn);
-
-        // File validation for house images (only JPG, JPEG, PNG allowed)
-        if (isset($_FILES['house_image']) && count($_FILES['house_image']['tmp_name']) > 0) {
-            for ($i = 0; $i < count($_FILES['house_image']['tmp_name']); $i++) {
-                $imageType = mime_content_type($_FILES['house_image']['tmp_name'][$i]);
-                if ($imageType == 'image/jpeg' || $imageType == 'image/png') {
-                    $house_image = addslashes(file_get_contents($_FILES['house_image']['tmp_name'][$i]));
-                    $image_sql = "INSERT INTO tblimage (sid, pid, image) VALUES (NULL, '$property_id', '$house_image')";
-                    mysqli_query($conn, $image_sql);
-                } else {
-                    echo "<script>alert('Please upload only JPG, JPEG, or PNG images for house images.');</script>";
-                    exit();
-                }
+        // File validation for document (only PDF allowed)
+        $document = NULL;
+        if (isset($_FILES['document']) && $_FILES['document']['error'] == 0) {
+            $documentType = mime_content_type($_FILES['document']['tmp_name']);
+            if ($documentType == 'application/pdf') {
+                $document = addslashes(file_get_contents($_FILES['document']['tmp_name']));
+            } else {
+                echo "<script>alert('Please upload only PDF files for the document.');</script>";
+                exit();
             }
         }
 
-        echo "<script>alert('Property request is submitted wait for approval!');</script>";
-    } else {
-        echo "<script>alert('Error adding property. Please check your inputs or try again later.');</script>";
+        // Insert property data
+        $sql = "INSERT INTO property (cid, uid, adress, rent, bedroom, bathroom, kitchen, floor, parking, description, size, document)
+            VALUES ('$cid', '$uid', '$address', '$rent', '$bedroom', '$bathroom', '$kitchen', '$floor', '$parking', '$description', '$size', '$document')";
+
+        if (mysqli_query($conn, $sql)) {
+            $property_id = mysqli_insert_id($conn);
+
+            // File validation for house images (only JPG, JPEG, PNG allowed)
+            if (isset($_FILES['house_image']) && count($_FILES['house_image']['tmp_name']) > 0) {
+                for ($i = 0; $i < count($_FILES['house_image']['tmp_name']); $i++) {
+                    $imageType = mime_content_type($_FILES['house_image']['tmp_name'][$i]);
+                    if ($imageType == 'image/jpeg' || $imageType == 'image/png') {
+                        $house_image = addslashes(file_get_contents($_FILES['house_image']['tmp_name'][$i]));
+                        $image_sql = "INSERT INTO tblimage (sid, pid, image) VALUES (NULL, '$property_id', '$house_image')";
+                        mysqli_query($conn, $image_sql);
+                    } else {
+                        echo "<script>alert('Please upload only JPG, JPEG, or PNG images for house images.');</script>";
+                        exit();
+                    }
+                }
+            }
+
+            echo "<script>alert('Property request is submitted wait for approval!');</script>";
+        } else {
+            echo "<script>alert('Error adding property. Please check your inputs or try again later.');</script>";
+        }
     }
 }
 
@@ -2691,7 +2697,7 @@ if (isset($_POST['btnsubmit'])) {
                     <label for="category">Category:</label>
                     <select name="cid" id="category" required>
                         <option value="">Select Category</option>
-                        <?php
+<?php
 //                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
 //
 //                        if (!$conn) {
@@ -2706,7 +2712,7 @@ if (isset($_POST['btnsubmit'])) {
 //                        }
 //
 //                        mysqli_close($conn);
-                        ?>
+?>
                     </select>
                 </div>
 
@@ -3009,7 +3015,8 @@ if (isset($_POST['btnsubmit'])) {
 //}
 //
 //mysqli_close($c);
-//?>
+//
+?>
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -3023,11 +3030,11 @@ if (isset($_POST['btnsubmit'])) {
         <title>My Account &#8211; HomListi</title>
         <meta name='robots' content='max-image-preview:large, noindex, follow' />
         <noscript><style>#preloader{
-            display:none;
-        }</style></noscript><link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
+                display:none;
+            }</style></noscript><link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
         <link rel="alternate" type="application/rss+xml" title="HomListi &raquo; Feed" href="../feed/index.php" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
         <link rel="alternate" type="application/rss+xml" title="HomListi &raquo; Comments Feed" href="../comments/feed/index.php" />
         <script>
@@ -3038,18 +3045,18 @@ if (isset($_POST['btnsubmit'])) {
             var wpo_min4ee42faa = document.createElement("link"); wpo_min4ee42faa.rel = "stylesheet", wpo_min4ee42faa.type = "text/css", wpo_min4ee42faa.media = "async", wpo_min4ee42faa.href = "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700&amp;family=Ubuntu:ital,wght@0,300;0,400;0,500;0,600;0,700&amp;display=swap", wpo_min4ee42faa.onload = function() {wpo_min4ee42faa.media = "all"}, document.getElementsByTagName("head")[0].appendChild(wpo_min4ee42faa);</script>
         <style id='wp-block-library-theme-inline-css' type='text/css'>
             .form-group {
-    margin-bottom: 20px;
-}
+                margin-bottom: 20px;
+            }
 
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
+            h2 {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
 
-input[type="submit"] {
-    padding: 10px 20px;
-}
+            input[type="submit"] {
+                padding: 10px 20px;
+            }
 
             .wp-block-audio :where(figcaption){
                 color:#555;
@@ -3472,1451 +3479,1451 @@ input[type="submit"] {
             }
         </style>
         <style class="optimize_css_2" type="text/css" media="all">@keyframes RtclzoomOut{
-            0%{
-                opacity:1;
-                transform:scale(0)
+                0%{
+                    opacity:1;
+                    transform:scale(0)
+                }
+                to{
+                    opacity:0;
+                    transform:scale(1.5)
+                }
             }
-            to{
-                opacity:0;
-                transform:scale(1.5)
+            .rtcl-gb-pricing-box{
+                overflow:hidden;
+                position:relative
             }
-        }
-        .rtcl-gb-pricing-box{
-            overflow:hidden;
-            position:relative
-        }
-        .rtcl-gb-pricing-box.content-alignment-left{
-            text-align:left
-        }
-        .rtcl-gb-pricing-box.content-alignment-left ul{
-            align-items:flex-start
-        }
-        .rtcl-gb-pricing-box.content-alignment-center{
-            text-align:center
-        }
-        .rtcl-gb-pricing-box.content-alignment-center ul{
-            align-items:center
-        }
-        .rtcl-gb-pricing-box.content-alignment-center ul li{
-            justify-content:center
-        }
-        .rtcl-gb-pricing-box.content-alignment-right{
-            text-align:right
-        }
-        .rtcl-gb-pricing-box.content-alignment-right ul{
-            align-items:flex-end
-        }
-        .rtcl-gb-pricing-box.content-alignment-right ul li{
-            justify-content:end
-        }
-        .rtcl-gb-pricing-box .rtcl-gb-pricing-features{
-            color:#444;
-            line-height:2.2;
-            margin-bottom:0
-        }
-        .rtcl-gb-pricing-box .rtcl-gb-pricing-features p{
-            margin:0 0 10px
-        }
-        .rtcl-gb-pricing-box .rtcl-gb-pricing-features ul{
-            font-size:medium;
-            list-style:none;
-            margin:0;
-            padding:0
-        }
-        .rtcl-gb-pricing-box .rtcl-gb-pricing-features ul li{
-            align-items:center;
-            display:inline-flex;
-            gap:8px
-        }
-        .rtcl-gb-pricing-box .rtcl-gb-pricing-features ul li svg{
-            width:15px
-        }
-        .rtcl-gb-pricing-box .rtcl-gb-pricing-button a{
-            align-items:center;
-            display:inline-flex;
-            gap:8px;
-            justify-content:center
-        }
-        .rtcl-gb-pricing-box .rtcl-gb-pricing-button a svg{
-            width:14px
-        }
-        .rtcl-gb-pricing-box .rtcl-gb-price{
-            align-items:flex-end;
-            display:inline-flex
-        }
-        .rtcl-gb-pricing-box .rtcl-gb-price.currency-right{
-            flex-direction:row-reverse
-        }
-        .rtcl-gb-pricing-box .pricing-label{
-            align-items:flex-end;
-            background-color:var(--rtcl-primary-color);
-            border:0;
-            box-sizing:border-box;
-            color:#fff;
-            display:flex;
-            font-size:14px;
-            font-weight:400;
-            height:80px;
-            justify-content:center;
-            padding:5px 25px;
-            position:absolute;
-            right:-65px;
-            top:-30px;
-            transform:rotate(45deg);
-            width:150px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1{
-            background-color:#f5f7fa;
-            padding:60px 20px;
-            transition:all .5s ease-out
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-title{
-            color:#222;
-            font-size:22px;
-            font-weight:700;
-            line-height:1.5;
-            margin-bottom:30px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-price{
-            align-items:flex-end;
-            display:inline-flex;
-            font-size:48px;
-            line-height:1;
-            margin-bottom:30px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-price{
-            align-items:flex-end;
-            display:inline-flex
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-currency{
-            font-size:20px;
-            font-weight:500;
-            line-height:1;
-            position:relative
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-number{
-            font-weight:700
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-features ul{
-            display:flex;
-            flex-direction:column
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-duration{
-            font-size:16px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-button{
-            color:#fff;
-            margin-top:20px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-button a{
-            background-color:var(--rtcl-button-bg-color);
-            border-color:var(--rtcl-button-bg-color);
-            border-radius:2px;
-            border-style:solid;
-            border-width:1px;
-            color:var(--rtcl-button-color);
-            font-size:14px;
-            font-weight:600;
-            line-height:1.5;
-            min-width:140px;
-            padding:15px 20px;
-            text-align:center;
-            text-decoration:none;
-            text-transform:uppercase;
-            transition:all .3s ease-out
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-button a:hover{
-            background-color:#fff0;
-            border-color:var(--rtcl-button-hover-bg-color);
-            color:#333
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2{
-            background-color:#fff;
-            border-radius:4px 4px 0 0
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .pricing-header{
-            background-color:var(--rtcl-primary-color);
-            padding:40px;
-            text-align:center
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-title{
-            color:#fff;
-            font-size:30px;
-            font-weight:300;
-            margin-bottom:17px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-price{
-            align-items:flex-end;
-            color:#fff;
-            display:inline-flex;
-            font-size:48px;
-            font-weight:600;
-            line-height:1;
-            margin-bottom:10px;
-            position:relative;
-            z-index:1
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-duration{
-            font-size:22px;
-            font-weight:300
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .pricing-body{
-            padding:25px 40px 10px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-features{
-            line-height:2
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-features ul li{
-            display:flex
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-features ul i{
-            color:#5a49f8;
-            min-width:15px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .pricing-footer{
-            border-radius:0 0 4px 4px;
-            padding:20px 40px 35px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-button a{
-            background-color:#fff0;
-            border-color:var(--rtcl-button-bg-color);
-            border-radius:4px;
-            border-style:solid;
-            border-width:1px;
-            color:#5a49f8;
-            font-size:1rem;
-            font-weight:500;
-            line-height:1.3;
-            padding:10px 27px;
-            position:relative;
-            text-decoration:none;
-            transition:all .5s ease-in-out;
-            z-index:2
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-button a:hover{
-            background-color:var(--rtcl-button-hover-bg-color);
-            border-color:var(--rtcl-button-hover-bg-color);
-            color:#fff
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2.content-alignment-left .pricing-header{
-            text-align:left
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2.content-alignment-center .pricing-header{
-            text-align:center
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2.content-alignment-right .pricing-header{
-            text-align:right
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3{
-            background:#fff;
-            padding:60px 30px;
-            position:relative;
-            text-align:center;
-            transition:all .3s ease-in-out;
-            z-index:1
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon{
-            align-items:center;
-            border-radius:50%;
-            display:inline-flex;
-            height:160px;
-            justify-content:center;
-            line-height:1;
-            margin-bottom:1.875rem;
-            position:relative;
-            width:160px;
-            z-index:1
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon:after,.rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon:before{
-            background-color:rgb(255 147 14 / .1);
-            border-radius:50%;
-            bottom:0;
-            content:"";
-            height:160px;
-            left:0;
-            margin:auto;
-            overflow:hidden;
-            position:absolute;
-            right:0;
-            top:0;
-            transition:all .5s ease-in-out;
-            width:160px;
-            z-index:-1
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon:after{
-            height:100px;
-            width:100px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon svg{
-            fill:#ff930e;
-            width:36px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-title{
-            color:#1d2124;
-            font-size:22px;
-            font-weight:600;
-            line-height:1;
-            margin-bottom:20px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-features{
-            margin-bottom:20px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-features ul li{
-            align-items:center;
-            display:flex
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-price{
-            color:#1d2124;
-            display:flex;
-            font-size:3rem;
-            font-weight:600;
-            justify-content:center;
-            line-height:1;
-            position:relative
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-duration{
-            color:#646464;
-            display:block;
-            font-size:16px;
-            font-weight:400;
-            line-height:1.3;
-            margin-top:10px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-button{
-            margin-top:30px
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-button a{
-            align-items:center;
-            border-color:var(--rtcl-button-bg-color);
-            border-radius:4px;
-            border-style:solid;
-            border-width:1px;
-            color:#5a49f8;
-            display:inline-flex;
-            font-size:1rem;
-            font-weight:500;
-            justify-content:center;
-            padding:10px 27px;
-            position:relative;
-            text-decoration:none;
-            transition:all .5s ease-in-out;
-            z-index:2
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-button a:hover{
-            background-color:var(--rtcl-button-hover-bg-color);
-            border-color:var(--rtcl-button-hover-bg-color);
-            color:#fff
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-left .pricing-footer,.rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-left .pricing-header{
-            text-align:left
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-left .rtcl-gb-pricing-price{
-            align-items:flex-start;
-            display:flex;
-            flex-direction:column
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-center{
-            text-align:center
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-right{
-            text-align:right
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-right .rtcl-gb-pricing-price{
-            align-items:flex-end;
-            display:flex;
-            flex-direction:column
-        }
-        .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3:hover .box-icon:before{
-            animation:RtclzoomOut 1s infinite
-        }
-        .rtcl-gb-listing-store .rtcl-item{
-            background-color:#fff;
-            border:1px solid rgb(0 0 0 / .05);
-            color:#2a2a2a;
-            height:100%;
-            overflow:hidden;
-            padding:25px;
-            transition:all .3s ease-in
-        }
-        .rtcl-gb-listing-store .rtcl-item:hover{
-            box-shadow:0 0 5px 1px rgb(0 0 0 / .2)
-        }
-        .rtcl-gb-listing-store .rtcl-item .rtcl-title{
-            color:var(--rtcl-color-title);
-            font-size:20px;
-            font-weight:700;
-            line-height:1.5;
-            margin-bottom:6px;
-            transition:all .3s ease-out
-        }
-        .rtcl-gb-listing-store .rtcl-item .rtcl-title:hover{
-            color:var(--rtcl-primary-color)
-        }
-        .rtcl-gb-listing-store .rtcl-item .rtcl-title a{
-            color:inherit
-        }
-        .rtcl-gb-listing-store .rtcl-item .rtcl-count{
-            font-size:15px;
-            line-height:1;
-            margin-top:4px
-        }
-        .rtcl-gb-listing-store .rtcl-item .rtcl-description{
-            font-size:16px;
-            line-height:26px;
-            margin-bottom:0;
-            margin-top:14px
-        }
-        .rtcl-gb-listing-store.style-grid .rtcl-col-wrap{
-            margin-bottom:30px
-        }
-        .rtcl-gb-listing-store.style-grid .rtcl-item{
-            text-align:center
-        }
-        .rtcl-gb-listing-store.style-grid .rtcl-item .rtcl-logo{
-            margin-bottom:15px
-        }
-        .rtcl-gb-listing-store.style-list{
-            display:grid;
-            gap:20px;
-            margin-bottom:30px
-        }
-        .rtcl-gb-listing-store.style-list .rtcl-item{
-            display:flex;
-            gap:20px
-        }</style>
+            .rtcl-gb-pricing-box.content-alignment-left{
+                text-align:left
+            }
+            .rtcl-gb-pricing-box.content-alignment-left ul{
+                align-items:flex-start
+            }
+            .rtcl-gb-pricing-box.content-alignment-center{
+                text-align:center
+            }
+            .rtcl-gb-pricing-box.content-alignment-center ul{
+                align-items:center
+            }
+            .rtcl-gb-pricing-box.content-alignment-center ul li{
+                justify-content:center
+            }
+            .rtcl-gb-pricing-box.content-alignment-right{
+                text-align:right
+            }
+            .rtcl-gb-pricing-box.content-alignment-right ul{
+                align-items:flex-end
+            }
+            .rtcl-gb-pricing-box.content-alignment-right ul li{
+                justify-content:end
+            }
+            .rtcl-gb-pricing-box .rtcl-gb-pricing-features{
+                color:#444;
+                line-height:2.2;
+                margin-bottom:0
+            }
+            .rtcl-gb-pricing-box .rtcl-gb-pricing-features p{
+                margin:0 0 10px
+            }
+            .rtcl-gb-pricing-box .rtcl-gb-pricing-features ul{
+                font-size:medium;
+                list-style:none;
+                margin:0;
+                padding:0
+            }
+            .rtcl-gb-pricing-box .rtcl-gb-pricing-features ul li{
+                align-items:center;
+                display:inline-flex;
+                gap:8px
+            }
+            .rtcl-gb-pricing-box .rtcl-gb-pricing-features ul li svg{
+                width:15px
+            }
+            .rtcl-gb-pricing-box .rtcl-gb-pricing-button a{
+                align-items:center;
+                display:inline-flex;
+                gap:8px;
+                justify-content:center
+            }
+            .rtcl-gb-pricing-box .rtcl-gb-pricing-button a svg{
+                width:14px
+            }
+            .rtcl-gb-pricing-box .rtcl-gb-price{
+                align-items:flex-end;
+                display:inline-flex
+            }
+            .rtcl-gb-pricing-box .rtcl-gb-price.currency-right{
+                flex-direction:row-reverse
+            }
+            .rtcl-gb-pricing-box .pricing-label{
+                align-items:flex-end;
+                background-color:var(--rtcl-primary-color);
+                border:0;
+                box-sizing:border-box;
+                color:#fff;
+                display:flex;
+                font-size:14px;
+                font-weight:400;
+                height:80px;
+                justify-content:center;
+                padding:5px 25px;
+                position:absolute;
+                right:-65px;
+                top:-30px;
+                transform:rotate(45deg);
+                width:150px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1{
+                background-color:#f5f7fa;
+                padding:60px 20px;
+                transition:all .5s ease-out
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-title{
+                color:#222;
+                font-size:22px;
+                font-weight:700;
+                line-height:1.5;
+                margin-bottom:30px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-price{
+                align-items:flex-end;
+                display:inline-flex;
+                font-size:48px;
+                line-height:1;
+                margin-bottom:30px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-price{
+                align-items:flex-end;
+                display:inline-flex
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-currency{
+                font-size:20px;
+                font-weight:500;
+                line-height:1;
+                position:relative
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-number{
+                font-weight:700
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-features ul{
+                display:flex;
+                flex-direction:column
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-duration{
+                font-size:16px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-button{
+                color:#fff;
+                margin-top:20px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-button a{
+                background-color:var(--rtcl-button-bg-color);
+                border-color:var(--rtcl-button-bg-color);
+                border-radius:2px;
+                border-style:solid;
+                border-width:1px;
+                color:var(--rtcl-button-color);
+                font-size:14px;
+                font-weight:600;
+                line-height:1.5;
+                min-width:140px;
+                padding:15px 20px;
+                text-align:center;
+                text-decoration:none;
+                text-transform:uppercase;
+                transition:all .3s ease-out
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-1 .rtcl-gb-pricing-button a:hover{
+                background-color:#fff0;
+                border-color:var(--rtcl-button-hover-bg-color);
+                color:#333
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2{
+                background-color:#fff;
+                border-radius:4px 4px 0 0
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .pricing-header{
+                background-color:var(--rtcl-primary-color);
+                padding:40px;
+                text-align:center
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-title{
+                color:#fff;
+                font-size:30px;
+                font-weight:300;
+                margin-bottom:17px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-price{
+                align-items:flex-end;
+                color:#fff;
+                display:inline-flex;
+                font-size:48px;
+                font-weight:600;
+                line-height:1;
+                margin-bottom:10px;
+                position:relative;
+                z-index:1
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-duration{
+                font-size:22px;
+                font-weight:300
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .pricing-body{
+                padding:25px 40px 10px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-features{
+                line-height:2
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-features ul li{
+                display:flex
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-features ul i{
+                color:#5a49f8;
+                min-width:15px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .pricing-footer{
+                border-radius:0 0 4px 4px;
+                padding:20px 40px 35px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-button a{
+                background-color:#fff0;
+                border-color:var(--rtcl-button-bg-color);
+                border-radius:4px;
+                border-style:solid;
+                border-width:1px;
+                color:#5a49f8;
+                font-size:1rem;
+                font-weight:500;
+                line-height:1.3;
+                padding:10px 27px;
+                position:relative;
+                text-decoration:none;
+                transition:all .5s ease-in-out;
+                z-index:2
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2 .rtcl-gb-pricing-button a:hover{
+                background-color:var(--rtcl-button-hover-bg-color);
+                border-color:var(--rtcl-button-hover-bg-color);
+                color:#fff
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2.content-alignment-left .pricing-header{
+                text-align:left
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2.content-alignment-center .pricing-header{
+                text-align:center
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-2.content-alignment-right .pricing-header{
+                text-align:right
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3{
+                background:#fff;
+                padding:60px 30px;
+                position:relative;
+                text-align:center;
+                transition:all .3s ease-in-out;
+                z-index:1
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon{
+                align-items:center;
+                border-radius:50%;
+                display:inline-flex;
+                height:160px;
+                justify-content:center;
+                line-height:1;
+                margin-bottom:1.875rem;
+                position:relative;
+                width:160px;
+                z-index:1
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon:after,.rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon:before{
+                background-color:rgb(255 147 14 / .1);
+                border-radius:50%;
+                bottom:0;
+                content:"";
+                height:160px;
+                left:0;
+                margin:auto;
+                overflow:hidden;
+                position:absolute;
+                right:0;
+                top:0;
+                transition:all .5s ease-in-out;
+                width:160px;
+                z-index:-1
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon:after{
+                height:100px;
+                width:100px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .box-icon svg{
+                fill:#ff930e;
+                width:36px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-title{
+                color:#1d2124;
+                font-size:22px;
+                font-weight:600;
+                line-height:1;
+                margin-bottom:20px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-features{
+                margin-bottom:20px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-features ul li{
+                align-items:center;
+                display:flex
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-price{
+                color:#1d2124;
+                display:flex;
+                font-size:3rem;
+                font-weight:600;
+                justify-content:center;
+                line-height:1;
+                position:relative
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-duration{
+                color:#646464;
+                display:block;
+                font-size:16px;
+                font-weight:400;
+                line-height:1.3;
+                margin-top:10px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-button{
+                margin-top:30px
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-button a{
+                align-items:center;
+                border-color:var(--rtcl-button-bg-color);
+                border-radius:4px;
+                border-style:solid;
+                border-width:1px;
+                color:#5a49f8;
+                display:inline-flex;
+                font-size:1rem;
+                font-weight:500;
+                justify-content:center;
+                padding:10px 27px;
+                position:relative;
+                text-decoration:none;
+                transition:all .5s ease-in-out;
+                z-index:2
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3 .rtcl-gb-pricing-button a:hover{
+                background-color:var(--rtcl-button-hover-bg-color);
+                border-color:var(--rtcl-button-hover-bg-color);
+                color:#fff
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-left .pricing-footer,.rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-left .pricing-header{
+                text-align:left
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-left .rtcl-gb-pricing-price{
+                align-items:flex-start;
+                display:flex;
+                flex-direction:column
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-center{
+                text-align:center
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-right{
+                text-align:right
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3.content-alignment-right .rtcl-gb-pricing-price{
+                align-items:flex-end;
+                display:flex;
+                flex-direction:column
+            }
+            .rtcl-gb-pricing-box.rtcl-gb-pricing-box-view-3:hover .box-icon:before{
+                animation:RtclzoomOut 1s infinite
+            }
+            .rtcl-gb-listing-store .rtcl-item{
+                background-color:#fff;
+                border:1px solid rgb(0 0 0 / .05);
+                color:#2a2a2a;
+                height:100%;
+                overflow:hidden;
+                padding:25px;
+                transition:all .3s ease-in
+            }
+            .rtcl-gb-listing-store .rtcl-item:hover{
+                box-shadow:0 0 5px 1px rgb(0 0 0 / .2)
+            }
+            .rtcl-gb-listing-store .rtcl-item .rtcl-title{
+                color:var(--rtcl-color-title);
+                font-size:20px;
+                font-weight:700;
+                line-height:1.5;
+                margin-bottom:6px;
+                transition:all .3s ease-out
+            }
+            .rtcl-gb-listing-store .rtcl-item .rtcl-title:hover{
+                color:var(--rtcl-primary-color)
+            }
+            .rtcl-gb-listing-store .rtcl-item .rtcl-title a{
+                color:inherit
+            }
+            .rtcl-gb-listing-store .rtcl-item .rtcl-count{
+                font-size:15px;
+                line-height:1;
+                margin-top:4px
+            }
+            .rtcl-gb-listing-store .rtcl-item .rtcl-description{
+                font-size:16px;
+                line-height:26px;
+                margin-bottom:0;
+                margin-top:14px
+            }
+            .rtcl-gb-listing-store.style-grid .rtcl-col-wrap{
+                margin-bottom:30px
+            }
+            .rtcl-gb-listing-store.style-grid .rtcl-item{
+                text-align:center
+            }
+            .rtcl-gb-listing-store.style-grid .rtcl-item .rtcl-logo{
+                margin-bottom:15px
+            }
+            .rtcl-gb-listing-store.style-list{
+                display:grid;
+                gap:20px;
+                margin-bottom:30px
+            }
+            .rtcl-gb-listing-store.style-list .rtcl-item{
+                display:flex;
+                gap:20px
+            }</style>
         <style class="optimize_css_2" type="text/css" media="all">.rtcl .rtcl-stores{
-            grid-column-gap:15px;
-            grid-row-gap:15px;
-            display:grid;
-            grid-template-columns:repeat(4,1fr)
-        }
-        .rtcl .rtcl-stores .rtcl-store-item .rtcl-store-link{
-            align-content:center;
-            display:flex;
-            flex-direction:column;
-            justify-content:center
-        }
-        .rtcl .rtcl-stores .rtcl-store-item .rtcl-store-link:hover{
-            text-decoration:none
-        }
-        .rtcl .rtcl-stores .rtcl-store-item .store-thumb{
-            align-content:center;
-            background-color:#fff;
-            display:flex;
-            justify-content:center
-        }
-        .rtcl .rtcl-stores .rtcl-store-item .store-thumb img{
-            max-width:100%
-        }
-        .rtcl .rtcl-stores .rtcl-store-item .item-content{
-            align-items:center;
-            color:#2a2a2a;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            padding:10px 5px
-        }
-        .rtcl .rtcl-stores .rtcl-store-item .rtcl-store-title{
-            font-size:20px;
-            margin-bottom:5px;
-            word-break:break-all
-        }
-        .rtcl .rtcl-stores .rtcl-store-item:hover .item-content{
-            background-color:#1e73be;
-            box-shadow:0 0 20px 0 hsl(0 0% 85% / .75);
-            color:#fff
-        }
-        .rtcl .rtcl-stores.columns-6{
-            grid-template-columns:repeat(6,1fr)
-        }
-        .rtcl .rtcl-stores.columns-5{
-            grid-template-columns:repeat(5,1fr)
-        }
-        .rtcl .rtcl-stores.columns-4{
-            grid-template-columns:repeat(4,1fr)
-        }
-        .rtcl .rtcl-stores.columns-3{
-            grid-template-columns:repeat(3,1fr)
-        }
-        .rtcl .rtcl-stores.columns-2{
-            grid-template-columns:repeat(2,1fr)
-        }
-        .rtcl .rtcl-stores.columns-1{
-            grid-template-columns:repeat(1,1fr)
-        }
-        @media (max-width:991px){
-            .rtcl .rtcl-stores,.rtcl .rtcl-stores.columns-4,.rtcl .rtcl-stores.columns-5,.rtcl .rtcl-stores.columns-6{
+                grid-column-gap:15px;
+                grid-row-gap:15px;
+                display:grid;
+                grid-template-columns:repeat(4,1fr)
+            }
+            .rtcl .rtcl-stores .rtcl-store-item .rtcl-store-link{
+                align-content:center;
+                display:flex;
+                flex-direction:column;
+                justify-content:center
+            }
+            .rtcl .rtcl-stores .rtcl-store-item .rtcl-store-link:hover{
+                text-decoration:none
+            }
+            .rtcl .rtcl-stores .rtcl-store-item .store-thumb{
+                align-content:center;
+                background-color:#fff;
+                display:flex;
+                justify-content:center
+            }
+            .rtcl .rtcl-stores .rtcl-store-item .store-thumb img{
+                max-width:100%
+            }
+            .rtcl .rtcl-stores .rtcl-store-item .item-content{
+                align-items:center;
+                color:#2a2a2a;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                padding:10px 5px
+            }
+            .rtcl .rtcl-stores .rtcl-store-item .rtcl-store-title{
+                font-size:20px;
+                margin-bottom:5px;
+                word-break:break-all
+            }
+            .rtcl .rtcl-stores .rtcl-store-item:hover .item-content{
+                background-color:#1e73be;
+                box-shadow:0 0 20px 0 hsl(0 0% 85% / .75);
+                color:#fff
+            }
+            .rtcl .rtcl-stores.columns-6{
+                grid-template-columns:repeat(6,1fr)
+            }
+            .rtcl .rtcl-stores.columns-5{
+                grid-template-columns:repeat(5,1fr)
+            }
+            .rtcl .rtcl-stores.columns-4{
+                grid-template-columns:repeat(4,1fr)
+            }
+            .rtcl .rtcl-stores.columns-3{
                 grid-template-columns:repeat(3,1fr)
             }
-        }
-        @media (max-width:767px){
-            .rtcl .rtcl-stores,.rtcl .rtcl-stores.columns-3,.rtcl .rtcl-stores.columns-4,.rtcl .rtcl-stores.columns-5,.rtcl .rtcl-stores.columns-6{
+            .rtcl .rtcl-stores.columns-2{
                 grid-template-columns:repeat(2,1fr)
             }
-        }
-        @media (max-width:575px){
-            .rtcl .rtcl-stores,.rtcl .rtcl-stores.columns-3,.rtcl .rtcl-stores.columns-4,.rtcl .rtcl-stores.columns-5,.rtcl .rtcl-stores.columns-6{
+            .rtcl .rtcl-stores.columns-1{
                 grid-template-columns:repeat(1,1fr)
             }
-        }
-        .rtcl .rtcl-pricing-table .price-item{
-            border-radius:0;
-            -moz-transition:all .3s ease;
-            -o-transition:all .3s ease;
-            -webkit-transition:all .3s ease
-        }
-        .rtcl .rtcl-pricing-table .price-item:hover{
-            box-shadow:0 8px 12px 0 rgb(0 0 0 / .2)
-        }
-        .rtcl .rtcl-pricing-table .price-item .card-header{
-            background-color:#57ac57;
-            border-color:#71df71;
-            border-bottom:1px solid #71df71;
-            border-radius:0;
-            box-shadow:inset 0 5px 0 rgb(50 50 50 / .2);
-            color:#fff;
-            text-shadow:0 3px 0 rgb(50 50 50 / .6);
-            -moz-transition:all .3s ease;
-            -o-transition:all .3s ease;
-            -webkit-transition:all .3s ease
-        }
-        .rtcl .rtcl-pricing-table .price-item .rtcl-po-price{
-            background-color:#ef5a5c;
-            color:#fff;
-            font-size:40px;
-            text-shadow:0 3px 0 rgb(50 50 50 / .3)
-        }
-        .rtcl .rtcl-pricing-table .price-item .panel-footer{
-            background-color:rgb(0 0 0 / .1);
-            border-bottom:0;
-            box-shadow:0 3px 0 rgb(0 0 0 / .3);
-            color:#fff
-        }
-        .rtcl .rtcl-pricing-table .price-item .panel-footer .btn{
-            border:0;
-            box-shadow:inset 0 -1px 0 rgb(50 50 50 / .2)
-        }
-        .rtcl.store-content-wrap{
-            background-color:#fff;
-            border:1px solid #e1e1e1;
-            padding:30px 30px 40px
-        }
-        .rtcl.store-content-wrap .store-banner{
-            margin:-30px -30px 20px;
-            position:relative
-        }
-        .rtcl.store-content-wrap .store-banner .banner{
-            background:#008329;
-            max-height:362px;
-            min-height:250px
-        }
-        .rtcl.store-content-wrap .store-banner .store-name-logo{
-            bottom:0;
-            display:flex;
-            left:0;
-            margin:1rem;
-            position:absolute;
-            right:0
-        }
-        .rtcl.store-content-wrap .store-banner .store-name-logo .store-logo{
-            align-items:center;
-            background:#fff;
-            border-radius:2px;
-            box-sizing:content-box;
-            display:flex;
-            height:150px;
-            justify-content:center;
-            width:200px
-        }
-        .rtcl.store-content-wrap .store-banner .store-name-logo .store-logo img{
-            max-height:100%;
-            max-width:100%;
-            -o-object-fit:contain;
-            object-fit:contain;
-            padding:2px
-        }
-        .rtcl.store-content-wrap .store-banner .store-name-logo .store-info{
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            padding:1rem 2rem
-        }
-        .rtcl.store-content-wrap .store-banner .store-name-logo .store-info .rtcl-store-cat{
-            color:#fff
-        }
-        .rtcl.store-content-wrap .store-banner .store-name-logo .store-info .rtcl-store-cat .rtcl-icon,.rtcl.store-content-wrap .store-banner .store-name-logo .store-info .rtcl-store-cat a{
-            color:inherit
-        }
-        .rtcl.store-content-wrap .store-banner .store-name-logo .store-name h2{
-            word-wrap:break-word;
-            color:#fff;
-            padding:0;
-            text-shadow:0 1px 3px rgb(0 0 0 / .9);
-            word-break:break-word
-        }
-        .rtcl.store-content-wrap .store-banner .store-name-logo .reviews-rating{
-            align-items:center;
-            color:#fff;
-            display:flex
-        }
-        .rtcl.store-content-wrap .store-details .is-slogan,.rtcl.store-content-wrap .store-listing-list>h3{
-            font-size:1.2858rem
-        }
-        .rtcl.store-content-wrap .store-information .store-details .store-description{
-            margin:15px 0 55px;
-            position:relative
-        }
-        .rtcl.store-content-wrap .store-information .store-details .store-description .fade-content{
-            margin-bottom:2rem;
-            max-height:9rem;
-            overflow:hidden
-        }
-        .rtcl.store-content-wrap .store-information .store-details .store-description .fade-anchor{
-            background:linear-gradient(180deg,#fff0,#fff0 .1rem,#fff 1.5rem);
-            bottom:-30px;
-            display:block;
-            padding-top:30px;
-            position:absolute;
-            width:100%
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item{
-            word-wrap:break-word;
-            border-bottom:1px solid #d4ded9;
-            display:flex;
-            margin-top:1rem;
-            padding-bottom:.8rem;
-            word-break:break-word
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .icon{
-            align-items:center;
-            justify-content:center;
-            justify-items:center;
-            padding-right:10px
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .text{
-            align-items:center;
-            justify-content:center;
-            justify-items:center
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day.always{
-            color:#37a000
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .store-now{
-            display:block
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .store-now.store-open{
-            color:#37a000
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .store-now.store-close{
-            color:#b4352d
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .label{
-            font-size:100%;
-            padding:0
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .hours{
-            font-weight:700;
-            margin-left:5px
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .hours span.close-hour:before{
-            content:"-";
-            margin:0 5px
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .close-day{
-            color:#b4352d
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item.store-email{
-            flex-flow:row wrap
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item.store-email .store-email-label{
-            color:#008329;
-            cursor:pointer;
-            font-weight:700;
-            width:100%
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-info-item.store-email #store-email-area{
-            display:none;
-            padding-top:10px;
-            width:100%
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media{
-            flex-wrap:wrap;
-            gap:10px
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media a{
-            color:#fff;
-            display:inline-block;
-            font-weight:400;
-            margin-right:0;
-            text-decoration:none;
-            transition:all .5s ease-out
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media a.tiktok,.rtcl.store-content-wrap .store-information .store-info .store-social-media a.twitter{
-            align-items:center;
-            background:#000;
-            border-radius:50%;
-            display:inline-flex;
-            height:36px;
-            justify-content:center;
-            width:36px
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon{
-            align-items:center;
-            background-color:#1e73be;
-            border-radius:50%;
-            color:#fff;
-            display:flex;
-            height:36px;
-            justify-content:center;
-            margin-right:0!important;
-            text-align:center;
-            width:36px
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-facebook{
-            background:#3b5998
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-tiktok,.rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-twitter{
-            background:#fff;
-            height:16px;
-            width:16px
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-youtube{
-            background:red
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-instagram{
-            background:#000
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-linkedin{
-            background:#1178b3
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-pinterest-circled{
-            background:#c8232c
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-gplus{
-            background:#d34836
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-website a{
-            color:inherit;
-            text-decoration:none
-        }
-        .rtcl.store-content-wrap .store-information .store-info .store-website a:hover{
-            color:var(--rtcl-primary-color)
-        }
-        .rtcl.store-content-wrap .store-information .store-info .reveal-phone{
-            cursor:pointer;
-            font-weight:700
-        }
-        .rtcl.store-content-wrap .store-information .store-info .reveal-phone:not(.revealed):hover{
-            color:#37a000
-        }
-        .rtcl.store-content-wrap .store-information .store-info .reveal-phone.revealed small{
-            display:none
-        }
-        .rtcl .store-more-details{
-            padding:0 1.5rem 5px
-        }
-        .rtcl .store-more-details h3{
-            border-bottom:1px solid #d4ded9;
-            color:#000;
-            margin-bottom:10px;
-            padding-bottom:10px
-        }
-        .rtcl .store-more-details .more-item{
-            word-wrap:break-word;
-            margin-bottom:1.5rem;
-            word-break:break-word
-        }
-        .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour{
-            margin-bottom:5px
-        }
-        .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour .hour-day{
-            text-transform:capitalize
-        }
-        .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour:last-child{
-            margin-bottom:0
-        }
-        .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour.current-store-hour{
-            font-weight:600
-        }
-        .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour .oh-hours-wrap .oh-hours .close-hour:before{
-            content:"--";
-            padding:0 5px
-        }
-        .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour .oh-hours-wrap .off-day{
-            color:#b4352d
-        }
-        .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .always-open{
-            color:#37a000
-        }
-        .rtcl #store-details-modal #store-details-modal-label{
-            text-align:center;
-            width:100%
-        }
-        .rtcl .features span{
-            display:block;
-            margin-bottom:5px
-        }
-        .rtcl .rtcl-store-meta small{
-            font-size:90%
-        }
-        .rtcl .rtcl-store-meta .rtcl-icon{
-            margin-right:4px
-        }
-        .rtcl .rtcl-membership-promotion-actions{
-            display:flex;
-            justify-content:space-between;
-            margin-bottom:1rem
-        }
-        .rtcl .rtcl-promotions-heading{
-            border:1px solid #dee2e6;
-            cursor:pointer;
-            font-size:18px;
-            line-height:1.4;
-            margin:0;
-            padding:10px 14px
-        }
-        .rtcl .rtcl-promotions-heading:before{
-            content:"\e856";
-            display:inline-block;
-            font-family:rtcl,serif;
-            margin-right:.5em
-        }
-        .rtcl .rtcl-promotions-heading+#rtcl-checkout-form,.rtcl .rtcl-promotions-heading+#rtcl-woo-checkout-form,.rtcl .rtcl-promotions-heading+.rtcl-membership-promotions-form-wrap{
-            display:none
-        }
-        .rtcl .rtcl-promotions-heading.active:before{
-            transform:rotate(180deg)
-        }
-        .rtcl .rtcl-membership-promotions .promotion-item{
-            display:flex
-        }
-        .rtcl .rtcl-membership-promotions .promotion-item.label-item{
-            font-weight:700
-        }
-        .rtcl .rtcl-membership-promotions .promotion-item .item-label{
-            flex:0 0 90px
-        }
-        .rtcl .rtcl-membership-promotions .promotion-item .item-listings,.rtcl .rtcl-membership-promotions .promotion-item .item-validate{
-            align-items:center;
-            display:flex;
-            flex:0 0 50px;
-            justify-content:center
-        }
-        .rtcl .rtcl-membership-promotions .promotion-item+.promotion-item{
-            border-top:1px solid #eee;
-            margin-top:5px;
-            padding-top:5px
-        }
-        .rtcl .pricing-description{
-            margin-top:15px
-        }
-        .rtcl .promotion-validity small{
-            margin-left:4px
-        }
-        .rtcl-store-widget-search-inline{
-            display:flex;
-            flex-wrap:wrap
-        }
-        .rtcl-store-widget-search-inline>div{
-            flex:1 1 calc(33.3333% - 10px)
-        }
-        .rtcl-store-widget-search-inline .form-group{
-            margin-bottom:0
-        }
-        .rtcl-store-widget-search-inline .form-group:nth-child(2),.rtcl-store-widget-search-inline .reset-btn,.rtcl-store-widget-search-inline .submit-btn{
-            margin-left:10px
-        }
-        @media (max-width:479px){
-            .rtcl-store-search-inline .rtcl-store-widget-search-inline>div{
-                flex:1 0 100%;
-                margin-bottom:10px
+            @media (max-width:991px){
+                .rtcl .rtcl-stores,.rtcl .rtcl-stores.columns-4,.rtcl .rtcl-stores.columns-5,.rtcl .rtcl-stores.columns-6{
+                    grid-template-columns:repeat(3,1fr)
+                }
             }
-            .rtcl-store-search-inline .rtcl-store-widget-search-inline .form-group:nth-child(2),.rtcl-store-search-inline .rtcl-store-widget-search-inline .submit-btn{
-                margin-left:0
+            @media (max-width:767px){
+                .rtcl .rtcl-stores,.rtcl .rtcl-stores.columns-3,.rtcl .rtcl-stores.columns-4,.rtcl .rtcl-stores.columns-5,.rtcl .rtcl-stores.columns-6{
+                    grid-template-columns:repeat(2,1fr)
+                }
             }
-        }
-        .rtcl-page.single-store .rtcl-store-item{
-            padding:30px
-        }
-        @media (max-width:599px){
-            .rtcl-page.single-store .rtcl-store-item{
-                padding:20px
+            @media (max-width:575px){
+                .rtcl .rtcl-stores,.rtcl .rtcl-stores.columns-3,.rtcl .rtcl-stores.columns-4,.rtcl .rtcl-stores.columns-5,.rtcl .rtcl-stores.columns-6{
+                    grid-template-columns:repeat(1,1fr)
+                }
             }
-        }
-        .rtcl-page.single-store .store-banner .reviews-rating{
-            color:#ffb300!important
-        }
-        .rtcl-page.single-store .store-banner .reviews-rating .rtrs-star-empty:before,.rtcl-page.single-store .store-banner .reviews-rating .rtrs-star-half-alt:before,.rtcl-page.single-store .store-banner .reviews-rating .rtrs-star:before{
-            margin-left:0
-        }
-        .rtcl-page.single-store .store-banner .reviews-rating .reviews-rating-count{
-            color:#fff
-        }
-        .rtcl-page.single-store .rtrs-review-wrap{
-            background-color:#fff0;
-            margin:30px 0 0;
-            padding:0
-        }
-        .rtcl-page.single-store .rtrs-review-wrap .rtrs-summary{
-            background-color:#fff;
-            box-shadow:0 1px 3px 0 rgb(0 0 0 / .1);
-            padding:30px
-        }
-        @media (max-width:599px){
-            .rtcl-page.single-store .rtrs-review-wrap .rtrs-summary{
-                padding:20px
+            .rtcl .rtcl-pricing-table .price-item{
+                border-radius:0;
+                -moz-transition:all .3s ease;
+                -o-transition:all .3s ease;
+                -webkit-transition:all .3s ease
             }
-        }
-        .rtcl-page.single-store .rtrs-review-wrap .rtrs-sorting-bar{
-            background-color:#fff;
-            box-shadow:0 1px 3px 0 rgb(0 0 0 / .1);
-            padding:10px 30px
-        }
-        @media (max-width:599px){
-            .rtcl-page.single-store .rtrs-review-wrap .rtrs-sorting-bar{
-                padding:10px 20px
+            .rtcl .rtcl-pricing-table .price-item:hover{
+                box-shadow:0 8px 12px 0 rgb(0 0 0 / .2)
             }
-        }
-        .rtcl-page.single-store .rtrs-review-wrap .rtrs-sorting-bar .rtrs-sorting-select select{
-            background-color:#f8f8f8;
-            box-shadow:none;
-            color:#646464
-        }
-        .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-box{
-            background-color:#fff;
-            box-shadow:0 1px 3px 0 rgb(0 0 0 / .1);
-            margin:0 0 30px;
-            padding:30px 30px 10px
-        }
-        @media (max-width:599px){
-            .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-box{
-                padding:20px 20px 10px
+            .rtcl .rtcl-pricing-table .price-item .card-header{
+                background-color:#57ac57;
+                border-color:#71df71;
+                border-bottom:1px solid #71df71;
+                border-radius:0;
+                box-shadow:inset 0 5px 0 rgb(50 50 50 / .2);
+                color:#fff;
+                text-shadow:0 3px 0 rgb(50 50 50 / .6);
+                -moz-transition:all .3s ease;
+                -o-transition:all .3s ease;
+                -webkit-transition:all .3s ease
             }
-        }
-        .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-box .rtrs-review-form{
-            background-color:#f8f8f8;
-            margin-left:30px
-        }
-        .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-form{
-            background-color:#fff;
-            box-shadow:0 1px 3px 0 rgb(0 0 0 / .1);
-            padding:30px
-        }
-        @media (max-width:599px){
-            .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-form{
-                padding:20px
+            .rtcl .rtcl-pricing-table .price-item .rtcl-po-price{
+                background-color:#ef5a5c;
+                color:#fff;
+                font-size:40px;
+                text-shadow:0 3px 0 rgb(50 50 50 / .3)
             }
-        }
-        @media (min-width:401px) and (max-width:500px){
-            .rtcl .store-more-details{
-                padding:10px 40px
+            .rtcl .rtcl-pricing-table .price-item .panel-footer{
+                background-color:rgb(0 0 0 / .1);
+                border-bottom:0;
+                box-shadow:0 3px 0 rgb(0 0 0 / .3);
+                color:#fff
             }
-        }
-        @media (min-width:0) and (max-width:400px){
-            .rtcl .store-more-details{
+            .rtcl .rtcl-pricing-table .price-item .panel-footer .btn{
+                border:0;
+                box-shadow:inset 0 -1px 0 rgb(50 50 50 / .2)
+            }
+            .rtcl.store-content-wrap{
+                background-color:#fff;
+                border:1px solid #e1e1e1;
+                padding:30px 30px 40px
+            }
+            .rtcl.store-content-wrap .store-banner{
+                margin:-30px -30px 20px;
+                position:relative
+            }
+            .rtcl.store-content-wrap .store-banner .banner{
+                background:#008329;
+                max-height:362px;
+                min-height:250px
+            }
+            .rtcl.store-content-wrap .store-banner .store-name-logo{
+                bottom:0;
+                display:flex;
+                left:0;
+                margin:1rem;
+                position:absolute;
+                right:0
+            }
+            .rtcl.store-content-wrap .store-banner .store-name-logo .store-logo{
+                align-items:center;
+                background:#fff;
+                border-radius:2px;
+                box-sizing:content-box;
+                display:flex;
+                height:150px;
+                justify-content:center;
+                width:200px
+            }
+            .rtcl.store-content-wrap .store-banner .store-name-logo .store-logo img{
+                max-height:100%;
+                max-width:100%;
+                -o-object-fit:contain;
+                object-fit:contain;
+                padding:2px
+            }
+            .rtcl.store-content-wrap .store-banner .store-name-logo .store-info{
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                padding:1rem 2rem
+            }
+            .rtcl.store-content-wrap .store-banner .store-name-logo .store-info .rtcl-store-cat{
+                color:#fff
+            }
+            .rtcl.store-content-wrap .store-banner .store-name-logo .store-info .rtcl-store-cat .rtcl-icon,.rtcl.store-content-wrap .store-banner .store-name-logo .store-info .rtcl-store-cat a{
+                color:inherit
+            }
+            .rtcl.store-content-wrap .store-banner .store-name-logo .store-name h2{
+                word-wrap:break-word;
+                color:#fff;
+                padding:0;
+                text-shadow:0 1px 3px rgb(0 0 0 / .9);
+                word-break:break-word
+            }
+            .rtcl.store-content-wrap .store-banner .store-name-logo .reviews-rating{
+                align-items:center;
+                color:#fff;
+                display:flex
+            }
+            .rtcl.store-content-wrap .store-details .is-slogan,.rtcl.store-content-wrap .store-listing-list>h3{
+                font-size:1.2858rem
+            }
+            .rtcl.store-content-wrap .store-information .store-details .store-description{
+                margin:15px 0 55px;
+                position:relative
+            }
+            .rtcl.store-content-wrap .store-information .store-details .store-description .fade-content{
+                margin-bottom:2rem;
+                max-height:9rem;
+                overflow:hidden
+            }
+            .rtcl.store-content-wrap .store-information .store-details .store-description .fade-anchor{
+                background:linear-gradient(180deg,#fff0,#fff0 .1rem,#fff 1.5rem);
+                bottom:-30px;
+                display:block;
+                padding-top:30px;
+                position:absolute;
+                width:100%
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item{
+                word-wrap:break-word;
+                border-bottom:1px solid #d4ded9;
+                display:flex;
+                margin-top:1rem;
+                padding-bottom:.8rem;
+                word-break:break-word
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .icon{
+                align-items:center;
+                justify-content:center;
+                justify-items:center;
+                padding-right:10px
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .text{
+                align-items:center;
+                justify-content:center;
+                justify-items:center
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day.always{
+                color:#37a000
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .store-now{
+                display:block
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .store-now.store-open{
+                color:#37a000
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .store-now.store-close{
+                color:#b4352d
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .label{
+                font-size:100%;
                 padding:0
             }
-        }
-        .rtcl-el-store-widget-wrapper .load-more-wrapper .load-more-btn{
-            box-shadow:none;
-            margin-top:30px;
-            outline:none
-        }
-        .rtcl-el-store-widget-wrapper .load-more-wrapper .load-more-btn .fa-sync-alt{
-            margin-right:5px
-        }
-        .rtcl-el-store-widget-wrapper .load-more-wrapper.loading .fa-sync-alt{
-            animation-delay:0s;
-            animation-direction:normal;
-            animation-duration:1.5s;
-            animation-iteration-count:infinite;
-            animation-name:fa-spin;
-            animation-timing-function:linear
-        }</style>
-        <style class="optimize_css_2" type="text/css" media="all">@font-face{
-            font-family:"flaticon";
-            src:url(../wp-content/themes/homlisti/assets/fonts/flaticon.ttf#1721845095) format("truetype"),url(../index.phpwp-content/themes/homlisti/assets/css/../fonts/flaticon.woff#1721845095) format("woff"),url(../index.phpwp-content/themes/homlisti/assets/css/../fonts/flaticon.woff2#1721845095) format("woff2"),url(../index.phpwp-content/themes/homlisti/assets/css/../fonts/flaticon.eot#1721845095) format("embedded-opentype"),url(../index.phpwp-content/themes/homlisti/assets/css/../fonts/flaticon.svg?4c8541f813cac0753c62e0740c5ce069#flaticon) format("svg")
-        }
-        i[class^="flaticon-"]:before,i[class*=" flaticon-"]:before{
-            font-family:flaticon!important;
-            font-style:normal;
-            font-weight:normal!important;
-            font-variant:normal;
-            text-transform:none;
-            line-height:1;
-            -webkit-font-smoothing:antialiased;
-            -moz-osx-font-smoothing:grayscale
-        }
-        .flaticon-user:before{
-            content:"\f101"
-        }
-        .flaticon-user-1:before{
-            content:"\f102"
-        }
-        .flaticon-speech-bubble:before{
-            content:"\f103"
-        }
-        .flaticon-next:before{
-            content:"\f104"
-        }
-        .flaticon-share:before{
-            content:"\f105"
-        }
-        .flaticon-share-1:before{
-            content:"\f106"
-        }
-        .flaticon-left-and-right-arrows:before{
-            content:"\f107"
-        }
-        .flaticon-heart:before{
-            content:"\f108"
-        }
-        .flaticon-camera:before{
-            content:"\f109"
-        }
-        .flaticon-video-player:before{
-            content:"\f10a"
-        }
-        .flaticon-maps-and-flags:before{
-            content:"\f10b"
-        }
-        .flaticon-check:before{
-            content:"\f10c"
-        }
-        .flaticon-envelope:before{
-            content:"\f10d"
-        }
-        .flaticon-phone-call:before{
-            content:"\f10e"
-        }
-        .flaticon-call:before{
-            content:"\f10f"
-        }
-        .flaticon-clock:before{
-            content:"\f110"
-        }
-        .flaticon-play:before{
-            content:"\f111"
-        }
-        .flaticon-loupe:before{
-            content:"\f112"
-        }
-        .flaticon-user-2:before{
-            content:"\f113"
-        }
-        .flaticon-bed:before{
-            content:"\f114"
-        }
-        .flaticon-shower:before{
-            content:"\f115"
-        }
-        .flaticon-pencil:before{
-            content:"\f116"
-        }
-        .flaticon-two-overlapping-square:before{
-            content:"\f117"
-        }
-        .flaticon-printer:before{
-            content:"\f118"
-        }
-        .flaticon-comment:before{
-            content:"\f119"
-        }
-        .flaticon-home:before{
-            content:"\f11a"
-        }
-        .flaticon-garage:before{
-            content:"\f11b"
-        }
-        .flaticon-full-size:before{
-            content:"\f11c"
-        }
-        .flaticon-tag:before{
-            content:"\f11d"
-        }
-        .flaticon-right-arrow:before{
-            content:"\f11e"
-        }
-        .flaticon-left-arrow:before{
-            content:"\f11f"
-        }
-        .flaticon-left-arrow-1:before{
-            content:"\f120"
-        }
-        .flaticon-left-arrow-2:before{
-            content:"\f121"
-        }
-        .flaticon-right-arrow-1:before{
-            content:"\f122"
-        }</style>
-        <style class="optimize_css_2" type="text/css" media="all">.mfp-bg{
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            z-index:1042;
-            overflow:hidden;
-            position:fixed;
-            background:#0b0b0b;
-            opacity:.8
-        }
-        .mfp-wrap{
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            z-index:1043;
-            position:fixed;
-            outline:none!important;
-            -webkit-backface-visibility:hidden
-        }
-        .mfp-container{
-            text-align:center;
-            position:absolute;
-            width:100%;
-            height:100%;
-            left:0;
-            top:0;
-            padding:0 8px;
-            box-sizing:border-box
-        }
-        .mfp-container:before{
-            content:'';
-            display:inline-block;
-            height:100%;
-            vertical-align:middle
-        }
-        .mfp-align-top .mfp-container:before{
-            display:none
-        }
-        .mfp-content{
-            position:relative;
-            display:inline-block;
-            vertical-align:middle;
-            margin:0 auto;
-            text-align:left;
-            z-index:1045
-        }
-        .mfp-inline-holder .mfp-content,.mfp-ajax-holder .mfp-content{
-            width:100%;
-            cursor:auto
-        }
-        .mfp-ajax-cur{
-            cursor:progress
-        }
-        .mfp-zoom-out-cur,.mfp-zoom-out-cur .mfp-image-holder .mfp-close{
-            cursor:-moz-zoom-out;
-            cursor:-webkit-zoom-out;
-            cursor:zoom-out
-        }
-        .mfp-zoom{
-            cursor:pointer;
-            cursor:-webkit-zoom-in;
-            cursor:-moz-zoom-in;
-            cursor:zoom-in
-        }
-        .mfp-auto-cursor .mfp-content{
-            cursor:auto
-        }
-        .mfp-close,.mfp-arrow,.mfp-preloader,.mfp-counter{
-            -webkit-user-select:none;
-            -moz-user-select:none;
-            user-select:none
-        }
-        .mfp-loading.mfp-figure{
-            display:none
-        }
-        .mfp-hide{
-            display:none!important
-        }
-        .mfp-preloader{
-            color:#CCC;
-            position:absolute;
-            top:50%;
-            width:auto;
-            text-align:center;
-            margin-top:-.8em;
-            left:8px;
-            right:8px;
-            z-index:1044
-        }
-        .mfp-preloader a{
-            color:#CCC
-        }
-        .mfp-preloader a:hover{
-            color:#FFF
-        }
-        .mfp-s-ready .mfp-preloader{
-            display:none
-        }
-        .mfp-s-error .mfp-content{
-            display:none
-        }
-        button.mfp-close,button.mfp-arrow{
-            overflow:visible;
-            cursor:pointer;
-            background:#fff0;
-            border:0;
-            -webkit-appearance:none;
-            display:block;
-            outline:none;
-            padding:0;
-            z-index:1046;
-            box-shadow:none;
-            touch-action:manipulation
-        }
-        button::-moz-focus-inner{
-            padding:0;
-            border:0
-        }
-        .mfp-close{
-            width:44px;
-            height:44px;
-            line-height:44px;
-            position:absolute;
-            right:0;
-            top:0;
-            text-decoration:none;
-            text-align:center;
-            opacity:.65;
-            padding:0 0 18px 10px;
-            color:#FFF;
-            font-style:normal;
-            font-size:28px;
-            font-family:Arial,Baskerville,monospace
-        }
-        .mfp-close:hover,.mfp-close:focus{
-            opacity:1
-        }
-        .mfp-close:active{
-            top:1px
-        }
-        .mfp-close-btn-in .mfp-close{
-            color:#333
-        }
-        .mfp-image-holder .mfp-close,.mfp-iframe-holder .mfp-close{
-            color:#FFF;
-            right:-6px;
-            text-align:right;
-            padding-right:6px;
-            width:100%
-        }
-        .mfp-counter{
-            position:absolute;
-            top:0;
-            right:0;
-            color:#CCC;
-            font-size:12px;
-            line-height:18px;
-            white-space:nowrap
-        }
-        .mfp-arrow{
-            position:absolute;
-            opacity:.65;
-            margin:0;
-            top:50%;
-            margin-top:-55px;
-            padding:0;
-            width:90px;
-            height:110px;
-            -webkit-tap-highlight-color:#fff0
-        }
-        .mfp-arrow:active{
-            margin-top:-54px
-        }
-        .mfp-arrow:hover,.mfp-arrow:focus{
-            opacity:1
-        }
-        .mfp-arrow:before,.mfp-arrow:after{
-            content:'';
-            display:block;
-            width:0;
-            height:0;
-            position:absolute;
-            left:0;
-            top:0;
-            margin-top:35px;
-            margin-left:35px;
-            border:medium inset #fff0
-        }
-        .mfp-arrow:after{
-            border-top-width:13px;
-            border-bottom-width:13px;
-            top:8px
-        }
-        .mfp-arrow:before{
-            border-top-width:21px;
-            border-bottom-width:21px;
-            opacity:.7
-        }
-        .mfp-arrow-left{
-            left:0
-        }
-        .mfp-arrow-left:after{
-            border-right:17px solid #FFF;
-            margin-left:31px
-        }
-        .mfp-arrow-left:before{
-            margin-left:25px;
-            border-right:27px solid #3F3F3F
-        }
-        .mfp-arrow-right{
-            right:0
-        }
-        .mfp-arrow-right:after{
-            border-left:17px solid #FFF;
-            margin-left:39px
-        }
-        .mfp-arrow-right:before{
-            border-left:27px solid #3F3F3F
-        }
-        .mfp-iframe-holder{
-            padding-top:40px;
-            padding-bottom:40px
-        }
-        .mfp-iframe-holder .mfp-content{
-            line-height:0;
-            width:100%;
-            max-width:900px
-        }
-        .mfp-iframe-holder .mfp-close{
-            top:-40px
-        }
-        .mfp-iframe-scaler{
-            width:100%;
-            height:0;
-            overflow:hidden;
-            padding-top:56.25%
-        }
-        .mfp-iframe-scaler iframe{
-            position:absolute;
-            display:block;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            box-shadow:0 0 8px rgb(0 0 0 / .6);
-            background:#000
-        }
-        img.mfp-img{
-            width:auto;
-            max-width:100%;
-            height:auto;
-            display:block;
-            line-height:0;
-            box-sizing:border-box;
-            padding:40px 0 40px;
-            margin:0 auto
-        }
-        .mfp-figure{
-            line-height:0
-        }
-        .mfp-figure:after{
-            content:'';
-            position:absolute;
-            left:0;
-            top:40px;
-            bottom:40px;
-            display:block;
-            right:0;
-            width:auto;
-            height:auto;
-            z-index:-1;
-            box-shadow:0 0 8px rgb(0 0 0 / .6);
-            background:#444
-        }
-        .mfp-figure small{
-            color:#BDBDBD;
-            display:block;
-            font-size:12px;
-            line-height:14px
-        }
-        .mfp-figure figure{
-            margin:0
-        }
-        .mfp-bottom-bar{
-            margin-top:-36px;
-            position:absolute;
-            top:100%;
-            left:0;
-            width:100%;
-            cursor:auto
-        }
-        .mfp-title{
-            text-align:left;
-            line-height:18px;
-            color:#F3F3F3;
-            word-wrap:break-word;
-            padding-right:36px
-        }
-        .mfp-image-holder .mfp-content{
-            max-width:100%
-        }
-        .mfp-gallery .mfp-image-holder .mfp-figure{
-            cursor:pointer
-        }
-        @media screen and (max-width:800px) and (orientation:landscape),screen and (max-height:300px){
-            .mfp-img-mobile .mfp-image-holder{
-                padding-left:0;
-                padding-right:0
-            }
-            .mfp-img-mobile img.mfp-img{
-                padding:0
-            }
-            .mfp-img-mobile .mfp-figure:after{
-                top:0;
-                bottom:0
-            }
-            .mfp-img-mobile .mfp-figure small{
-                display:inline;
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .hours{
+                font-weight:700;
                 margin-left:5px
             }
-            .mfp-img-mobile .mfp-bottom-bar{
-                background:rgb(0 0 0 / .6);
-                bottom:0;
-                margin:0;
-                top:auto;
-                padding:3px 5px;
-                position:fixed;
-                box-sizing:border-box
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .open-day .hours span.close-hour:before{
+                content:"-";
+                margin:0 5px
             }
-            .mfp-img-mobile .mfp-bottom-bar:empty{
-                padding:0
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item .text .close-day{
+                color:#b4352d
             }
-            .mfp-img-mobile .mfp-counter{
-                right:5px;
-                top:3px
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item.store-email{
+                flex-flow:row wrap
             }
-            .mfp-img-mobile .mfp-close{
-                top:0;
-                right:0;
-                width:35px;
-                height:35px;
-                line-height:35px;
-                background:rgb(0 0 0 / .6);
-                position:fixed;
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item.store-email .store-email-label{
+                color:#008329;
+                cursor:pointer;
+                font-weight:700;
+                width:100%
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-info-item.store-email #store-email-area{
+                display:none;
+                padding-top:10px;
+                width:100%
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media{
+                flex-wrap:wrap;
+                gap:10px
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media a{
+                color:#fff;
+                display:inline-block;
+                font-weight:400;
+                margin-right:0;
+                text-decoration:none;
+                transition:all .5s ease-out
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media a.tiktok,.rtcl.store-content-wrap .store-information .store-info .store-social-media a.twitter{
+                align-items:center;
+                background:#000;
+                border-radius:50%;
+                display:inline-flex;
+                height:36px;
+                justify-content:center;
+                width:36px
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon{
+                align-items:center;
+                background-color:#1e73be;
+                border-radius:50%;
+                color:#fff;
+                display:flex;
+                height:36px;
+                justify-content:center;
+                margin-right:0!important;
                 text-align:center;
+                width:36px
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-facebook{
+                background:#3b5998
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-tiktok,.rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-twitter{
+                background:#fff;
+                height:16px;
+                width:16px
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-youtube{
+                background:red
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-instagram{
+                background:#000
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-linkedin{
+                background:#1178b3
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-pinterest-circled{
+                background:#c8232c
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-social-media .rtcl-icon.rtcl-icon-gplus{
+                background:#d34836
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-website a{
+                color:inherit;
+                text-decoration:none
+            }
+            .rtcl.store-content-wrap .store-information .store-info .store-website a:hover{
+                color:var(--rtcl-primary-color)
+            }
+            .rtcl.store-content-wrap .store-information .store-info .reveal-phone{
+                cursor:pointer;
+                font-weight:700
+            }
+            .rtcl.store-content-wrap .store-information .store-info .reveal-phone:not(.revealed):hover{
+                color:#37a000
+            }
+            .rtcl.store-content-wrap .store-information .store-info .reveal-phone.revealed small{
+                display:none
+            }
+            .rtcl .store-more-details{
+                padding:0 1.5rem 5px
+            }
+            .rtcl .store-more-details h3{
+                border-bottom:1px solid #d4ded9;
+                color:#000;
+                margin-bottom:10px;
+                padding-bottom:10px
+            }
+            .rtcl .store-more-details .more-item{
+                word-wrap:break-word;
+                margin-bottom:1.5rem;
+                word-break:break-word
+            }
+            .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour{
+                margin-bottom:5px
+            }
+            .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour .hour-day{
+                text-transform:capitalize
+            }
+            .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour:last-child{
+                margin-bottom:0
+            }
+            .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour.current-store-hour{
+                font-weight:600
+            }
+            .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour .oh-hours-wrap .oh-hours .close-hour:before{
+                content:"--";
+                padding:0 5px
+            }
+            .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .store-hour .oh-hours-wrap .off-day{
+                color:#b4352d
+            }
+            .rtcl .store-more-details .store-hours-list-wrap .store-hours-list .always-open{
+                color:#37a000
+            }
+            .rtcl #store-details-modal #store-details-modal-label{
+                text-align:center;
+                width:100%
+            }
+            .rtcl .features span{
+                display:block;
+                margin-bottom:5px
+            }
+            .rtcl .rtcl-store-meta small{
+                font-size:90%
+            }
+            .rtcl .rtcl-store-meta .rtcl-icon{
+                margin-right:4px
+            }
+            .rtcl .rtcl-membership-promotion-actions{
+                display:flex;
+                justify-content:space-between;
+                margin-bottom:1rem
+            }
+            .rtcl .rtcl-promotions-heading{
+                border:1px solid #dee2e6;
+                cursor:pointer;
+                font-size:18px;
+                line-height:1.4;
+                margin:0;
+                padding:10px 14px
+            }
+            .rtcl .rtcl-promotions-heading:before{
+                content:"\e856";
+                display:inline-block;
+                font-family:rtcl,serif;
+                margin-right:.5em
+            }
+            .rtcl .rtcl-promotions-heading+#rtcl-checkout-form,.rtcl .rtcl-promotions-heading+#rtcl-woo-checkout-form,.rtcl .rtcl-promotions-heading+.rtcl-membership-promotions-form-wrap{
+                display:none
+            }
+            .rtcl .rtcl-promotions-heading.active:before{
+                transform:rotate(180deg)
+            }
+            .rtcl .rtcl-membership-promotions .promotion-item{
+                display:flex
+            }
+            .rtcl .rtcl-membership-promotions .promotion-item.label-item{
+                font-weight:700
+            }
+            .rtcl .rtcl-membership-promotions .promotion-item .item-label{
+                flex:0 0 90px
+            }
+            .rtcl .rtcl-membership-promotions .promotion-item .item-listings,.rtcl .rtcl-membership-promotions .promotion-item .item-validate{
+                align-items:center;
+                display:flex;
+                flex:0 0 50px;
+                justify-content:center
+            }
+            .rtcl .rtcl-membership-promotions .promotion-item+.promotion-item{
+                border-top:1px solid #eee;
+                margin-top:5px;
+                padding-top:5px
+            }
+            .rtcl .pricing-description{
+                margin-top:15px
+            }
+            .rtcl .promotion-validity small{
+                margin-left:4px
+            }
+            .rtcl-store-widget-search-inline{
+                display:flex;
+                flex-wrap:wrap
+            }
+            .rtcl-store-widget-search-inline>div{
+                flex:1 1 calc(33.3333% - 10px)
+            }
+            .rtcl-store-widget-search-inline .form-group{
+                margin-bottom:0
+            }
+            .rtcl-store-widget-search-inline .form-group:nth-child(2),.rtcl-store-widget-search-inline .reset-btn,.rtcl-store-widget-search-inline .submit-btn{
+                margin-left:10px
+            }
+            @media (max-width:479px){
+                .rtcl-store-search-inline .rtcl-store-widget-search-inline>div{
+                    flex:1 0 100%;
+                    margin-bottom:10px
+                }
+                .rtcl-store-search-inline .rtcl-store-widget-search-inline .form-group:nth-child(2),.rtcl-store-search-inline .rtcl-store-widget-search-inline .submit-btn{
+                    margin-left:0
+                }
+            }
+            .rtcl-page.single-store .rtcl-store-item{
+                padding:30px
+            }
+            @media (max-width:599px){
+                .rtcl-page.single-store .rtcl-store-item{
+                    padding:20px
+                }
+            }
+            .rtcl-page.single-store .store-banner .reviews-rating{
+                color:#ffb300!important
+            }
+            .rtcl-page.single-store .store-banner .reviews-rating .rtrs-star-empty:before,.rtcl-page.single-store .store-banner .reviews-rating .rtrs-star-half-alt:before,.rtcl-page.single-store .store-banner .reviews-rating .rtrs-star:before{
+                margin-left:0
+            }
+            .rtcl-page.single-store .store-banner .reviews-rating .reviews-rating-count{
+                color:#fff
+            }
+            .rtcl-page.single-store .rtrs-review-wrap{
+                background-color:#fff0;
+                margin:30px 0 0;
                 padding:0
             }
-        }
-        @media all and (max-width:900px){
-            .mfp-arrow{
-                -webkit-transform:scale(.75);
-                transform:scale(.75)
+            .rtcl-page.single-store .rtrs-review-wrap .rtrs-summary{
+                background-color:#fff;
+                box-shadow:0 1px 3px 0 rgb(0 0 0 / .1);
+                padding:30px
             }
-            .mfp-arrow-left{
-                -webkit-transform-origin:0;
-                transform-origin:0
+            @media (max-width:599px){
+                .rtcl-page.single-store .rtrs-review-wrap .rtrs-summary{
+                    padding:20px
+                }
             }
-            .mfp-arrow-right{
-                -webkit-transform-origin:100%;
-                transform-origin:100%
+            .rtcl-page.single-store .rtrs-review-wrap .rtrs-sorting-bar{
+                background-color:#fff;
+                box-shadow:0 1px 3px 0 rgb(0 0 0 / .1);
+                padding:10px 30px
+            }
+            @media (max-width:599px){
+                .rtcl-page.single-store .rtrs-review-wrap .rtrs-sorting-bar{
+                    padding:10px 20px
+                }
+            }
+            .rtcl-page.single-store .rtrs-review-wrap .rtrs-sorting-bar .rtrs-sorting-select select{
+                background-color:#f8f8f8;
+                box-shadow:none;
+                color:#646464
+            }
+            .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-box{
+                background-color:#fff;
+                box-shadow:0 1px 3px 0 rgb(0 0 0 / .1);
+                margin:0 0 30px;
+                padding:30px 30px 10px
+            }
+            @media (max-width:599px){
+                .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-box{
+                    padding:20px 20px 10px
+                }
+            }
+            .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-box .rtrs-review-form{
+                background-color:#f8f8f8;
+                margin-left:30px
+            }
+            .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-form{
+                background-color:#fff;
+                box-shadow:0 1px 3px 0 rgb(0 0 0 / .1);
+                padding:30px
+            }
+            @media (max-width:599px){
+                .rtcl-page.single-store .rtrs-review-wrap .rtrs-review-form{
+                    padding:20px
+                }
+            }
+            @media (min-width:401px) and (max-width:500px){
+                .rtcl .store-more-details{
+                    padding:10px 40px
+                }
+            }
+            @media (min-width:0) and (max-width:400px){
+                .rtcl .store-more-details{
+                    padding:0
+                }
+            }
+            .rtcl-el-store-widget-wrapper .load-more-wrapper .load-more-btn{
+                box-shadow:none;
+                margin-top:30px;
+                outline:none
+            }
+            .rtcl-el-store-widget-wrapper .load-more-wrapper .load-more-btn .fa-sync-alt{
+                margin-right:5px
+            }
+            .rtcl-el-store-widget-wrapper .load-more-wrapper.loading .fa-sync-alt{
+                animation-delay:0s;
+                animation-direction:normal;
+                animation-duration:1.5s;
+                animation-iteration-count:infinite;
+                animation-name:fa-spin;
+                animation-timing-function:linear
+            }</style>
+        <style class="optimize_css_2" type="text/css" media="all">@font-face{
+                font-family:"flaticon";
+                src:url(../wp-content/themes/homlisti/assets/fonts/flaticon.ttf#1721845095) format("truetype"),url(../index.phpwp-content/themes/homlisti/assets/css/../fonts/flaticon.woff#1721845095) format("woff"),url(../index.phpwp-content/themes/homlisti/assets/css/../fonts/flaticon.woff2#1721845095) format("woff2"),url(../index.phpwp-content/themes/homlisti/assets/css/../fonts/flaticon.eot#1721845095) format("embedded-opentype"),url(../index.phpwp-content/themes/homlisti/assets/css/../fonts/flaticon.svg?4c8541f813cac0753c62e0740c5ce069#flaticon) format("svg")
+            }
+            i[class^="flaticon-"]:before,i[class*=" flaticon-"]:before{
+                font-family:flaticon!important;
+                font-style:normal;
+                font-weight:normal!important;
+                font-variant:normal;
+                text-transform:none;
+                line-height:1;
+                -webkit-font-smoothing:antialiased;
+                -moz-osx-font-smoothing:grayscale
+            }
+            .flaticon-user:before{
+                content:"\f101"
+            }
+            .flaticon-user-1:before{
+                content:"\f102"
+            }
+            .flaticon-speech-bubble:before{
+                content:"\f103"
+            }
+            .flaticon-next:before{
+                content:"\f104"
+            }
+            .flaticon-share:before{
+                content:"\f105"
+            }
+            .flaticon-share-1:before{
+                content:"\f106"
+            }
+            .flaticon-left-and-right-arrows:before{
+                content:"\f107"
+            }
+            .flaticon-heart:before{
+                content:"\f108"
+            }
+            .flaticon-camera:before{
+                content:"\f109"
+            }
+            .flaticon-video-player:before{
+                content:"\f10a"
+            }
+            .flaticon-maps-and-flags:before{
+                content:"\f10b"
+            }
+            .flaticon-check:before{
+                content:"\f10c"
+            }
+            .flaticon-envelope:before{
+                content:"\f10d"
+            }
+            .flaticon-phone-call:before{
+                content:"\f10e"
+            }
+            .flaticon-call:before{
+                content:"\f10f"
+            }
+            .flaticon-clock:before{
+                content:"\f110"
+            }
+            .flaticon-play:before{
+                content:"\f111"
+            }
+            .flaticon-loupe:before{
+                content:"\f112"
+            }
+            .flaticon-user-2:before{
+                content:"\f113"
+            }
+            .flaticon-bed:before{
+                content:"\f114"
+            }
+            .flaticon-shower:before{
+                content:"\f115"
+            }
+            .flaticon-pencil:before{
+                content:"\f116"
+            }
+            .flaticon-two-overlapping-square:before{
+                content:"\f117"
+            }
+            .flaticon-printer:before{
+                content:"\f118"
+            }
+            .flaticon-comment:before{
+                content:"\f119"
+            }
+            .flaticon-home:before{
+                content:"\f11a"
+            }
+            .flaticon-garage:before{
+                content:"\f11b"
+            }
+            .flaticon-full-size:before{
+                content:"\f11c"
+            }
+            .flaticon-tag:before{
+                content:"\f11d"
+            }
+            .flaticon-right-arrow:before{
+                content:"\f11e"
+            }
+            .flaticon-left-arrow:before{
+                content:"\f11f"
+            }
+            .flaticon-left-arrow-1:before{
+                content:"\f120"
+            }
+            .flaticon-left-arrow-2:before{
+                content:"\f121"
+            }
+            .flaticon-right-arrow-1:before{
+                content:"\f122"
+            }</style>
+        <style class="optimize_css_2" type="text/css" media="all">.mfp-bg{
+                top:0;
+                left:0;
+                width:100%;
+                height:100%;
+                z-index:1042;
+                overflow:hidden;
+                position:fixed;
+                background:#0b0b0b;
+                opacity:.8
+            }
+            .mfp-wrap{
+                top:0;
+                left:0;
+                width:100%;
+                height:100%;
+                z-index:1043;
+                position:fixed;
+                outline:none!important;
+                -webkit-backface-visibility:hidden
             }
             .mfp-container{
-                padding-left:6px;
-                padding-right:6px
+                text-align:center;
+                position:absolute;
+                width:100%;
+                height:100%;
+                left:0;
+                top:0;
+                padding:0 8px;
+                box-sizing:border-box
             }
-        }</style>
+            .mfp-container:before{
+                content:'';
+                display:inline-block;
+                height:100%;
+                vertical-align:middle
+            }
+            .mfp-align-top .mfp-container:before{
+                display:none
+            }
+            .mfp-content{
+                position:relative;
+                display:inline-block;
+                vertical-align:middle;
+                margin:0 auto;
+                text-align:left;
+                z-index:1045
+            }
+            .mfp-inline-holder .mfp-content,.mfp-ajax-holder .mfp-content{
+                width:100%;
+                cursor:auto
+            }
+            .mfp-ajax-cur{
+                cursor:progress
+            }
+            .mfp-zoom-out-cur,.mfp-zoom-out-cur .mfp-image-holder .mfp-close{
+                cursor:-moz-zoom-out;
+                cursor:-webkit-zoom-out;
+                cursor:zoom-out
+            }
+            .mfp-zoom{
+                cursor:pointer;
+                cursor:-webkit-zoom-in;
+                cursor:-moz-zoom-in;
+                cursor:zoom-in
+            }
+            .mfp-auto-cursor .mfp-content{
+                cursor:auto
+            }
+            .mfp-close,.mfp-arrow,.mfp-preloader,.mfp-counter{
+                -webkit-user-select:none;
+                -moz-user-select:none;
+                user-select:none
+            }
+            .mfp-loading.mfp-figure{
+                display:none
+            }
+            .mfp-hide{
+                display:none!important
+            }
+            .mfp-preloader{
+                color:#CCC;
+                position:absolute;
+                top:50%;
+                width:auto;
+                text-align:center;
+                margin-top:-.8em;
+                left:8px;
+                right:8px;
+                z-index:1044
+            }
+            .mfp-preloader a{
+                color:#CCC
+            }
+            .mfp-preloader a:hover{
+                color:#FFF
+            }
+            .mfp-s-ready .mfp-preloader{
+                display:none
+            }
+            .mfp-s-error .mfp-content{
+                display:none
+            }
+            button.mfp-close,button.mfp-arrow{
+                overflow:visible;
+                cursor:pointer;
+                background:#fff0;
+                border:0;
+                -webkit-appearance:none;
+                display:block;
+                outline:none;
+                padding:0;
+                z-index:1046;
+                box-shadow:none;
+                touch-action:manipulation
+            }
+            button::-moz-focus-inner{
+                padding:0;
+                border:0
+            }
+            .mfp-close{
+                width:44px;
+                height:44px;
+                line-height:44px;
+                position:absolute;
+                right:0;
+                top:0;
+                text-decoration:none;
+                text-align:center;
+                opacity:.65;
+                padding:0 0 18px 10px;
+                color:#FFF;
+                font-style:normal;
+                font-size:28px;
+                font-family:Arial,Baskerville,monospace
+            }
+            .mfp-close:hover,.mfp-close:focus{
+                opacity:1
+            }
+            .mfp-close:active{
+                top:1px
+            }
+            .mfp-close-btn-in .mfp-close{
+                color:#333
+            }
+            .mfp-image-holder .mfp-close,.mfp-iframe-holder .mfp-close{
+                color:#FFF;
+                right:-6px;
+                text-align:right;
+                padding-right:6px;
+                width:100%
+            }
+            .mfp-counter{
+                position:absolute;
+                top:0;
+                right:0;
+                color:#CCC;
+                font-size:12px;
+                line-height:18px;
+                white-space:nowrap
+            }
+            .mfp-arrow{
+                position:absolute;
+                opacity:.65;
+                margin:0;
+                top:50%;
+                margin-top:-55px;
+                padding:0;
+                width:90px;
+                height:110px;
+                -webkit-tap-highlight-color:#fff0
+            }
+            .mfp-arrow:active{
+                margin-top:-54px
+            }
+            .mfp-arrow:hover,.mfp-arrow:focus{
+                opacity:1
+            }
+            .mfp-arrow:before,.mfp-arrow:after{
+                content:'';
+                display:block;
+                width:0;
+                height:0;
+                position:absolute;
+                left:0;
+                top:0;
+                margin-top:35px;
+                margin-left:35px;
+                border:medium inset #fff0
+            }
+            .mfp-arrow:after{
+                border-top-width:13px;
+                border-bottom-width:13px;
+                top:8px
+            }
+            .mfp-arrow:before{
+                border-top-width:21px;
+                border-bottom-width:21px;
+                opacity:.7
+            }
+            .mfp-arrow-left{
+                left:0
+            }
+            .mfp-arrow-left:after{
+                border-right:17px solid #FFF;
+                margin-left:31px
+            }
+            .mfp-arrow-left:before{
+                margin-left:25px;
+                border-right:27px solid #3F3F3F
+            }
+            .mfp-arrow-right{
+                right:0
+            }
+            .mfp-arrow-right:after{
+                border-left:17px solid #FFF;
+                margin-left:39px
+            }
+            .mfp-arrow-right:before{
+                border-left:27px solid #3F3F3F
+            }
+            .mfp-iframe-holder{
+                padding-top:40px;
+                padding-bottom:40px
+            }
+            .mfp-iframe-holder .mfp-content{
+                line-height:0;
+                width:100%;
+                max-width:900px
+            }
+            .mfp-iframe-holder .mfp-close{
+                top:-40px
+            }
+            .mfp-iframe-scaler{
+                width:100%;
+                height:0;
+                overflow:hidden;
+                padding-top:56.25%
+            }
+            .mfp-iframe-scaler iframe{
+                position:absolute;
+                display:block;
+                top:0;
+                left:0;
+                width:100%;
+                height:100%;
+                box-shadow:0 0 8px rgb(0 0 0 / .6);
+                background:#000
+            }
+            img.mfp-img{
+                width:auto;
+                max-width:100%;
+                height:auto;
+                display:block;
+                line-height:0;
+                box-sizing:border-box;
+                padding:40px 0 40px;
+                margin:0 auto
+            }
+            .mfp-figure{
+                line-height:0
+            }
+            .mfp-figure:after{
+                content:'';
+                position:absolute;
+                left:0;
+                top:40px;
+                bottom:40px;
+                display:block;
+                right:0;
+                width:auto;
+                height:auto;
+                z-index:-1;
+                box-shadow:0 0 8px rgb(0 0 0 / .6);
+                background:#444
+            }
+            .mfp-figure small{
+                color:#BDBDBD;
+                display:block;
+                font-size:12px;
+                line-height:14px
+            }
+            .mfp-figure figure{
+                margin:0
+            }
+            .mfp-bottom-bar{
+                margin-top:-36px;
+                position:absolute;
+                top:100%;
+                left:0;
+                width:100%;
+                cursor:auto
+            }
+            .mfp-title{
+                text-align:left;
+                line-height:18px;
+                color:#F3F3F3;
+                word-wrap:break-word;
+                padding-right:36px
+            }
+            .mfp-image-holder .mfp-content{
+                max-width:100%
+            }
+            .mfp-gallery .mfp-image-holder .mfp-figure{
+                cursor:pointer
+            }
+            @media screen and (max-width:800px) and (orientation:landscape),screen and (max-height:300px){
+                .mfp-img-mobile .mfp-image-holder{
+                    padding-left:0;
+                    padding-right:0
+                }
+                .mfp-img-mobile img.mfp-img{
+                    padding:0
+                }
+                .mfp-img-mobile .mfp-figure:after{
+                    top:0;
+                    bottom:0
+                }
+                .mfp-img-mobile .mfp-figure small{
+                    display:inline;
+                    margin-left:5px
+                }
+                .mfp-img-mobile .mfp-bottom-bar{
+                    background:rgb(0 0 0 / .6);
+                    bottom:0;
+                    margin:0;
+                    top:auto;
+                    padding:3px 5px;
+                    position:fixed;
+                    box-sizing:border-box
+                }
+                .mfp-img-mobile .mfp-bottom-bar:empty{
+                    padding:0
+                }
+                .mfp-img-mobile .mfp-counter{
+                    right:5px;
+                    top:3px
+                }
+                .mfp-img-mobile .mfp-close{
+                    top:0;
+                    right:0;
+                    width:35px;
+                    height:35px;
+                    line-height:35px;
+                    background:rgb(0 0 0 / .6);
+                    position:fixed;
+                    text-align:center;
+                    padding:0
+                }
+            }
+            @media all and (max-width:900px){
+                .mfp-arrow{
+                    -webkit-transform:scale(.75);
+                    transform:scale(.75)
+                }
+                .mfp-arrow-left{
+                    -webkit-transform-origin:0;
+                    transform-origin:0
+                }
+                .mfp-arrow-right{
+                    -webkit-transform-origin:100%;
+                    transform-origin:100%
+                }
+                .mfp-container{
+                    padding-left:6px;
+                    padding-right:6px
+                }
+            }</style>
         <style class="optimize_css_2" type="text/css" media="all">/*! Generated by Font Squirrel (https://www.fontsquirrel.com) on June 9, 2021 */
             @font-face{
                 font-family:'quentinregular';
@@ -5066,44 +5073,44 @@ input[type="submit"] {
             }
         </style>
         <style>
-            
+
             /* Center the form and expand its width */
-.container.fade-in {
-    max-width: 1200px; /* Increased width to 100% container */
-    width: 100%;
-    margin: 0 auto;
-}
+            .container.fade-in {
+                max-width: 1200px; /* Increased width to 100% container */
+                width: 100%;
+                margin: 0 auto;
+            }
 
-/* Form inputs padding */
-.form-group {
-    margin-bottom: 20px;
-}
+            /* Form inputs padding */
+            .form-group {
+                margin-bottom: 20px;
+            }
 
-/* Label and input styles */
-label {
-    font-weight: bold;
-}
+            /* Label and input styles */
+            label {
+                font-weight: bold;
+            }
 
-.form-control {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-}
-.form-select:focus {
-            border-color: #28a745; /* Green border on focus */
-            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25); /* Green shadow */
-        }
+            .form-control {
+                width: 100%;
+                padding: 10px;
+                font-size: 1rem;
+            }
+            .form-select:focus {
+                border-color: #28a745; /* Green border on focus */
+                box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25); /* Green shadow */
+            }
 
-/* Button Styling */
-input[type="submit"] {
-    padding: 12px 40px;
-    font-size: 18px;
-}
+            /* Button Styling */
+            input[type="submit"] {
+                padding: 12px 40px;
+                font-size: 18px;
+            }
 
-/* Align text center for headings */
-.text-center {
-    text-align: center;
-}
+            /* Align text center for headings */
+            .text-center {
+                text-align: center;
+            }
 
         </style>
         <link rel='stylesheet' id='wpo_min-header-0-css' href='../wp-content/cache/wpo-minify/1721845095/assets/wpo-minify-header-17003f4d.min.css' type='text/css' media='all' />
@@ -5177,88 +5184,88 @@ input[type="submit"] {
                             </div>          
                             <div id="main-navigation" class="navigation-area menu-center">
                                 <nav id="dropdown" class="template-main-menu"><ul id="menu-main-navigation" class="menu"><li id="menu-item-4356" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../index.php">Home</a>
-<!--                                            <ul class="sub-menu">
-                                                <li id="menu-item-4358" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-4358"><a href="../index.php">Home 1</a></li>
-                                                <li id="menu-item-4359" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4359"><a href="../home-2/index.php">Home 2</a></li>
-                                                <li id="menu-item-4357" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4357"><a href="../home-3/index.php">Home 3</a></li>
-                                                <li id="menu-item-7904" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7904"><a href="../home-4/index.php">Home 4</a></li>
-                                                <li id="menu-item-17181" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17181"><a href="../home-5/index.php">Home 5</a></li>
-                                                <li id="menu-item-18057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18057"><a href="../home-6/index.php">Home 6</a></li>
-                                            </ul>-->
+                                            <!--                                            <ul class="sub-menu">
+                                                                                            <li id="menu-item-4358" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-4358"><a href="../index.php">Home 1</a></li>
+                                                                                            <li id="menu-item-4359" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4359"><a href="../home-2/index.php">Home 2</a></li>
+                                                                                            <li id="menu-item-4357" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4357"><a href="../home-3/index.php">Home 3</a></li>
+                                                                                            <li id="menu-item-7904" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7904"><a href="../home-4/index.php">Home 4</a></li>
+                                                                                            <li id="menu-item-17181" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17181"><a href="../home-5/index.php">Home 5</a></li>
+                                                                                            <li id="menu-item-18057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18057"><a href="../home-6/index.php">Home 6</a></li>
+                                                                                        </ul>-->
                                         </li>
                                         <li id="menu-item-4132" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../about/index.php" aria-current="page">About</a></li>
                                         <li id="menu-item-4386" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../property/affordable-green-villa-house-for-rent/index.php">Property</a>
-<!--                                            <ul class="sub-menu">
-                                                <li id="menu-item-4387" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4387"><a href="#">Column 1</a>
-                                                    <ul class="sub-menu">
-                                                        <li id="menu-item-9149" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-9149"><a href="../all-properties/index.php">Properties Grid</a></li>
-                                                        <li id="menu-item-15637" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-15637"><a href="../all-properties/indexd1fd.html?view=list">Properties List</a></li>
-                                                        <li id="menu-item-16046" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16046"><a href="../listing-map/index.php">Properties Map Grid</a></li>
-                                                        <li id="menu-item-16047" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16047"><a href="../listing-map/indexd1fd.html?view=list">Properties Map List</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li id="menu-item-4391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4391"><a href="#">Column 2</a>
-                                                    <ul class="sub-menu">
-                                                        <li id="menu-item-15640" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-15640"><a href="../all-properties/index128e.html?layout=fullwidth">Properties Fullwidth</a></li>
-                                                        <li id="menu-item-17444" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17444"><a href="../property/triple-story-house-for-rent/index.php">Single Property &#8211; Default</a></li>
-                                                        <li id="menu-item-17418" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17418"><a href="../property/affordable-green-villa-house-for-rent/index.php">Single Property &#8211; Fullwidth</a></li>
-                                                        <li id="menu-item-17445" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17445"><a href="../property/sky-pool-villa-house-for-sale/index.php">Single Property &#8211; Grid</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>-->
+                                            <!--                                            <ul class="sub-menu">
+                                                                                            <li id="menu-item-4387" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4387"><a href="#">Column 1</a>
+                                                                                                <ul class="sub-menu">
+                                                                                                    <li id="menu-item-9149" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-9149"><a href="../all-properties/index.php">Properties Grid</a></li>
+                                                                                                    <li id="menu-item-15637" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-15637"><a href="../all-properties/indexd1fd.html?view=list">Properties List</a></li>
+                                                                                                    <li id="menu-item-16046" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16046"><a href="../listing-map/index.php">Properties Map Grid</a></li>
+                                                                                                    <li id="menu-item-16047" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16047"><a href="../listing-map/indexd1fd.html?view=list">Properties Map List</a></li>
+                                                                                                </ul>
+                                                                                            </li>
+                                                                                            <li id="menu-item-4391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4391"><a href="#">Column 2</a>
+                                                                                                <ul class="sub-menu">
+                                                                                                    <li id="menu-item-15640" class="menu-item menu-item-type-post_type_archive menu-item-object-rtcl_listing menu-item-15640"><a href="../all-properties/index128e.html?layout=fullwidth">Properties Fullwidth</a></li>
+                                                                                                    <li id="menu-item-17444" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17444"><a href="../property/triple-story-house-for-rent/index.php">Single Property &#8211; Default</a></li>
+                                                                                                    <li id="menu-item-17418" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17418"><a href="../property/affordable-green-villa-house-for-rent/index.php">Single Property &#8211; Fullwidth</a></li>
+                                                                                                    <li id="menu-item-17445" class="menu-item menu-item-type-post_type menu-item-object-rtcl_listing menu-item-17445"><a href="../property/sky-pool-villa-house-for-sale/index.php">Single Property &#8211; Grid</a></li>
+                                                                                                </ul>
+                                                                                            </li>
+                                                                                        </ul>-->
                                         </li>
-<!--                                        <li id="menu-item-4733" class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"><a href="#">Pages</a>
-                                            <ul class="sub-menu">
-                                                <li id="menu-item-17272" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17272"><a href="#">Column</a>
-                                                    <ul class="sub-menu">
-                                                        <li id="menu-item-15643" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15643"><a href="../agencies/index.php">Agencies</a></li>
-                                                        <li id="menu-item-17451" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17451"><a href="../agents/index.php">Agents</a></li>
-                                                        <li id="menu-item-17452" class="menu-item menu-item-type-post_type menu-item-object-rtcl_agent menu-item-17452"><a href="../agent/rosy_janner/index.php">Agent Details</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li id="menu-item-17273" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17273"><a href="#">Column</a>
-                                                    <ul class="sub-menu">
-                                                        <li id="menu-item-8071" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8071"><a href="../pricing-table/index.php">Pricing Table</a></li>
-                                                        <li id="menu-item-4734" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4734"><a href="../error-404.html">404 Error</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>-->
-<!--                                        <li id="menu-item-4736" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"><a href="#">Blog</a>
-                                            <ul class="sub-menu">
-                                                <li id="menu-item-4615" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4615"><a href="../blog/index.php">Blog List</a></li>
-                                                <li id="menu-item-8849" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8849"><a href="../blog-grid/index.php">Blog Grid</a></li>
-                                                <li id="menu-item-17271" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-17271"><a href="../develop-relationships-with-human-resource/index.php">Blog Details</a></li>
-                                            </ul>
-                                        </li>-->
+                                        <!--                                        <li id="menu-item-4733" class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"><a href="#">Pages</a>
+                                                                                    <ul class="sub-menu">
+                                                                                        <li id="menu-item-17272" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17272"><a href="#">Column</a>
+                                                                                            <ul class="sub-menu">
+                                                                                                <li id="menu-item-15643" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15643"><a href="../agencies/index.php">Agencies</a></li>
+                                                                                                <li id="menu-item-17451" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17451"><a href="../agents/index.php">Agents</a></li>
+                                                                                                <li id="menu-item-17452" class="menu-item menu-item-type-post_type menu-item-object-rtcl_agent menu-item-17452"><a href="../agent/rosy_janner/index.php">Agent Details</a></li>
+                                                                                            </ul>
+                                                                                        </li>
+                                                                                        <li id="menu-item-17273" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17273"><a href="#">Column</a>
+                                                                                            <ul class="sub-menu">
+                                                                                                <li id="menu-item-8071" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8071"><a href="../pricing-table/index.php">Pricing Table</a></li>
+                                                                                                <li id="menu-item-4734" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4734"><a href="../error-404.html">404 Error</a></li>
+                                                                                            </ul>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </li>-->
+                                        <!--                                        <li id="menu-item-4736" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"><a href="#">Blog</a>
+                                                                                    <ul class="sub-menu">
+                                                                                        <li id="menu-item-4615" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4615"><a href="../blog/index.php">Blog List</a></li>
+                                                                                        <li id="menu-item-8849" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8849"><a href="../blog-grid/index.php">Blog Grid</a></li>
+                                                                                        <li id="menu-item-17271" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-17271"><a href="../develop-relationships-with-human-resource/index.php">Blog Details</a></li>
+                                                                                    </ul>
+                                                                                </li>-->
                                         <li id="menu-item-4735" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../contact/index.php">Contact</a></li>
                                     </ul></nav>            </div>
 
                             <div class="listing-area">
                                 <div class="header-action">
                                     <ul class="header-btn">
-<!--
-                                        <li class="compare-btn has-count-number button" style="">
-                                            <a class="item-btn"
-                                               data-toggle="tooltip"
-                                               data-placement="bottom"
-                                               title="Compare"
-                                               href="../compare/index.php">
-                                                <i class="flaticon-left-and-right-arrows icon-round"></i>
-                                                <span class="count rt-compare-count">0</span>
-                                            </a>
-                                        </li>
--->
-<!--                                        <li class="favourite has-count-number button" style="">
-                                            <a class="item-btn"
-                                               data-toggle="tooltip"
-                                               data-placement="bottom"
-                                               title="Favourites"
-                                               href="favourites/index.php">
-                                                <i class="flaticon-heart icon-round"></i>
-                                                <span class="count rt-header-favourite-count">0</span>
-                                            </a>
-                                        </li>-->
+                                        <!--
+                                                                                <li class="compare-btn has-count-number button" style="">
+                                                                                    <a class="item-btn"
+                                                                                       data-toggle="tooltip"
+                                                                                       data-placement="bottom"
+                                                                                       title="Compare"
+                                                                                       href="../compare/index.php">
+                                                                                        <i class="flaticon-left-and-right-arrows icon-round"></i>
+                                                                                        <span class="count rt-compare-count">0</span>
+                                                                                    </a>
+                                                                                </li>
+                                        -->
+                                        <!--                                        <li class="favourite has-count-number button" style="">
+                                                                                    <a class="item-btn"
+                                                                                       data-toggle="tooltip"
+                                                                                       data-placement="bottom"
+                                                                                       title="Favourites"
+                                                                                       href="favourites/index.php">
+                                                                                        <i class="flaticon-heart icon-round"></i>
+                                                                                        <span class="count rt-header-favourite-count">0</span>
+                                                                                    </a>
+                                                                                </li>-->
 
                                         <li class="login-btn button" style="">
                                             <a class="item-btn"
@@ -5272,14 +5279,14 @@ input[type="submit"] {
 
 
 
-<!--                                        <li class="submit-btn header-add-property-btn" style="">
-                                            <a href="../post-an-ad/index.php" class="item-btn rt-animation-btn">
-                                                <span>
-                                                    <i class="fas fa-plus-circle"></i>
-                                                </span>
-                                                <div class="btn-text">Add Property</div>
-                                            </a>
-                                        </li>-->
+                                        <!--                                        <li class="submit-btn header-add-property-btn" style="">
+                                                                                    <a href="../post-an-ad/index.php" class="item-btn rt-animation-btn">
+                                                                                        <span>
+                                                                                            <i class="fas fa-plus-circle"></i>
+                                                                                        </span>
+                                                                                        <div class="btn-text">Add Property</div>
+                                                                                    </a>
+                                                                                </li>-->
 
                                         <li class="offcanvar_bar button" style="order: 99">
                                             <span class="sidebarBtn ">
@@ -5308,28 +5315,28 @@ input[type="submit"] {
                     <div class="listing-area">
                         <div class="header-action">
                             <ul class="header-btn">
-<!--
-                                <li class="compare-btn has-count-number button" style="">
-                                    <a class="item-btn"
-                                       data-toggle="tooltip"
-                                       data-placement="bottom"
-                                       title="Compare"
-                                       href="../compare/index.php">
-                                        <i class="flaticon-left-and-right-arrows icon-round"></i>
-                                        <span class="count rt-compare-count">0</span>
-                                    </a>
-                                </li>-->
-<!--
-                                <li class="favourite has-count-number button" style="">
-                                    <a class="item-btn"
-                                       data-toggle="tooltip"
-                                       data-placement="bottom"
-                                       title="Favourites"
-                                       href="favourites/index.php">
-                                        <i class="flaticon-heart icon-round"></i>
-                                        <span class="count rt-header-favourite-count">0</span>
-                                    </a>
-                                </li>-->
+                                <!--
+                                                                <li class="compare-btn has-count-number button" style="">
+                                                                    <a class="item-btn"
+                                                                       data-toggle="tooltip"
+                                                                       data-placement="bottom"
+                                                                       title="Compare"
+                                                                       href="../compare/index.php">
+                                                                        <i class="flaticon-left-and-right-arrows icon-round"></i>
+                                                                        <span class="count rt-compare-count">0</span>
+                                                                    </a>
+                                                                </li>-->
+                                <!--
+                                                                <li class="favourite has-count-number button" style="">
+                                                                    <a class="item-btn"
+                                                                       data-toggle="tooltip"
+                                                                       data-placement="bottom"
+                                                                       title="Favourites"
+                                                                       href="favourites/index.php">
+                                                                        <i class="flaticon-heart icon-round"></i>
+                                                                        <span class="count rt-header-favourite-count">0</span>
+                                                                    </a>
+                                                                </li>-->
 
                                 <li class="login-btn button" style="">
                                     <a class="item-btn"
@@ -5343,14 +5350,14 @@ input[type="submit"] {
 
 
 
-<!--                                <li class="submit-btn header-add-property-btn" style="">
-                                    <a href="../post-an-ad/index.php" class="item-btn rt-animation-btn">
-                                        <span>
-                                            <i class="fas fa-plus-circle"></i>
-                                        </span>
-                                        <div class="btn-text">Add Property</div>
-                                    </a>
-                                </li>-->
+                                <!--                                <li class="submit-btn header-add-property-btn" style="">
+                                                                    <a href="../post-an-ad/index.php" class="item-btn rt-animation-btn">
+                                                                        <span>
+                                                                            <i class="fas fa-plus-circle"></i>
+                                                                        </span>
+                                                                        <div class="btn-text">Add Property</div>
+                                                                    </a>
+                                                                </li>-->
 
                                 <li class="offcanvar_bar button" style="order: 99">
                                     <span class="sidebarBtn ">
@@ -5397,30 +5404,30 @@ input[type="submit"] {
                                         </li>
                                     </ul>
                                 </li>
-<!--                                <li class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"><a href="#">Pages</a>
-                                    <ul class="sub-menu">
-                                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17272"><a href="#">Column</a>
-                                            <ul class="sub-menu">
-                                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15643"><a href="../agencies/index.php">Agencies</a></li>
-                                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17451"><a href="../agents/index.php">Agents</a></li>
-                                                <li class="menu-item menu-item-type-post_type menu-item-object-rtcl_agent menu-item-17452"><a href="../agent/rosy_janner/index.php">Agent Details</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17273"><a href="#">Column</a>
-                                            <ul class="sub-menu">
-                                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8071"><a href="../pricing-table/index.php">Pricing Table</a></li>
-                                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4734"><a href="../error-404.html">404 Error</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"><a href="#">Blog</a>
-                                    <ul class="sub-menu">
-                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4615"><a href="../blog/index.php">Blog List</a></li>
-                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8849"><a href="../blog-grid/index.php">Blog Grid</a></li>
-                                        <li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-17271"><a href="../develop-relationships-with-human-resource/index.php">Blog Details</a></li>
-                                    </ul>
-                                </li>-->
+                                <!--                                <li class="mega-menu mega-menu-col-2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4733"><a href="#">Pages</a>
+                                                                    <ul class="sub-menu">
+                                                                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17272"><a href="#">Column</a>
+                                                                            <ul class="sub-menu">
+                                                                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15643"><a href="../agencies/index.php">Agencies</a></li>
+                                                                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17451"><a href="../agents/index.php">Agents</a></li>
+                                                                                <li class="menu-item menu-item-type-post_type menu-item-object-rtcl_agent menu-item-17452"><a href="../agent/rosy_janner/index.php">Agent Details</a></li>
+                                                                            </ul>
+                                                                        </li>
+                                                                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-17273"><a href="#">Column</a>
+                                                                            <ul class="sub-menu">
+                                                                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8071"><a href="../pricing-table/index.php">Pricing Table</a></li>
+                                                                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4734"><a href="../error-404.html">404 Error</a></li>
+                                                                            </ul>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4736"><a href="#">Blog</a>
+                                                                    <ul class="sub-menu">
+                                                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4615"><a href="../blog/index.php">Blog List</a></li>
+                                                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8849"><a href="../blog-grid/index.php">Blog Grid</a></li>
+                                                                        <li class="menu-item menu-item-type-post_type menu-item-object-post menu-item-17271"><a href="../develop-relationships-with-human-resource/index.php">Blog Details</a></li>
+                                                                    </ul>
+                                                                </li>-->
                                 <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4735"><a href="../contact/index.php">Contact</a></li>
                             </ul></nav>        </div>
                 </div>
@@ -5432,286 +5439,286 @@ input[type="submit"] {
                         <nav class="rtcl-breadcrumb"><a href="https://www.radiustheme.com/demo/wordpress/themes/homlisti">Home</a>&nbsp;<i class="fas fa-angle-right"></i>&nbsp;<span>My Account</span></nav>                </div>
 
                 </section>
-<main class="site-main content-area ptb-100 homlisti-myaccount">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h2 class="text-center mb-4">Property Entry Form</h2>
-                        <form method="POST" enctype="multipart/form-data">
-                            <div class="row mb-3">
-                                <div class="col-md-6 mb-3">
-                                    <label for="category" class="form-label">Category:</label>
-                                    <select class="form-control" name="cid" id="category" required>
-                                        <option value="" disabled selected>Select Category</option>
-                                        <?php
-                                        $conn = mysqli_connect("localhost", "root", "", "house_rental");
-                                        if (!$conn) {
-                                            die("Connection failed: " . mysqli_connect_error());
-                                        }
-                                        $sql = "SELECT id, cname FROM tblcategory";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['cname']) . "</option>";
-                                        }
-                                        mysqli_close($conn);
-                                        ?>
-                                    </select>
-                                </div>
-                                                   <div class="col-md-6">
-                                    <label for="address" class="form-label">Address:</label>
-                                    <input type="text" class="form-control" id="address" name="address" maxlength="255" required>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="rent" class="form-label">Rent:</label>
-                                    <input type="number" step="0.01" class="form-control" id="rent" name="rent" placeholder="Rent" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="bedroom" class="form-label">Bedrooms:</label>
-                                    <input type="number" class="form-control" id="bedroom" name="bedroom" placeholder="Bedrooms" required>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="bathroom" class="form-label">Bathrooms:</label>
-                                    <input type="number" class="form-control" id="bathroom" name="bathroom" placeholder="Bathrooms" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="kitchen" class="form-label">Kitchen:</label>
-                                    <input type="number" class="form-control" id="kitchen" name="kitchen" placeholder="Kitchen" required>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="floor" class="form-label">Floor:</label>
-                                    <input type="number" class="form-control" id="floor" name="floor" placeholder="Floor" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="parking" class="form-label">Parking:</label>
-                                    <input type="number" min="0" max="1" class="form-control" id="parking" name="parking" placeholder="Parking (0 or 1)" required>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="size" class="form-label">Property Size (in square feet):</label>
-                                <input type="number" step="0.01" class="form-control" id="size" name="size" placeholder="Size">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description:</label>
-                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="document" class="form-label">Upload Document:</label>
-                                    <input type="file" class="form-control" id="document" name="document" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="house_image" class="form-label">Upload House Image:</label>
-                                    <input type="file" class="form-control" id="house_image" name="house_image[]" required multiple>
-                                </div>
-                            </div>
-
-                            <div class="text-center">
-                                <input type="submit" class="btn btn-success btn-lg" name="btnsubmit" value="Submit">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
-
-<!-- Ensure Bootstrap CSS is included -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-
-
-
-
-            <footer id="site-footer" class="site-footer footer-wrap footer-style-1 is-border">
-                <div class="main-footer">
+                <main class="site-main content-area ptb-100 homlisti-myaccount">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-lg-3 col-sm-6 col-12"><div id="homlisti_about-2" class="footer-box widget_homlisti_about"><div class="footer-logo one"><a href="../index.php"><img src="../wp-content/uploads/2023/02/logo.svg" alt="Footer main Logo" width="148" height="39"></a></div>        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
-                                    <ul class="footer-social">
-                                        <li class="rtin-facebook"><a href="#" target="_blank"><i
-                                                    class="fab fa-facebook-f"></i></a></li>                <li class="rtin-twitter"><a href="#" target="_blank"><i
-                                                    class="fab fa-x-twitter"></i></a></li>                <li class="rtin-linkedin"><a href="#" target="_blank"><i
-                                                    class="fab fa-linkedin-in"></i></a></li>                <li class="rtin-pinterest"><a href="#" target="_blank"><i
-                                                    class="fab fa-pinterest-p"></i></a></li>                <li class="rtin-instagram"><a href="#" target="_blank"><i
-                                                    class="fab fa-instagram"></i></a></li>        </ul>
-
-                                </div></div><div class="col-lg-3 col-sm-6 col-12"><div id="nav_menu-3" class="footer-box widget_nav_menu"><h3 class="footer-title">Quick Links</h3><div class="menu-quick-links-container"><ul id="menu-quick-links" class="menu"><li id="menu-item-8593" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8593"><a href="../about/index.php">About Us</a></li>
-                                            <li id="menu-item-15814" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15814"><a href="../blog/index.php">Blog &#038; Articles</a></li>
-                                            <li id="menu-item-15823" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15823"><a href="../terms-and-conditions/index.php">Terms and Conditions</a></li>
-                                            <li id="menu-item-16012" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-16012"><a rel="privacy-policy" href="../privacy-policy/index.php">Privacy Policy</a></li>
-                                            <li id="menu-item-8594" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8594"><a href="../contact/index.php">Contact Us</a></li>
-                                        </ul></div></div></div><div class="col-lg-3 col-sm-6 col-12"><div id="mc4wp_form_widget-2" class="footer-box widget_mc4wp_form_widget"><h3 class="footer-title">Newsletter</h3><script>(function() {
-                                            window.mc4wp = window.mc4wp || {
-                                            listeners: [],
-                                                    forms: {
-                                                    on: function(evt, cb) {
-                                                    window.mc4wp.listeners.push(
-                                                    {
-                                                    event   : evt,
-                                                            callback: cb
-                                                    }
-                                                    );
-                                                    }
-                                                    }
-                                            }
-                                            })();</script><!-- Mailchimp for WordPress v4.9.14 - https://wordpress.org/plugins/mailchimp-for-wp/ --><form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-7934" method="post" data-id="7934" data-name="Subscribe" ><div class="mc4wp-form-fields"><div class="rt-mailchimp-wrap">
-                                                <input type="email" name="EMAIL" placeholder="Enter e-mail addess" required class="form-control"/>
-                                                <div class="rt-animation-btn">
-                                                    <input type="submit" value="Subscribe" />
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h2 class="text-center mb-4">Property Entry Form</h2>
+                                        <form method="POST" enctype="multipart/form-data">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="category" class="form-label">Category:</label>
+                                                    <select class="form-control" name="cid" id="category" required>
+                                                        <option value="" disabled selected>Select Category</option>
+<?php
+$conn = mysqli_connect("localhost", "root", "", "house_rental");
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+$sql = "SELECT id, cname FROM tblcategory";
+$result = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_assoc($result)) {
+    echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['cname']) . "</option>";
+}
+mysqli_close($conn);
+?>
+                                                    </select>
                                                 </div>
-                                            </div></div><label style="display: none !important;">Leave this field empty if you're human: <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off" /></label><input type="hidden" name="_mc4wp_timestamp" value="1721913716" /><input type="hidden" name="_mc4wp_form_id" value="7934" /><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1" /><div class="mc4wp-response"></div></form><!-- / Mailchimp for WordPress Plugin --></div><div id="text-2" class="footer-box widget_text">			<div class="textwidget"><p>We never span you!</p>
+                                                <div class="col-md-6">
+                                                    <label for="address" class="form-label">Address:</label>
+                                                    <input type="text" class="form-control" id="address" name="address" maxlength="255" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="rent" class="form-label">Rent:</label>
+                                                    <input type="number" step="0.01" class="form-control" id="rent" name="rent" placeholder="Rent" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="bedroom" class="form-label">Bedrooms:</label>
+                                                    <input type="number" class="form-control" id="bedroom" name="bedroom" placeholder="Bedrooms" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="bathroom" class="form-label">Bathrooms:</label>
+                                                    <input type="number" class="form-control" id="bathroom" name="bathroom" placeholder="Bathrooms" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="kitchen" class="form-label">Kitchen:</label>
+                                                    <input type="number" class="form-control" id="kitchen" name="kitchen" placeholder="Kitchen" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="floor" class="form-label">Floor:</label>
+                                                    <input type="number" class="form-control" id="floor" name="floor" placeholder="Floor" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="parking" class="form-label">Parking:</label>
+                                                    <input type="number" min="0" max="1" class="form-control" id="parking" name="parking" placeholder="Parking (0 or 1)" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="size" class="form-label">Property Size (in square feet):</label>
+                                                <input type="number" step="0.01" class="form-control" id="size" name="size" placeholder="Size">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Description:</label>
+                                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="document" class="form-label">Upload Document:</label>
+                                                    <input type="file" class="form-control" id="document" name="document" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="house_image" class="form-label">Upload House Image:</label>
+                                                    <input type="file" class="form-control" id="house_image" name="house_image[]" required multiple>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center">
+                                                <input type="submit" class="btn btn-success btn-lg" name="btnsubmit" value="Submit">
+                                            </div>
+                                        </form>
                                     </div>
-                                </div></div><div class="col-lg-3 col-sm-6 col-12"><div id="rt_contact_widget-5" class="footer-box widget_rt_contact_widget"><h3 class="footer-title">Contact</h3>        <div class="rt-contact-wrapper">
-                                        <ul>
-                                            <li>
-                                                <i class="fas fa-map-marker-alt"></i>
-                                                <p>121 King St, Melbourne den 3000, Australia</p>
-                                            </li>
-
-                                            <li>
-                                                <i class="fas fa-envelope"></i>
-                                                <p><a target="_blank" href="mailto:info@example.com">info@example.com</a></p>
-                                            </li>
-
-                                            <li>
-                                                <i class="fas fa-phone-alt"></i>
-                                                <p><a target="_blank" href="tel:+123-596-000">+123-596-000</a></p>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div></div>                </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-8">
-                                <div class="footer-bottom-menu">
-                                    <div class="menu-footer-menu-container"><ul id="menu-footer-menu" class="footer-link"><li id="menu-item-15964" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15964"><a href="../terms-and-conditions/index.php">Terms of Use</a></li>
-                                            <li id="menu-item-8232" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-8232"><a rel="privacy-policy" href="../privacy-policy/index.php">Privacy Policy</a></li>
-                                        </ul></div>                            </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-4 text-right">
-                                <p class="footer-copyright">
-                                    2022© All right reserved by RadiusTheme                        </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </footer></div><!-- #page -->
-        <a href="#" class="scrollToTop" style=""><i class="fa fa-angle-double-up"></i></a><script>(function() {function maybePrefixUrlField () {
-            const value = this.value.trim()
-                    if (value !== '' && value.indexOf('http') !== 0) {
-            this.value = 'http://' + value
-            }
-            }
+                </main>
 
-            const urlFields = document.querySelectorAll('.mc4wp-form input[type="url"]')
-                    for (let j = 0; j < urlFields.length; j++) {
-            urlFields[j].addEventListener('blur', maybePrefixUrlField)
+                <!-- Ensure Bootstrap CSS is included -->
+                <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+
+                <footer id="site-footer" class="site-footer footer-wrap footer-style-1 is-border">
+                    <div class="main-footer">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-6 col-12"><div id="homlisti_about-2" class="footer-box widget_homlisti_about"><div class="footer-logo one"><a href="../index.php"><img src="../wp-content/uploads/2023/02/logo.svg" alt="Footer main Logo" width="148" height="39"></a></div>        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                                        <ul class="footer-social">
+                                            <li class="rtin-facebook"><a href="#" target="_blank"><i
+                                                        class="fab fa-facebook-f"></i></a></li>                <li class="rtin-twitter"><a href="#" target="_blank"><i
+                                                        class="fab fa-x-twitter"></i></a></li>                <li class="rtin-linkedin"><a href="#" target="_blank"><i
+                                                        class="fab fa-linkedin-in"></i></a></li>                <li class="rtin-pinterest"><a href="#" target="_blank"><i
+                                                        class="fab fa-pinterest-p"></i></a></li>                <li class="rtin-instagram"><a href="#" target="_blank"><i
+                                                        class="fab fa-instagram"></i></a></li>        </ul>
+
+                                    </div></div><div class="col-lg-3 col-sm-6 col-12"><div id="nav_menu-3" class="footer-box widget_nav_menu"><h3 class="footer-title">Quick Links</h3><div class="menu-quick-links-container"><ul id="menu-quick-links" class="menu"><li id="menu-item-8593" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8593"><a href="../about/index.php">About Us</a></li>
+                                                <li id="menu-item-15814" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15814"><a href="../blog/index.php">Blog &#038; Articles</a></li>
+                                                <li id="menu-item-15823" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15823"><a href="../terms-and-conditions/index.php">Terms and Conditions</a></li>
+                                                <li id="menu-item-16012" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-16012"><a rel="privacy-policy" href="../privacy-policy/index.php">Privacy Policy</a></li>
+                                                <li id="menu-item-8594" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8594"><a href="../contact/index.php">Contact Us</a></li>
+                                            </ul></div></div></div><div class="col-lg-3 col-sm-6 col-12"><div id="mc4wp_form_widget-2" class="footer-box widget_mc4wp_form_widget"><h3 class="footer-title">Newsletter</h3><script>(function() {
+                                                window.mc4wp = window.mc4wp || {
+                                                listeners: [],
+                                                        forms: {
+                                                        on: function(evt, cb) {
+                                                        window.mc4wp.listeners.push(
+                                                        {
+                                                        event   : evt,
+                                                                callback: cb
+                                                        }
+                                                        );
+                                                        }
+                                                        }
+                                                }
+                                                })();</script><!-- Mailchimp for WordPress v4.9.14 - https://wordpress.org/plugins/mailchimp-for-wp/ --><form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-7934" method="post" data-id="7934" data-name="Subscribe" ><div class="mc4wp-form-fields"><div class="rt-mailchimp-wrap">
+                                                    <input type="email" name="EMAIL" placeholder="Enter e-mail addess" required class="form-control"/>
+                                                    <div class="rt-animation-btn">
+                                                        <input type="submit" value="Subscribe" />
+                                                    </div>
+                                                </div></div><label style="display: none !important;">Leave this field empty if you're human: <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off" /></label><input type="hidden" name="_mc4wp_timestamp" value="1721913716" /><input type="hidden" name="_mc4wp_form_id" value="7934" /><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1" /><div class="mc4wp-response"></div></form><!-- / Mailchimp for WordPress Plugin --></div><div id="text-2" class="footer-box widget_text">			<div class="textwidget"><p>We never span you!</p>
+                                        </div>
+                                    </div></div><div class="col-lg-3 col-sm-6 col-12"><div id="rt_contact_widget-5" class="footer-box widget_rt_contact_widget"><h3 class="footer-title">Contact</h3>        <div class="rt-contact-wrapper">
+                                            <ul>
+                                                <li>
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <p>121 King St, Melbourne den 3000, Australia</p>
+                                                </li>
+
+                                                <li>
+                                                    <i class="fas fa-envelope"></i>
+                                                    <p><a target="_blank" href="mailto:info@example.com">info@example.com</a></p>
+                                                </li>
+
+                                                <li>
+                                                    <i class="fas fa-phone-alt"></i>
+                                                    <p><a target="_blank" href="tel:+123-596-000">+123-596-000</a></p>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div></div>                </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-8">
+                                    <div class="footer-bottom-menu">
+                                        <div class="menu-footer-menu-container"><ul id="menu-footer-menu" class="footer-link"><li id="menu-item-15964" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15964"><a href="../terms-and-conditions/index.php">Terms of Use</a></li>
+                                                <li id="menu-item-8232" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-8232"><a rel="privacy-policy" href="../privacy-policy/index.php">Privacy Policy</a></li>
+                                            </ul></div>                            </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-4 text-right">
+                                    <p class="footer-copyright">
+                                        2022© All right reserved by RadiusTheme                        </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer></div><!-- #page -->
+            <a href="#" class="scrollToTop" style=""><i class="fa fa-angle-double-up"></i></a><script>(function() {function maybePrefixUrlField () {
+                const value = this.value.trim()
+                        if (value !== '' && value.indexOf('http') !== 0) {
+                this.value = 'http://' + value
+                }
+                }
+
+                const urlFields = document.querySelectorAll('.mc4wp-form input[type="url"]')
+                        for (let j = 0; j < urlFields.length; j++) {
+                urlFields[j].addEventListener('blur', maybePrefixUrlField)
+                }
+                })();</script>			<script type='text/javascript'>
+                    const lazyloadRunObserver = () => {
+                    const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
+                    const lazyloadBackgroundObserver = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                    let lazyloadBackground = entry.target;
+                    if (lazyloadBackground) {
+                    lazyloadBackground.classList.add('e-lazyloaded');
                     }
-            })();</script>			<script type='text/javascript'>
-                const lazyloadRunObserver = () => {
-                const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
-                const lazyloadBackgroundObserver = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                let lazyloadBackground = entry.target;
-                if (lazyloadBackground) {
-                lazyloadBackground.classList.add('e-lazyloaded');
-                }
-                lazyloadBackgroundObserver.unobserve(entry.target);
-                }
+                    lazyloadBackgroundObserver.unobserve(entry.target);
+                    }
+                    });
+                    }, { rootMargin: '200px 0px 200px 0px' });
+                    lazyloadBackgrounds.forEach((lazyloadBackground) => {
+                    lazyloadBackgroundObserver.observe(lazyloadBackground);
+                    });
+                    };
+                    const events = [
+                            'DOMContentLoaded',
+                            'elementor/lazyload/observe',
+                    ];
+                    events.forEach((event) => {
+                    document.addEventListener(event, lazyloadRunObserver);
+                    });
+            </script>
+            <script type="text/javascript">
+                var c = document.body.className;
+                c = c.replace(/rtcl-no-js/, 'rtcl-js');
+                document.body.className = c;
+            </script>
+            <script type="text/javascript" id="wpo_min-footer-0-js-extra">
+                /* <![CDATA[ */
+                var rtcl = {"plugin_url":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-content\/plugins\/classified-listing", "decimal_point":".", "i18n_required_rating_text":"Please select a rating", "i18n_decimal_error":"Please enter in decimal (.) format without thousand separators.", "i18n_mon_decimal_error":"Please enter in monetary decimal (.) format without thousand separators and currency symbols.", "is_rtl":"", "is_admin":"", "ajaxurl":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-admin\/admin-ajax.php", "confirm_text":"Are you sure?", "re_send_confirm_text":"Are you sure you want to re-send verification link?", "__rtcl_wpnonce":"affb6d8463", "rtcl_listing_base":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/all-properties\/", "rtcl_category":"", "rtcl_category_base":"listing-category", "category_text":"Category", "go_back":"Go back", "location_text":"Location", "rtcl_location":"", "rtcl_location_base":"listing-location", "user_login_alert_message":"Sorry, you need to login first.", "upload_limit_alert_message":"Sorry, you have only %d images pending.", "delete_label":"Delete Permanently", "proceed_to_payment_btn_label":"Proceed to payment", "finish_submission_btn_label":"Finish submission", "phone_number_placeholder":"XXX", "popup_search_widget_auto_form_submission":"1", "loading":"Loading ...", "is_listing":"0", "is_listings":"", "listing_term":"", "has_map":"1", "online_status_seconds":"300", "online_status_offline_text":"Offline Now", "online_status_online_text":"Online Now"};
+                var rtclAjaxFilterObj = {"clear_all_filter":"Clear all filters", "no_result_found":"No result found.", "result_count":{"all":"Showing all % results", "part":"Showing _ of % results"}, "filter_scroll_offset":"50"};
+                var rtcl_store = {"store_time_options":{"icons":{"up":"rtcl-icon-up-open", "down":"rtcl-icon-down-open"}}, "ajaxurl":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-admin\/admin-ajax.php", "confirm_text":"Are You sure?", "__rtcl_wpnonce":"affb6d8463", "max_image_size":"3145728", "store_id":"0", "image_allowed_type":["png", "jpg", "jpeg"], "error_common":"Error while upload image", "error_image_size":"Image size is more then 3 MB.", "error_image_extension":"File extension not supported.", "server_error":"Server Error.", "lng":{"error":"Error while processing data"}};
+                var rtcl_map = {"plugin_url":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-content\/plugins\/classified-listing", "location":"local", "center":{"address":"New York United States", "lat":"43.1561681", "lng":"-75.8449946"}, "zoom":{"default":17, "search":17}, "cluster_options":{"center":{"lat":0, "lng":0}, "max_zoom":18, "zoom":3, "scroll_wheel":false, "fit_bound":true}};
+                var HomListiObj = {"ajaxUrl":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-admin\/admin-ajax.php", "appendHtml":"", "themeUrl":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-content\/themes\/homlisti", "lsSideOffset":"130", "rtStickySidebar":"enable", "rtMagnificPopup":"enable"};
+                var rtcl_single_listing_localized_params = {"slider_options":{"rtl":false, "autoHeight":true}, "slider_enabled":"1", "zoom_enabled":"1", "photoswipe_enabled":"1", "photoswipe_options":{"shareEl":false, "closeOnScroll":false, "history":false, "hideAnimationDuration":0, "showAnimationDuration":0}, "zoom_options":[]};
+                /* ]]> */
+            </script>
+            <script>
+                var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; Windows 98)"}
+                loadAsync('../wp-content/cache/wpo-minify/1721845095/assets/wpo-minify-footer-f329a969.min.js', null);
+            </script>
+            <script type="application/javascript">
+                ;(function ($) {
+                var emi_result = $('#mortgage-calculator .emi-text');
+                var mortgage_form = $('#mortgage-calculator .mortgage-form');
+                mortgage_form.on('submit', function (e) {
+                e.preventDefault();
+                var rt_amount = $(this).find('.rt_amount').val();
+                var rt_deposit = $(this).find('.rt_deposit').val();
+                var rt_year = $(this).find('.rt_year').val();
+                var rt_rate = $(this).find('.rt_rate').val();
+
+                //Mortgage Calculation
+                var deposit = (rt_amount * rt_deposit) / 100;
+                //Loan Amount
+                var loan = rt_amount - deposit;
+                // Interest Rate as Month
+                var rate = rt_rate / (12 * 100);
+                // Total Month
+                var months = rt_year * 12;
+                // Calculation
+                var k = Math.pow(1 + rate, months);
+
+                var value = Math.ceil(loan * rate * (k / (k - 1)));
+
+                emi_result.html("<span>Monthly Payment " + value + "</span>");
+                emi_result.slideDown(600);
                 });
-                }, { rootMargin: '200px 0px 200px 0px' });
-                lazyloadBackgrounds.forEach((lazyloadBackground) => {
-                lazyloadBackgroundObserver.observe(lazyloadBackground);
+
+
+                $('.mortgage-calculator .form-group .reset-btn').on('click', function (e) {
+                e.preventDefault();
+                $(':input', '.mortgage-form')
+                .not(':button, :submit, :reset, :hidden')
+                .val('')
+                .removeAttr('checked')
+                .removeAttr('selected');
+
+                $(".mortgage-calculator .emi-text span").remove();
                 });
-                };
-                const events = [
-                        'DOMContentLoaded',
-                        'elementor/lazyload/observe',
-                ];
-                events.forEach((event) => {
-                document.addEventListener(event, lazyloadRunObserver);
-                });
-        </script>
-        <script type="text/javascript">
-            var c = document.body.className;
-            c = c.replace(/rtcl-no-js/, 'rtcl-js');
-            document.body.className = c;
-        </script>
-        <script type="text/javascript" id="wpo_min-footer-0-js-extra">
-            /* <![CDATA[ */
-            var rtcl = {"plugin_url":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-content\/plugins\/classified-listing", "decimal_point":".", "i18n_required_rating_text":"Please select a rating", "i18n_decimal_error":"Please enter in decimal (.) format without thousand separators.", "i18n_mon_decimal_error":"Please enter in monetary decimal (.) format without thousand separators and currency symbols.", "is_rtl":"", "is_admin":"", "ajaxurl":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-admin\/admin-ajax.php", "confirm_text":"Are you sure?", "re_send_confirm_text":"Are you sure you want to re-send verification link?", "__rtcl_wpnonce":"affb6d8463", "rtcl_listing_base":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/all-properties\/", "rtcl_category":"", "rtcl_category_base":"listing-category", "category_text":"Category", "go_back":"Go back", "location_text":"Location", "rtcl_location":"", "rtcl_location_base":"listing-location", "user_login_alert_message":"Sorry, you need to login first.", "upload_limit_alert_message":"Sorry, you have only %d images pending.", "delete_label":"Delete Permanently", "proceed_to_payment_btn_label":"Proceed to payment", "finish_submission_btn_label":"Finish submission", "phone_number_placeholder":"XXX", "popup_search_widget_auto_form_submission":"1", "loading":"Loading ...", "is_listing":"0", "is_listings":"", "listing_term":"", "has_map":"1", "online_status_seconds":"300", "online_status_offline_text":"Offline Now", "online_status_online_text":"Online Now"};
-            var rtclAjaxFilterObj = {"clear_all_filter":"Clear all filters", "no_result_found":"No result found.", "result_count":{"all":"Showing all % results", "part":"Showing _ of % results"}, "filter_scroll_offset":"50"};
-            var rtcl_store = {"store_time_options":{"icons":{"up":"rtcl-icon-up-open", "down":"rtcl-icon-down-open"}}, "ajaxurl":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-admin\/admin-ajax.php", "confirm_text":"Are You sure?", "__rtcl_wpnonce":"affb6d8463", "max_image_size":"3145728", "store_id":"0", "image_allowed_type":["png", "jpg", "jpeg"], "error_common":"Error while upload image", "error_image_size":"Image size is more then 3 MB.", "error_image_extension":"File extension not supported.", "server_error":"Server Error.", "lng":{"error":"Error while processing data"}};
-            var rtcl_map = {"plugin_url":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-content\/plugins\/classified-listing", "location":"local", "center":{"address":"New York United States", "lat":"43.1561681", "lng":"-75.8449946"}, "zoom":{"default":17, "search":17}, "cluster_options":{"center":{"lat":0, "lng":0}, "max_zoom":18, "zoom":3, "scroll_wheel":false, "fit_bound":true}};
-            var HomListiObj = {"ajaxUrl":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-admin\/admin-ajax.php", "appendHtml":"", "themeUrl":"https:\/\/www.radiustheme.com\/demo\/wordpress\/themes\/homlisti\/wp-content\/themes\/homlisti", "lsSideOffset":"130", "rtStickySidebar":"enable", "rtMagnificPopup":"enable"};
-            var rtcl_single_listing_localized_params = {"slider_options":{"rtl":false, "autoHeight":true}, "slider_enabled":"1", "zoom_enabled":"1", "photoswipe_enabled":"1", "photoswipe_options":{"shareEl":false, "closeOnScroll":false, "history":false, "hideAnimationDuration":0, "showAnimationDuration":0}, "zoom_options":[]};
-            /* ]]> */
-        </script>
-        <script>
-            var wpo_server_info_js = {"user_agent":"Mozilla\/4.5 (compatible; HTTrack 3.0x; Windows 98)"}
-            loadAsync('../wp-content/cache/wpo-minify/1721845095/assets/wpo-minify-footer-f329a969.min.js', null);
-        </script>
-        <script type="application/javascript">
-            ;(function ($) {
-            var emi_result = $('#mortgage-calculator .emi-text');
-            var mortgage_form = $('#mortgage-calculator .mortgage-form');
-            mortgage_form.on('submit', function (e) {
-            e.preventDefault();
-            var rt_amount = $(this).find('.rt_amount').val();
-            var rt_deposit = $(this).find('.rt_deposit').val();
-            var rt_year = $(this).find('.rt_year').val();
-            var rt_rate = $(this).find('.rt_rate').val();
 
-            //Mortgage Calculation
-            var deposit = (rt_amount * rt_deposit) / 100;
-            //Loan Amount
-            var loan = rt_amount - deposit;
-            // Interest Rate as Month
-            var rate = rt_rate / (12 * 100);
-            // Total Month
-            var months = rt_year * 12;
-            // Calculation
-            var k = Math.pow(1 + rate, months);
-
-            var value = Math.ceil(loan * rate * (k / (k - 1)));
-
-            emi_result.html("<span>Monthly Payment " + value + "</span>");
-            emi_result.slideDown(600);
-            });
-
-
-            $('.mortgage-calculator .form-group .reset-btn').on('click', function (e) {
-            e.preventDefault();
-            $(':input', '.mortgage-form')
-            .not(':button, :submit, :reset, :hidden')
-            .val('')
-            .removeAttr('checked')
-            .removeAttr('selected');
-
-            $(".mortgage-calculator .emi-text span").remove();
-            });
-
-            })(jQuery);
-        </script>
+                })(jQuery);
+            </script>
     </body>
 
     <!-- Mirrored from www.radiustheme.com/demo/wordpress/themes/homlisti/my-account/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Jul 2024 13:27:52 GMT -->

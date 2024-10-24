@@ -10,6 +10,11 @@ if (!isset($_SESSION['loggedin'])) {
     header("Location: /houserental-master/homlisti/my-account/index.php");
     exit();
 }
+if ($_SESSION['email'] == "22bmiit150@gmail.com") {
+    header("Location: /houserental-master/homlisti/admin/dashboard.php");
+    exit();
+}
+
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

@@ -3,6 +3,7 @@
         <li><a href="NEWDashboard.php">Home</a></li>
         <li><a href="Profile.php">Profile Overview</a></li>
         <li><a href="Profile1.php">Update Profile</a></li>
+        <li><a href="home.php">My Properties</a></li>
         <li><a href="changePassword.php">Change Password</a></li>
         <li><a href="/houserental-master/homlisti/my-account/logout.php">Logout</a></li>
     </ul>

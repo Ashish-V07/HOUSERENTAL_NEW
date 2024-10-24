@@ -11,7 +11,7 @@ require 'D:\xampp\htdocs\house\phpmailer\src\SMTP.php';
 
 $otp_validity_duration = 60; // OTP validity duration in seconds (e.g., 60 seconds)
 $otp_verified = false; // Flag to check if OTP is verified
-$c = mysqli_connect('localhost', 'root', '', 'test');
+$c = mysqli_connect('localhost', 'root', '', '');
 
 // Check connection
 if (!$c) {

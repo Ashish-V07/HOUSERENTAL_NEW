@@ -2891,7 +2891,9 @@ if ($_SESSION['email'] == "22bmiit150@gmail.com") {
                       height="39"
                       alt="HomListi"
                     />
+                    
                   </a>
+                    
                 </div>
               </div>
               <div id="main-navigation" class="navigation-area menu-center">
@@ -3220,6 +3222,7 @@ if ($_SESSION['email'] == "22bmiit150@gmail.com") {
                 alt="HomListi"
               />
             </a>
+               
           </div>
 
           <div class="listing-area">
@@ -3524,6 +3527,7 @@ if ($_SESSION['email'] == "22bmiit150@gmail.com") {
                 </svg>
               </div>
               <div class="elementor-container elementor-column-gap-default">
+                  
                 <div
                   class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-d7d78ae"
                   data-id="d7d78ae"
@@ -3543,7 +3547,9 @@ if ($_SESSION['email'] == "22bmiit150@gmail.com") {
                       <div class="elementor-widget-container">
                         <div class="section-title-wrapper">
                           <!--Background Title-->
-
+                          <h2 class="fw-bold border-bottom border-2 pb-3 mb-4" style="font-weight: 900; color: #FFFFFF;">
+                              Welcome, <span  style="color: #D2E0FB;"><?php echo $_SESSION['name']; ?></span>
+                          </h2>
                           <div class="title-inner-wrapper">
                             <!--Top Sub Title-->
 

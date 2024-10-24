@@ -3318,29 +3318,21 @@ if(isset($_SESSION['FMSG']))
                                                             <div class="elementor-widget-container">
                                                                 <div class="elementor-social-icons-wrapper elementor-grid">
                                                                     <span class="elementor-grid-item">
-                                                                        <a class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-024870d" href="#" target="_blank">
+                                                                        <a class="elementor-icon elementor-social-icon elementor-social-icon-facebook-f elementor-repeater-item-024870d" href="https://www.facebook.com/utu.malibacampus/" target="_blank">
                                                                             <span class="elementor-screen-only">Facebook-f</span>
                                                                             <i class="fab fa-facebook-f"></i>					</a>
                                                                     </span>
                                                                     <span class="elementor-grid-item">
-                                                                        <a class="elementor-icon elementor-social-icon elementor-social-icon-twitter elementor-repeater-item-06fbff7" href="#" target="_blank">
+                                                                        <a class="elementor-icon elementor-social-icon elementor-social-icon-twitter elementor-repeater-item-06fbff7" href="https://twitter.com/utumalibacampus" target="_blank">
                                                                             <span class="elementor-screen-only">Twitter</span>
                                                                             <i class="fab fa-twitter"></i>					</a>
                                                                     </span>
+                                                                   
+                                                                   
                                                                     <span class="elementor-grid-item">
-                                                                        <a class="elementor-icon elementor-social-icon elementor-social-icon-vimeo-v elementor-repeater-item-a6acf8e" href="#" target="_blank">
-                                                                            <span class="elementor-screen-only">Vimeo-v</span>
-                                                                            <i class="fab fa-vimeo-v"></i>					</a>
-                                                                    </span>
-                                                                    <span class="elementor-grid-item">
-                                                                        <a class="elementor-icon elementor-social-icon elementor-social-icon-pinterest-p elementor-repeater-item-fb22e9a" href="#" target="_blank">
-                                                                            <span class="elementor-screen-only">Pinterest-p</span>
-                                                                            <i class="fab fa-pinterest-p"></i>					</a>
-                                                                    </span>
-                                                                    <span class="elementor-grid-item">
-                                                                        <a class="elementor-icon elementor-social-icon elementor-social-icon-whatsapp elementor-repeater-item-29840e5" href="#" target="_blank">
-                                                                            <span class="elementor-screen-only">Whatsapp</span>
-                                                                            <i class="fab fa-whatsapp"></i>					</a>
+                                                                        <a class="elementor-icon elementor-social-icon elementor-social-icon-instagram elementor-repeater-item-29840e5" href="https://www.instagram.com/utu.malibacampus/" target="_blank">
+                                                                            <span class="elementor-screen-only">instagram</span>
+                                                                            <i class="fab fa-instagram"></i>					</a>
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -3398,10 +3390,10 @@ if(isset($_SESSION['FMSG']))
                                     <label for='ff_1_phone' aria-label="Type">Type</label>
                                 </div>
                                 <div class='ff-el-input--content'>
-                                    <select name="type" class="ff-el-form-control" id="ff_1_phone" aria-required="true">
+                                    <select name="type" class="ff-el-form-control" id="ff_1_phone" aria-required="true" required>
+                                        <option value="SUGGESTION">SUGGESTION</option>
                                         <option value="BUG REPORT">BUG REPORT</option>
                                         <option value="REQUEST">REQUEST</option>
-                                        <option value="SUGGESTION">SUGGESTION</option>
                                         <option value="COMPLIMENT">COMPLIMENT</option>
                                     </select>
                                 </div>
@@ -3412,10 +3404,10 @@ if(isset($_SESSION['FMSG']))
                     <!-- Description (textarea) -->
                     <div class='ff-el-group'>
                         <div class="ff-el-input--label ff-el-is-required asterisk-right">
-                            <label for='ff_1_description' aria-label="Comments">Comments</label>
+                            <label for='ff_1_description' aria-label="Comments" >Comments</label>
                         </div>
                         <div class='ff-el-input--content'>
-                            <textarea name="description" id="ff_1_description" class="ff-el-form-control" rows="5" cols="40" aria-required="true"></textarea>
+                            <textarea name="description" id="ff_1_description" class="ff-el-form-control" rows="5" cols="40" aria-required="true" required></textarea>
                         </div>
                     </div>
 
@@ -3448,7 +3440,7 @@ if(isset($_SESSION['FMSG']))
                                     <div class="elementor-widget-wrap elementor-element-populated">
                                         <div class="elementor-element elementor-element-a2a1a1d elementor-widget elementor-widget-html" data-id="a2a1a1d" data-element_type="widget" data-widget_type="html.default">
                                             <div class="elementor-widget-container">
-                                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12655.07462189681!2d-99.16545225773281!3d19.43934071811698!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f8cdc19e3477%3A0xe98bef6360302321!2sUVM%20Campus%20San%20Rafael!5e0!3m2!1sbn!2sbd!4v1625466586177!5m2!1sbn!2sbd" width="1450" height="800" style="border:0;" allowfullscreen="" loading="lazy"></iframe>		</div>
+                                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.0744899573265!2d73.13163537430727!3d21.06968688637343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be060e07393bc51%3A0xf96e044991e337e9!2sUKA%20TARSADIA%20University!5e0!3m2!1sen!2sin!4v1729769494456!5m2!1sen!2sin" width="1550" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><div>
                                         </div>
                                     </div>
                                 </div>
@@ -3464,11 +3456,11 @@ if(isset($_SESSION['FMSG']))
                         <div class="row">
                             <div class="col-lg-3 col-sm-6 col-12"><div id="homlisti_about-2" class="footer-box widget_homlisti_about"><div class="footer-logo two"><a href="../index.php"><img src="../wp-content/uploads/2023/02/logo_light.svg" alt="Footer light Logo" width="148" height="39"></a></div>        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
                                     <ul class="footer-social">
-                                        <li class="rtin-facebook"><a href="#" target="_blank"><i
-                                                    class="fab fa-facebook-f"></i></a></li>                <li class="rtin-twitter"><a href="#" target="_blank"><i
-                                                    class="fab fa-x-twitter"></i></a></li>                <li class="rtin-linkedin"><a href="#" target="_blank"><i
-                                                    class="fab fa-linkedin-in"></i></a></li>                <li class="rtin-pinterest"><a href="#" target="_blank"><i
-                                                    class="fab fa-pinterest-p"></i></a></li>                <li class="rtin-instagram"><a href="#" target="_blank"><i
+                                        <li class="rtin-facebook"><a href="https://www.facebook.com/utu.malibacampus/" target="_blank"><i
+                                                    class="fab fa-facebook-f"></i></a></li>                <li class="rtin-twitter"><a href="https://twitter.com/utumalibacampus" target="_blank"><i
+                                                    class="fab fa-x-twitter"></i></a></li>                <li class="rtin-linkedin"><a href="https://www.linkedin.com/in/uka-tarsadia-university-825644102" target="_blank"><i
+                                                    class="fab fa-linkedin-in"></i></a></li>     <!--           <li class="rtin-pinterest"><a href="#" target="_blank"><i
+                                                    class="fab fa-pinterest-p"></i></a></li>               --> <li class="rtin-instagram"><a href="https://www.instagram.com/utu.malibacampus/" target="_blank"><i
                                                     class="fab fa-instagram"></i></a></li>        </ul>
 
                                 </div></div><div class="col-lg-3 col-sm-6 col-12"><div id="nav_menu-3" class="footer-box widget_nav_menu"><h3 class="footer-title">Quick Links</h3><div class="menu-quick-links-container"><ul id="menu-quick-links" class="menu"><li id="menu-item-8593" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8593"><a href="../about/index.php">About Us</a></li>
@@ -3501,17 +3493,17 @@ if(isset($_SESSION['FMSG']))
                                         <ul>
                                             <li>
                                                 <i class="fas fa-map-marker-alt"></i>
-                                                <p>121 King St, Melbourne den 3000, Australia</p>
+                                                <p>Uka Tarsadia University</p>
                                             </li>
 
                                             <li>
                                                 <i class="fas fa-envelope"></i>
-                                                <p><a target="_blank" href="mailto:info@example.com">info@example.com</a></p>
+                                                <p><a target="_blank" href="mailto:admin@gmail.com">admin@gmail.com</a></p>
                                             </li>
 
                                             <li>
                                                 <i class="fas fa-phone-alt"></i>
-                                                <p><a target="_blank" href="tel:+123-596-000">+123-596-000</a></p>
+                                                <p><a target="_blank" href="tel:+123-596-000">+91 9054254726</a></p>
                                             </li>
 
                                         </ul>

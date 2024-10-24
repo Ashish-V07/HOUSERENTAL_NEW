@@ -27,7 +27,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar Navigation -->
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <nav class="col-md-2 d-none d-md-block sidebar position-fixed vh-100" style="background-color: #d3d3d3 ;">
                     <div class="sidebar-sticky">
                         <h4 class="sidebar-heading">Admin Menu</h4>
                         <ul class="nav flex-column">
@@ -64,7 +64,11 @@ while ($row = mysqli_fetch_assoc($result)) {
 
                     <!-- Search Form -->
                     <input type="text" id="search_query" class="form-control my-3" placeholder="Search users...">
-
+                    <select name="status" id="status" class="form-control my-3">
+                            <option value="">All</option>
+                            <option value="Deactive">De-Active</option>
+                            <option value="Active">Active</option>
+                        </select>
                     <!-- Users Table -->
                     <table class="table table-striped" id="user_table">
                         <thead>
@@ -157,7 +161,19 @@ while ($row = mysqli_fetch_assoc($result)) {
                         }
                     });
                 });
+                $("#status").on("change", function() {
+                    var searchQuery = $(this).val();
+                    $.ajax({
+                        url: "dis.php",
+                        type: "POST",
+                        data: {search_query: searchQuery},
+                        success: function(result) {
+                            $("#data").html(result);
+                        }
+                    });
+                });
             });
+            
         </script>
     </body>
 </html>

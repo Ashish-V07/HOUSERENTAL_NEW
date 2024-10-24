@@ -121,7 +121,7 @@ $result = mysqli_query($conn, $sql);
         <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar navigation -->
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <nav class="col-md-2 d-none d-md-block sidebar position-fixed vh-100" style="background-color: #d3d3d3 ;">
                     <div class="sidebar-sticky">
                         <h4 class="sidebar-heading">Admin Menu</h4>
                         <ul class="nav flex-column">

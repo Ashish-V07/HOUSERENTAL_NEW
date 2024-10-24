@@ -7,7 +7,7 @@ if (isset($_POST['search_query'])) {
         SELECT u.*, COUNT(p.cid) AS property_count 
         FROM tbl_users u 
         LEFT JOIN property p ON u.id = p.uid 
-        WHERE u.fname LIKE '%$searchQuery%' OR u.lname LIKE '%$searchQuery%' OR u.id LIKE '%$searchQuery%' OR u.email LIKE '%$searchQuery%'
+        WHERE u.fname LIKE '%$searchQuery%' OR u.User_Status LIKE '%$searchQuery%' OR u.lname LIKE '%$searchQuery%' OR u.id LIKE '%$searchQuery%' OR u.email LIKE '%$searchQuery%'
         GROUP BY u.id
     ";
     $result = mysqli_query($conn, $query);
@@ -21,7 +21,8 @@ if (isset($_POST['search_query'])) {
                 <td>{$row['lname']}</td>
                 <td>{$row['email']}</td>
                 <td>{$row['mobile']}</td>
-                <td>{$row['property_count']}</td>
+                <td>{$row['aadhar']}</td>
+                    <td>{$row['property_count']}</td>
             </tr>";
         }
     } else {

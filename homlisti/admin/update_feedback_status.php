@@ -58,7 +58,81 @@ require 'C:\XAMPP\htdocs\houserental-master\PHPMailer-master\src\SMTP.php';
         // Email content
         $mail->isHTML(true);
         $mail->Subject = "Feedback Status Updated";
-        $mail->Body = "Dear User, your feedback (ID: $fid) has been marked as done.";
+        $mail->Body ="
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                margin: 0;
+                padding: 0;
+                color: #333333;
+            }
+            .container {
+                max-width: 600px;
+                margin: auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                background-color: #2e86de;
+                color: #ffffff;
+                padding: 20px;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .content {
+                padding: 20px;
+                text-align: center;
+            }
+            .content h2 {
+                color: #2e86de;
+                font-size: 20px;
+            }
+            .content p {
+                font-size: 16px;
+                line-height: 1.6;
+                margin: 10px 0;
+            }
+            .footer {
+                text-align: center;
+                padding: 15px;
+                font-size: 14px;
+                color: #888888;
+            }
+            .footer a {
+                color: #2e86de;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                RentEase Feedback Update
+            </div>
+            <div class='content'>
+                <h2>Feedback Status Updated</h2>
+                <p>Dear User,</p>
+                <p>Your feedback (ID: <strong>$fid</strong>) has been marked as <strong>done</strong>.</p>
+                <p>Thank you for helping us improve our service!</p>
+                <p>Warm regards,<br>RentEase Team</p>
+            </div>
+            <div class='footer'>
+                &copy; " . date("Y") . " RentEase. All rights reserved.<br>
+               
+            </div>
+        </div>
+    </body>
+    </html>
+";
+
 
         // Send email
         $mail->send();

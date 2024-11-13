@@ -41,7 +41,81 @@ function sendDenialEmail($recipient_email, $property_id) {
         // Email content
         $mail->isHTML(true);
         $mail->Subject = 'Property Verification Denied';
-        $mail->Body = 'Dear User,<br>Your property with ID ' . $property_id . ' has been denied. Please ensure that the information you provided is accurate and try again.<br>Thank you.';
+       $mail->Body = "
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f9f9f9;
+                margin: 0;
+                padding: 0;
+                color: #333333;
+            }
+            .container {
+                max-width: 600px;
+                margin: auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                background-color: #D9534F;
+                color: #ffffff;
+                padding: 20px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+            .content {
+                padding: 20px;
+                text-align: left;
+            }
+            .content h2 {
+                color: #D9534F;
+                font-size: 20px;
+            }
+            .content p {
+                font-size: 16px;
+                line-height: 1.6;
+                margin: 10px 0;
+            }
+            .footer {
+                text-align: center;
+                padding: 15px;
+                font-size: 14px;
+                color: #888888;
+            }
+            .footer a {
+                color: #D9534F;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                RentEase Property Denial Notification
+            </div>
+            <div class='content'>
+                <h2>Property Submission Denied</h2>
+                <p>Dear User,</p>
+                <p>We regret to inform you that your property with ID <strong>$property_id</strong> has been denied. Please ensure that all the information provided is accurate and complete, then try submitting again.</p>
+                <p>If you need further assistance, feel free to reach out to our support team.</p>
+                <p>Thank you for your understanding.</p>
+                <p>Warm regards,<br>RentEase Team</p>
+            </div>
+            <div class='footer'>
+                &copy; " . date("Y") . " RentEase. All rights reserved.<br>
+              
+            </div>
+        </div>
+    </body>
+    </html>
+";
 
         // Send email
         $mail->send();
@@ -73,7 +147,80 @@ function sendApprovalEmail($recipient_email, $property_id) {
         // Email content
         $mail->isHTML(true);
         $mail->Subject = 'Property Verification Approved';
-        $mail->Body = 'Dear User,<br>Congratulations! Your property with ID ' . $property_id . ' has been approved and is now listed for rental.<br>Thank you for using our platform.';
+      $mail->Body = "
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f9f9f9;
+                margin: 0;
+                padding: 0;
+                color: #333333;
+            }
+            .container {
+                max-width: 600px;
+                margin: auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                background-color: #4CAF50;
+                color: #ffffff;
+                padding: 20px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+            .content {
+                padding: 20px;
+                text-align: left;
+            }
+            .content h2 {
+                color: #4CAF50;
+                font-size: 20px;
+            }
+            .content p {
+                font-size: 16px;
+                line-height: 1.6;
+                margin: 10px 0;
+            }
+            .footer {
+                text-align: center;
+                padding: 15px;
+                font-size: 14px;
+                color: #888888;
+            }
+            .footer a {
+                color: #4CAF50;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                RentEase Property Approval
+            </div>
+            <div class='content'>
+                <h2>Congratulations!</h2>
+                <p>Dear User,</p>
+                <p>Your property with ID <strong>$property_id</strong> has been approved and is now listed for rental on our platform.</p>
+                <p>Thank you for trusting us with your property. We wish you great success in finding the perfect tenants!</p>
+                <p>Warm regards,<br>RentEase Team</p>
+            </div>
+            <div class='footer'>
+                &copy; " . date("Y") . " RentEase. All rights reserved.<br>
+               
+            </div>
+        </div>
+    </body>
+    </html>
+";
 
         // Send email
         $mail->send();
@@ -307,11 +454,86 @@ $result = mysqli_query($conn, $sql);
                         $mail->Password = 'vaguqlcfibgnxfbf';
                         $mail->SMTPSecure = 'tls';
                         $mail->Port = 587;
-                        $mail->setFrom('22bmiit009@gmail.com', 'House Rental System');
+                        $mail->setFrom('22bmiit009@gmail.com', 'RentEase');
                         $mail->addAddress($user_email);
                         $mail->isHTML(true);
+                       
                         $mail->Subject = 'Property Ready for Update';
-                        $mail->Body = 'Dear User,<br>Your property with ID ' . $pid . ' is ready for updates. You can now update the details and resubmit it for verification.<br>Thank you.';
+                       $mail->Body = "
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                margin: 0;
+                padding: 0;
+                color: #333333;
+            }
+            .container {
+                max-width: 600px;
+                margin: auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                background-color: #FFA500;
+                color: #ffffff;
+                padding: 20px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+            .content {
+                padding: 20px;
+                text-align: left;
+            }
+            .content h2 {
+                color: #FFA500;
+                font-size: 20px;
+            }
+            .content p {
+                font-size: 16px;
+                line-height: 1.6;
+                margin: 10px 0;
+            }
+            .footer {
+                text-align: center;
+                padding: 15px;
+                font-size: 14px;
+                color: #888888;
+            }
+            .footer a {
+                color: #FFA500;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                RentEase Property Update Notification
+            </div>
+            <div class='content'>
+                <h2>Property Ready for Updates</h2>
+                <p>Dear User,</p>
+                <p>Your property with ID <strong>$pid</strong> is now ready for updates. You can update the property details and resubmit it for verification.</p>
+                <p>We appreciate your continued partnership with us!</p>
+                <p>Warm regards,<br>RentEase Team</p>
+            </div>
+            <div class='footer'>
+                &copy; " . date("Y") . " RentEase. All rights reserved.<br>
+                
+            </div>
+        </div>
+    </body>
+    </html>
+";
+
                         $mail->send();
                     } catch (Exception $e) {
                         echo '<script>alert("Error: ' . $mail->ErrorInfo . '");</script>';

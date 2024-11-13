@@ -37,7 +37,80 @@ function sendotp() {
         // Email content
         $mail->isHTML(true);
         $mail->Subject = 'OTP For Forgot Password';
-        $mail->Body = 'Your OTP is: ' . $otp;
+       $mail->Body = "
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f7f7f7;
+                margin: 0;
+                padding: 0;
+                color: #333333;
+            }
+            .container {
+                max-width: 500px;
+                margin: auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                background-color: #FF5733;
+                color: #ffffff;
+                padding: 20px;
+                text-align: center;
+                font-size: 22px;
+                font-weight: bold;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+            .content {
+                padding: 20px;
+                text-align: center;
+            }
+            .content p {
+                font-size: 16px;
+                line-height: 1.6;
+                margin: 10px 0;
+            }
+            .otp-box {
+                font-size: 24px;
+                color: #FF5733;
+                font-weight: bold;
+                padding: 10px;
+                border: 1px dashed #FF5733;
+                display: inline-block;
+                margin-top: 10px;
+            }
+            .footer {
+                text-align: center;
+                padding: 15px;
+                font-size: 14px;
+                color: #888888;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                RentEase OTP for Password Reset
+            </div>
+            <div class='content'>
+                <p>Dear User,</p>
+                <p>We received a request to reset your password. Please use the One-Time Password (OTP) below to complete the process:</p>
+                <div class='otp-box'>$otp</div>
+                <p>If you did not request this, please ignore this email. This OTP will expire soon for security purposes.</p>
+            </div>
+            <div class='footer'>
+                &copy; " . date("Y") . " RentEase. All rights reserved.
+            </div>
+        </div>
+    </body>
+    </html>
+";
+
 
         // Send email
         $mail->send();

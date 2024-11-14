@@ -16,11 +16,11 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }   
 
-$email = $_SESSION['email'];
-$user_query = "SELECT id FROM tbl_users WHERE email = '$email'";
-$user_result = mysqli_query($conn, $user_query);
-$row = mysqli_fetch_assoc($user_result);
-$uid = $row['id'];
+//$email = $_SESSION['email'];
+//$user_query = "SELECT id FROM tbl_users WHERE email = '$email'";
+//$user_result = mysqli_query($conn, $user_query);
+//$row = mysqli_fetch_assoc($user_result);
+//$uid = $row['id'];
 
 $query = "
     SELECT p.*, i.image 
@@ -189,14 +189,7 @@ $conn->close();
     </script>
 </head>
 <body>
-   <div class="navbar">
-       
-        <a href="property_dislay.php">Home</a>
-                <a href="logout.php">Logout</a>
-    
-        </div>
-    <div class="container">
-    </div>
+
 
 <div class="container">
     <h1>Available Properties</h1>
@@ -263,10 +256,10 @@ $conn->close();
                 echo "<div class='property'>";
                 echo "<h2>" . htmlspecialchars($details['adress']) . "</h2>";
                 echo "<p><strong>Rent:</strong> ₹" . number_format($details['rent'], 2) . "</p>";
-                echo "<p><strong>Bedrooms:</strong> " . htmlspecialchars($details['bedroom']) . "</p>";
-                echo "<p><strong>Bathrooms:</strong> " . htmlspecialchars($details['bathroom']) . "</p>";
-                echo "<p><strong>Kitchen:</strong> " . htmlspecialchars($details['kitchen']) . "</p>";
-                echo "<p><strong>Floor:</strong> " . htmlspecialchars($details['floor']) . "</p>";
+//                echo "<p><strong>Bedrooms:</strong> " . htmlspecialchars($details['bedroom']) . "</p>";
+//                echo "<p><strong>Bathrooms:</strong> " . htmlspecialchars($details['bathroom']) . "</p>";
+//                echo "<p><strong>Kitchen:</strong> " . htmlspecialchars($details['kitchen']) . "</p>";
+//                echo "<p><strong>Floor:</strong> " . htmlspecialchars($details['floor']) . "</p>";
                 echo "<p><strong>Parking:</strong> " . ($details['parking'] == 1 ? 'Yes' : 'No') . "</p>";
                 echo "<p><strong>Size:</strong> " . htmlspecialchars($details['size']) . " sq ft</p>";
                 echo "<p><strong>Description:</strong> " . htmlspecialchars($details['description']) . "</p>";
@@ -279,11 +272,11 @@ $conn->close();
                 echo "</div></div>";
 
                 echo "<div class='action-icons'>";
-                echo "<a href='#'><i class='fas fa-heart'></i> Save</a>";
+//                echo "<a href='#'><i class='fas fa-heart'></i> Save</a>";
                 echo "<a href='#'><i class='fas fa-eye'></i> View</a>";
                 echo "<form action='request_rent.php' method='POST'>";
                 echo "<input type='hidden' name='property_id' value='" . $details['pid'] . "' />";
-                echo "<input type='hidden' name='user_id' value='" . $uid . "' />"; 
+//                echo "<input type='hidden' name='user_id' value='" . $uid . "' />"; 
                 echo "<button type='submit' class='request-rent-button'>Request Rent</button>";
                 echo "</form>";
                 echo "</div>";

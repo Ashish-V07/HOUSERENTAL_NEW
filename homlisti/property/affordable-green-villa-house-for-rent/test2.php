@@ -3,7 +3,7 @@
     <style>
         body {
             background-color: #f4f4f4;
-            padding: 20px;
+           
         }
         h1 {
             text-align: center;
@@ -57,14 +57,20 @@
         .action-icons a:hover, .action-icons button:hover {
             color: #2980b9;
         }
-        .request-rent-button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+          .request-rent-button {
+    background-color: #cce5ff; /* Light blue background */
+    color: #004085; /* Dark blue text */
+    border: 1px solid #004085; /* Dark blue border for definition */
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.request-rent-button:hover {
+    background-color: #004085; /* Dark blue background on hover */
+    color: #ffffff; /* White text on hover */
+}
     </style>
 </head>
 <?php
@@ -163,10 +169,10 @@ if (count($properties) > 0) {
         echo "<div class='property'>";
         echo "<h2>" . htmlspecialchars($details['adress']) . "</h2>";
         echo "<p><strong>Rent:</strong> ₹" . number_format($details['rent'], 2) . "</p>";
-        echo "<p><strong>Bedrooms:</strong> " . htmlspecialchars($details['bedroom']) . "</p>";
-        echo "<p><strong>Bathrooms:</strong> " . htmlspecialchars($details['bathroom']) . "</p>";
-        echo "<p><strong>Kitchen:</strong> " . htmlspecialchars($details['kitchen']) . "</p>";
-        echo "<p><strong>Floor:</strong> " . htmlspecialchars($details['floor']) . "</p>";
+//        echo "<p><strong>Bedrooms:</strong> " . htmlspecialchars($details['bedroom']) . "</p>";
+//        echo "<p><strong>Bathrooms:</strong> " . htmlspecialchars($details['bathroom']) . "</p>";
+//        echo "<p><strong>Kitchen:</strong> " . htmlspecialchars($details['kitchen']) . "</p>";
+//        echo "<p><strong>Floor:</strong> " . htmlspecialchars($details['floor']) . "</p>";
         echo "<p><strong>Parking:</strong> " . ($details['parking'] == 1 ? 'Yes' : 'No') . "</p>";
         echo "<p><strong>Size:</strong> " . htmlspecialchars($details['size']) . " sq ft</p>";
         echo "<p><strong>Description:</strong> " . htmlspecialchars($details['description']) . "</p>";
@@ -177,7 +183,7 @@ if (count($properties) > 0) {
         }
         echo "</div></div>";
         echo "<div class='action-icons'>";
-        echo "<a href='#'><i class='fas fa-heart'></i> Save</a>";
+       // echo "<a href='#'><i class='fas fa-heart'></i> Save</a>";
         echo "<a href='#'><i class='fas fa-eye'></i> View</a>";
         echo "<form action='request_rent.php' method='POST'>";
         echo "<input type='hidden' name='property_id' value='" . $details['pid'] . "' />";

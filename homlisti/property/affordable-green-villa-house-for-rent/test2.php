@@ -1,3 +1,4 @@
+
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -185,7 +186,7 @@ if (count($properties) > 0) {
         echo "<div class='action-icons'>";
        // echo "<a href='#'><i class='fas fa-heart'></i> Save</a>";
         echo "<a href='#'><i class='fas fa-eye'></i> View</a>";
-        echo "<form action='request_rent.php' method='POST'>";
+        echo "<form action='../../request_rent.php' method='POST'>";
         echo "<input type='hidden' name='property_id' value='" . $details['pid'] . "' />";
        // echo "<input type='hidden' name='user_id' value='" . $uid . "' />";
         echo "<button type='submit' class='request-rent-button'>Request Rent</button>";

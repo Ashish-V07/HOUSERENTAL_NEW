@@ -155,6 +155,7 @@ $properties_result = mysqli_query($conn, $properties_sql);
                 <th>Bathrooms</th>
                 <th>Status</th>
                 <th>Action</th>
+                <th>Action</th>
             </tr>
             <?php
             if (mysqli_num_rows($properties_result) > 0) {
@@ -167,6 +168,7 @@ $properties_result = mysqli_query($conn, $properties_sql);
                     echo "<td>" . $property['bathroom'] . "</td>";
                     echo "<td>" . $property['status'] . "</td>";
                     echo "<td><a href='update_property.php?pid=" . $property['pid'] . "'>Update</a></td>";
+                     echo "<td><a href='RentApplications.php?pid=" . $property['pid'] . "'>See Rental Applications</a></td>";
                     echo "</tr>";
                 }
             } else {

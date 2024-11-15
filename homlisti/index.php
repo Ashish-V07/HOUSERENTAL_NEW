@@ -8,22 +8,21 @@ if (isset($_SESSION['loggedin'])) {
 
 ?>
 <?php
-
 //if (!isset($_SESSION['email'])) {
 //    header("Location: login.php");
 //    exit();
 //}
-  
-$host = 'localhost';  
-$user = 'root';       
-$pass = '';           
-$dbname = 'house_rental';     
+
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'house_rental';
 
 $conn = new mysqli($host, $user, $pass, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}   
+}
 
 
 
@@ -74,7 +73,7 @@ $conn->close();
     <style>
         body {
             background-color: #f4f4f4;
-            padding: 20px;
+           
         }
         h1 {
             text-align: center;
@@ -128,14 +127,20 @@ $conn->close();
         .action-icons a:hover, .action-icons button:hover {
             color: #2980b9;
         }
-        .request-rent-button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+            .request-rent-button {
+    background-color: #cce5ff; /* Light blue background */
+    color: #004085; /* Dark blue text */
+    border: 1px solid #004085; /* Dark blue border for definition */
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.request-rent-button:hover {
+    background-color: #004085; /* Dark blue background on hover */
+    color: #ffffff; /* White text on hover */
+}
 
         /* Dropdown Styling */
         select {
@@ -148,19 +153,7 @@ $conn->close();
             transition: border-color 0.3s; /* Transition effect */
         }
         /* Add some styles for the header */
-        .navbar {
-            background-color: #3498db;
-            padding: 10px;
-            color: white;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin-right: 15px;
-        }
-        .navbar a:hover {
-            color: #2980b9;
-        }
+        
         select:focus {
             border-color: #3498db; /* Border color on focus */
             outline: none; /* Remove default outline */
@@ -9185,8 +9178,7 @@ $conn->close();
 
 
    
-    <div class="container">
-    </div>
+   
 
 <div class="container">
     <h1>Available Properties</h1>
@@ -9303,7 +9295,7 @@ $conn->close();
 }
 
 .see-all-button:hover {
-    background-color: #0056b3;
+    background-color: lightblue;
 }
 </style>
     

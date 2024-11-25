@@ -29,7 +29,7 @@ if ($conn->connect_error) {
 $query = "
     SELECT * 
     FROM property 
-    WHERE status = 'Allow' 
+    WHERE status = 'Allow' and AvailabilityStatus='Available'
     ORDER BY RAND() 
     LIMIT 3
 ";

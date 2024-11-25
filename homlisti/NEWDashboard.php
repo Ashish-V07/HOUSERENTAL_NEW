@@ -15,6 +15,10 @@ if (isset($_SESSION['rentmsg'])) {
     echo "<script>alert('". addslashes($_SESSION['rentmsg']) ."');</script>";
     unset($_SESSION['rentmsg']);
 }
+if (isset($_SESSION['msg'])) {
+    echo "<script>alert('". addslashes($_SESSION['msg']) ."');</script>";
+    unset($_SESSION['msg']);
+}
 //if (!isset($_SESSION['email'])) {
 //    header("Location: login.php");
 //    exit();
@@ -36,7 +40,7 @@ if ($conn->connect_error) {
 $query = "
     SELECT * 
     FROM property 
-    WHERE status = 'Allow' 
+    WHERE status = 'Allow' and AvailabilityStatus='Available'
     ORDER BY RAND() 
     LIMIT 3
 ";

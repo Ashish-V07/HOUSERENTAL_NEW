@@ -27,7 +27,7 @@ $query = "
     SELECT p.*, i.image 
     FROM property p
     LEFT JOIN tblimage i ON p.pid = i.pid
-    WHERE p.status = 'Allow' $searchQuery
+    WHERE p.status = 'Allow' and p.AvailabilityStatus='Available' $searchQuery
     LIMIT $offset, $propertiesPerPage
 ";
 
@@ -47,7 +47,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Get the total count for pagination
-$totalQuery = "SELECT COUNT(*) as total FROM property p WHERE p.status = 'Allow' $searchQuery";
+$totalQuery = "SELECT COUNT(*) as total FROM property p WHERE p.status = 'Allow' and p.AvailabilityStatus='Available'";
 $totalResult = $conn->query($totalQuery);
 $totalRow = $totalResult->fetch_assoc();
 $totalProperties = $totalRow['total'];

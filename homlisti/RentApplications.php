@@ -34,7 +34,7 @@ INNER JOIN
 ON 
     u.id = r.user_id 
 WHERE 
-    r.property_id = '$property_id' 
+    r.property_id = '$property_id'
 GROUP BY 
     u.id;
 ";
@@ -46,6 +46,8 @@ $rentResult = mysqli_query($conn, $rentRequest);
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Ygz42h78KZ+e6zgNRt9Ax7LYVsZSVfzM0XOeL+TQwV3BXuDEok65B1JYIuaxFKM4" crossorigin="anonymous">
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>My Properties</title>
         <style>
@@ -139,6 +141,49 @@ $rentResult = mysqli_query($conn, $rentRequest);
                 margin-left: 240px; /* Ensure there's space for the sidebar */
                 margin-top: 50px;
             }
+            /* Accept Button Style */
+            button.accept-btn  {
+                display: inline-block;
+                text-decoration: none;
+                color: #fff;
+                background-color: #28a745;
+                padding: 8px 16px;
+                border: none;
+                border-radius: 5px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+
+            button.accept-btn :hover {
+                background-color: #218838;
+                transform: scale(1.05);
+            }
+
+            /* Reject Button Style */
+            button.reject-btn  {
+                display: inline-block;
+                text-decoration: none;
+                color: #fff;
+                background-color: #dc3545;
+                padding: 8px 16px;
+                border: none;
+                border-radius: 5px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+
+            button.reject-btn :hover {
+                background-color: #c82333;
+                transform: scale(1.05);
+            }
+
+            /* Ensure buttons inline with proper spacing */
+            button {
+                margin-right: 10px;
+            }
+
         </style>
     </head>
     <body>
@@ -166,6 +211,7 @@ $rentResult = mysqli_query($conn, $rentRequest);
                     <th>Contact No</th>
                     <th>Email</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
                 <?php
                 if (mysqli_num_rows($rentResult) > 0) {
@@ -177,6 +223,20 @@ $rentResult = mysqli_query($conn, $rentRequest);
                         echo "<td>" . $rent['mobile'] . "</td>";
                         echo "<td>" . $rent['email'] . "</td>";
                         echo "<td>" . $rent['status'] . "</td>";
+                        echo "<td>";
+                        echo "<form method='POST' action='handle_rental_request.php' style='display:inline-block; margin-right:5px;'>";
+                        echo "<input type='hidden' name='request_id' value='" . $rent['id'] . "'>";
+                        echo "<input type='hidden' name='action' value='accept'>";
+                        echo "<input type='hidden' name='Property_id' value='".$_GET['pid']."'>";
+                        echo "<button type='submit' class='accept-btn'>Accept</button>";
+                        echo "</form>";
+
+                        echo "<form method='POST' action='handle_rental_request.php' style='display:inline-block;'>";
+                        echo "<input type='hidden' name='request_id' value='" . $rent['id'] . "'>";
+                        echo "<input type='hidden' name='action' value='reject'>";
+                        echo "<button type='submit' class='reject-btn'>Reject</button>";
+                        echo "</form>";
+                        echo "</td>";
 
                         echo "</tr>";
                     }

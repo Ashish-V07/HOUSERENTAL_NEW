@@ -26,7 +26,7 @@ $query = "
     SELECT p.*, i.image 
     FROM property p
     LEFT JOIN tblimage i ON p.pid = i.pid
-    WHERE p.status = 'Allow'
+    WHERE p.status = 'Allow' and p.AvailabilityStatus='Available'
 ";
 
 $result = $conn->query($query);

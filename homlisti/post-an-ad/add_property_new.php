@@ -49,6 +49,10 @@ if (isset($_POST['btnsubmit'])) {
         $size = $_POST['size'];
         $SecurityDeposit=$_POST['SDEPOSIT'];
 
+        if ($SecurityDeposit >= $rent) {
+        echo "<script>alert('Security Deposit must be smaller than Rent.'); window.history.back();</script>";
+        exit;
+    }
         // File validation for document (only PDF allowed)
         $document = NULL;
         if (isset($_FILES['document']) && $_FILES['document']['error'] == 0) {

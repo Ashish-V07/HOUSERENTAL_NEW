@@ -358,6 +358,8 @@ function checkExistingUser($c, $email) {
                     </div>
                 <?php endif; ?>
             </form>
+            <p>Alredy have an account?, <a href="index.php">Login here</a></p>
+                                                                    
         </div>
     </div>
 </div>

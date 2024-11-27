@@ -2479,7 +2479,7 @@ mysqli_close($c);
                                                                 <div class="rtcl-form-group rtcl-form-group-no-margin-bottom">
                                                                     <p class="rtcl-forgot-password">
                                                                         <a href="lost-pass/index.php">Forgot your password?</a>
-                                                                         <p>If you don't have an account, <a href="registration.php">register here</a></p>
+                                                                         <p>If you don't have an account, <a href="test.php">register here</a></p>
                                                                     </p>
                                                                 </div>
                                                                 <input type="hidden" id="rtcl-login-nonce" name="rtcl-login-nonce" value="cf52537014" /><input type="hidden" name="_wp_http_referer" value="/demo/wordpress/themes/homlisti/my-account/" /><input type="hidden" name="redirect_to" value="index.php" />        </form>

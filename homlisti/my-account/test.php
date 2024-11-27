@@ -73,7 +73,77 @@ function sendotp() {
         // Email content
         $mail->isHTML(true);
         $mail->Subject = 'OTP for registration';
-        $mail->Body = 'Your OTP is: ' . $otp;
+        $mail->Body = " <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f7f7f7;
+                margin: 0;
+                padding: 0;
+                color: #333333;
+            }
+            .container {
+                max-width: 500px;
+                margin: auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                background-color: #5A9BD5;
+                color: #ffffff;
+                padding: 20px;
+                text-align: center;
+                font-size: 22px;
+                font-weight: bold;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+            .content {
+                padding: 20px;
+                text-align: center;
+            }
+            .content p {
+                font-size: 16px;
+                line-height: 1.6;
+                margin: 10px 0;
+            }
+            .otp-box {
+                font-size: 24px;
+                color: #5A9BD5;
+                font-weight: bold;
+                padding: 10px;
+                border: 1px dashed #5A9BD5;
+                display: inline-block;
+                margin-top: 10px;
+            }
+            .footer {
+                text-align: center;
+                padding: 15px;
+                font-size: 14px;
+                color: #888888;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                RentEase OTP Verification
+            </div>
+            <div class='content'>
+                <p>Dear User,</p>
+                <p>Your One-Time Password (OTP) for registration is:</p>
+                <div class='otp-box'>$otp</div>
+                <p>Please enter this OTP to complete your registration. This OTP is valid for a limited time.</p>
+            </div>
+            <div class='footer'>
+                &copy; " . date("Y") . " RentEase. All rights reserved.
+            </div>
+        </div>
+    </body>
+    </html>";
 
         // Send email
         $mail->send();
@@ -280,7 +350,9 @@ function checkExistingUser($c, $email) {
                     </div>
                 <?php endif; ?>
             </form>
+            <p>Already have an account?,<a href="index.php">Login here</p>
         </div>
+        
     </div>
 </div>
 

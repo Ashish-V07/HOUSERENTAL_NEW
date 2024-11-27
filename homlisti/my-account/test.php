@@ -170,6 +170,10 @@ function verifyotp() {
         unset($_SESSION['otp_expiry_time']);
     } elseif ($user_otp == $session_otp) {
         echo '<script>alert("OTP verification successful!");</script>';
+//        echo '<script>document.getElementById("otp").style.display = "none"</script>';
+//        echo '<script>document.getElementById("vbutton").style.display = "none"</script>';
+//        echo '<script>document.getElementById("timer").style.display = "none";</script>';
+        echo '<script>localStorage.setItem("otp_verified", "true");</script>';
         $_SESSION['otp_verified'] = true;
         storeFormData();
     } else {
@@ -197,6 +201,7 @@ function registerUser($c) {
     if (mysqli_query($c, $query)) {
         $_SESSION['RMSG'] = "User registered successfully.";
         header("Location: index.php");
+        die();
     } else {
         echo '<script>alert("Error: ' . mysqli_error($c) . '");</script>';
     }
@@ -217,144 +222,146 @@ function checkExistingUser($c, $email) {
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration</title>
-    <link href="reg.css" rel="stylesheet"/>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registration</title>
+        <link href="reg.css" rel="stylesheet"/>
 
-    <script>
-        var timerInterval;
+        <script>
+            var timerInterval;
 
-        function startTimer(duration, display) {
-            var timer = duration, minutes, seconds;
-            timerInterval = setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
+            function startTimer(duration, display) {
+                var timer = duration, minutes, seconds;
+                timerInterval = setInterval(function () {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
 
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-                display.textContent = minutes + ":" + seconds;
+                    display.textContent = minutes + ":" + seconds;
 
-                if (--timer < 0) {
-                    clearInterval(timerInterval);
-                    alert("OTP has expired. Please generate a new one.");
-                }
-            }, 1000);
-        }
+                    if (--timer < 0) {
+                        clearInterval(timerInterval);
+                        alert("OTP has expired. Please generate a new one.");
+                    }
+                }, 1000);
+            }
 
-        function validateName(input) {
-            input.value = input.value.replace(/[^A-Za-z]/g, '');
-        }
+            function validateName(input) {
+                input.value = input.value.replace(/[^A-Za-z]/g, '');
+            }
 
-        window.onload = function () {
-            <?php if (!$otp_verified && isset($_SESSION['otp_expiry_time'])): ?>
-                var remainingTime = <?php echo $_SESSION['otp_expiry_time'] - time(); ?>;
-                var display = document.querySelector('#timer');
-                startTimer(remainingTime, display);
-            <?php endif; ?>
+            window.onload = function () {
+<?php if (!$otp_verified && isset($_SESSION['otp_expiry_time'])): ?>
+                    var remainingTime = <?php echo $_SESSION['otp_expiry_time'] - time(); ?>;
+                    var display = document.querySelector('#timer');
+                    startTimer(remainingTime, display);
+<?php endif; ?>
+ if (localStorage.getItem('otp_verified') === 'true') {
+        document.getElementById('otp-section').style.display = 'none';  // Hide OTP section
+    }
+                document.getElementById('first_name').addEventListener('input', function (event) {
+                    validateName(event.target);
+                });
 
-            document.getElementById('first_name').addEventListener('input', function (event) {
-                validateName(event.target);
-            });
+                document.getElementById('last_name').addEventListener('input', function (event) {
+                    validateName(event.target);
+                });
 
-            document.getElementById('last_name').addEventListener('input', function (event) {
-                validateName(event.target);
-            });
+                document.querySelector('form').addEventListener('submit', function (event) {
+                    var email = document.getElementById('email').value;
+                    var password = document.getElementById('password').value;
+                    var cpassword = document.getElementById('cpassword').value;
 
-            document.querySelector('form').addEventListener('submit', function (event) {
-                var email = document.getElementById('email').value;
-                var password = document.getElementById('password').value;
-                var cpassword = document.getElementById('cpassword').value;
+                    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                    var passwordPattern = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
 
-                var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-                var passwordPattern = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+                    if (!emailPattern.test(email)) {
+                        alert('Please enter a valid email address.');
+                        event.preventDefault();
+                        return;
+                    }
 
-                if (!emailPattern.test(email)) {
-                    alert('Please enter a valid email address.');
-                    event.preventDefault();
-                    return;
-                }
+                    if (!passwordPattern.test(password)) {
+                        alert('Password must be at least 6 characters long and include at least one special character.');
+                        event.preventDefault();
+                        return;
+                    }
 
-                if (!passwordPattern.test(password)) {
-                    alert('Password must be at least 6 characters long and include at least one special character.');
-                    event.preventDefault();
-                    return;
-                }
+                    if (password !== cpassword) {
+                        alert('Passwords do not match. Please try again.');
+                        event.preventDefault();
+                        return;
+                    }
+                });
+            };
+        </script>
+    </head>
+    <body>
 
-                if (password !== cpassword) {
-                    alert('Passwords do not match. Please try again.');
-                    event.preventDefault();
-                    return;
-                }
-            });
-        };
-    </script>
-</head>
-<body>
+        <div class="container">
+            <div class="image-section">
 
-<div class="container">
-    <div class="image-section">
-        
-            <img src="real.jpg" alt="Welcome" >
-       
-    </div>
-    <div class="form-section">
-        <div class="title">Registration</div>
-        <div class="content">
-            <form action="#" method="post">
-                <div class="user-details">
-                    <div class="input-box">
-                        <label class="details" for="first_name">First Name:</label>
-                        <input type="text" name="first_name" id="first_name" value="<?php echo htmlspecialchars($_SESSION['form_data']['first_name'] ?? ''); ?>" required>
-                    </div>
-                    <div class="input-box">
-                        <label class="details" for="last_name">Last Name:</label>
-                        <input type="text" name="last_name" id="last_name" value="<?php echo htmlspecialchars($_SESSION['form_data']['last_name'] ?? ''); ?>" required>
-                    </div>
-                    <div class="input-box">
-                        <label class="details" for="email">Email:</label>
-                        <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($_SESSION['form_data']['email'] ?? ''); ?>" required>
-                    </div>
-                    <div class="input-box">
-                        <label class="details" for="password">Password:</label>
-                        <input type="password" name="password" id="password" value="<?php echo htmlspecialchars($_SESSION['form_data']['password'] ?? ''); ?>" required>
-                    </div>
-                    <div class="input-box">
-                        <label class="details" for="cpassword">Confirm Password:</label>
-                        <input type="password" name="cpassword" id="cpassword" value="<?php echo htmlspecialchars($_SESSION['form_data']['cpassword'] ?? ''); ?>" required>
-                    </div>
-                </div>
+                <img src="real.jpg" alt="Welcome" >
 
-                <div class="button">
-                    <input type="submit" name="generate_otp" value="Generate OTP">
-                </div>
-
-                <?php if (isset($_SESSION['otp'])): ?>
-                    <div class="otp-section">
-                        <div class="input-box">
-                            <label for="otp">Enter OTP:</label>
-                            <input type="text" name="otp" id="otp" >
+            </div>
+            <div class="form-section">
+                <div class="title">Registration</div>
+                <div class="content">
+                    <form action="#" method="post">
+                        <div class="user-details">
+                            <div class="input-box">
+                                <label class="details" for="first_name">First Name:</label>
+                                <input type="text" name="first_name" id="first_name" value="<?php echo htmlspecialchars($_SESSION['form_data']['first_name'] ?? ''); ?>" required>
+                            </div>
+                            <div class="input-box">
+                                <label class="details" for="last_name">Last Name:</label>
+                                <input type="text" name="last_name" id="last_name" value="<?php echo htmlspecialchars($_SESSION['form_data']['last_name'] ?? ''); ?>" required>
+                            </div>
+                            <div class="input-box">
+                                <label class="details" for="email">Email:</label>
+                                <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($_SESSION['form_data']['email'] ?? ''); ?>" required>
+                            </div>
+                            <div class="input-box">
+                                <label class="details" for="password">Password:</label>
+                                <input type="password" name="password" id="password" value="<?php echo htmlspecialchars($_SESSION['form_data']['password'] ?? ''); ?>" required>
+                            </div>
+                            <div class="input-box">
+                                <label class="details" for="cpassword">Confirm Password:</label>
+                                <input type="password" name="cpassword" id="cpassword" value="<?php echo htmlspecialchars($_SESSION['form_data']['cpassword'] ?? ''); ?>" required>
+                            </div>
                         </div>
-                        <div id="timer"></div>
+
                         <div class="button">
-                            <input type="submit" name="verify_otp" value="Verify OTP">
+                            <input type="submit" name="generate_otp" value="Generate OTP">
                         </div>
-                    </div>
-                <?php endif; ?>
 
-                <?php if (isset($_SESSION['otp_verified']) && $_SESSION['otp_verified']): ?>
-                    <div class="button">
-                        <input type="submit" name="register" value="Register">
-                    </div>
-                <?php endif; ?>
-            </form>
-            <p>Already have an account?,<a href="index.php">Login here</p>
+                        <?php if (isset($_SESSION['otp'])): ?>
+                            <div class="otp-section" id="otp-section">
+                                <div class="input-box" id="input-box">
+                                    Enter OTP:<br>
+                                    <input type="text" name="otp" id="otp" >
+                                </div>
+                                <div id="timer"></div>
+                                <div class="button" >
+                                    <input type="submit" name="verify_otp" id="vbutton" value="Verify OTP">
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (isset($_SESSION['otp_verified']) && $_SESSION['otp_verified']): ?>
+                            <div class="button">
+                                <input type="submit" name="register" value="Register">
+                            </div>
+                        <?php endif; ?>
+                    </form>
+                    <p>Already have an account?,<a href="index.php">Login here</p>
+                </div>
+
+            </div>
         </div>
-        
-    </div>
-</div>
 
-</body>
+    </body>
 </html>

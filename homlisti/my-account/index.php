@@ -13,12 +13,9 @@ if(isset($_SESSION['success_pass']))
    unset($_SESSION['success_pass']);
     
 }
-if(isset($_SESSION['RMSG']))
-{
-    $msg=$_SESSION['RMSG'];
-    echo "<script>alert('$msg')</script>";
-   unset($_SESSION['RMSG']);
-    
+if (isset($_SESSION['RMSG'])) {
+    echo "<script>alert('". addslashes($_SESSION['RMSG']) ."');</script>";
+    unset($_SESSION['RMSG']);
 }
 header("Cache-Control: no-cache, no-store, must-revalidate");
 header("Pragma: no-cache");

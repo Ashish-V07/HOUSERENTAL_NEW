@@ -47,13 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['property_id'])) {
             exit();
         }
     }
-     $asql = "SELECT aadhar FROM tbl_users WHERE id = '$user_id'";
+     $asql = "SELECT aadhar,mobile FROM tbl_users WHERE id = '$user_id'";
 
     $ar = mysqli_query($conn, $asql);
     $res = mysqli_fetch_assoc($ar);
-    if (!$res['aadhar'] > 0) {
+    if (!$res['aadhar'] > 0 or !$res['mobile'] > 0) {
        
-        $_SESSION['rentmsg'] = "Addhar is not updated please update Profile";
+        $_SESSION['rentmsg'] = "Addhar & mobile  is not updated please update Profile";
             header("Location: /houserental-master/homlisti/NEWDashboard.php");
             exit();
     }

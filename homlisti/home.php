@@ -149,7 +149,7 @@ $properties_result = mysqli_query($conn, $properties_sql);
     <div>
         <table>
             <tr>
-                <th>ID</th>
+                <th>Property ID</th>
                 <th>Address</th>
                 <th>Rent</th>
                 <th>Bedrooms</th>

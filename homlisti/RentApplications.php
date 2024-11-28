@@ -16,10 +16,14 @@ $conn = mysqli_connect("localhost", "root", "", "house_rental");
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+try {
+$id=$_GET['pid'];
+$sql2="select adress from property where pid='$id'";
 
+$res= mysqli_query($conn, $sql2);
+$r= mysqli_fetch_assoc($res);
+$property_id=$r['adress'];
 
-
-$property_id = $_GET['pid'];
 $rentRequest = "SELECT 
     u.id, 
     u.fname, 
@@ -34,13 +38,18 @@ INNER JOIN
 ON 
     u.id = r.user_id 
 WHERE 
-    r.property_id = '$property_id'
+    r.property_id = '$id'
 GROUP BY 
     u.id;
 ";
 $rentResult = mysqli_query($conn, $rentRequest);
-?>
 
+} catch (Exception $ex) {
+    echo 'sorry not found';
+    die();
+}
+
+?>
 <!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
@@ -194,13 +203,14 @@ $rentResult = mysqli_query($conn, $rentRequest);
                 <li><a href="Profile.php">Profile Overview</a></li>
                 <li><a href="Profile1.php">Update Profile</a></li>
                 <li><a href="home.php">My Properties</a></li>
+                  <li><a href="Payment.php">Payments</a></li>
                 <li><a href="changePassword.php">Change Password</a></li>
                 <li><a href="/houserental-master/homlisti/my-account/logout.php">Logout</a></li>
             </ul>
         </div>
 
         <!-- Main content -->
-        <h2>&nbsp;&nbsp;Rental applications for Property no <?php echo $_GET['pid']; ?></h2>
+        <h2>&nbsp;&nbsp;Rental applications for Property <?php echo $property_id; ?></h2>
 
         <div>
             <table>
@@ -227,7 +237,7 @@ $rentResult = mysqli_query($conn, $rentRequest);
                         echo "<form method='POST' action='handle_rental_request.php' style='display:inline-block; margin-right:5px;'>";
                         echo "<input type='hidden' name='request_id' value='" . $rent['id'] . "'>";
                         echo "<input type='hidden' name='action' value='accept'>";
-                        echo "<input type='hidden' name='Property_id' value='".$_GET['pid']."'>";
+                        echo "<input type='hidden' name='Property_id' value='".$id."'>";
                         echo "<button type='submit' class='accept-btn'>Accept</button>";
                         echo "</form>";
 

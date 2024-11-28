@@ -55,13 +55,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
                     $payment_date = date('Y-m-d'); // Payment date (current date)
                     // Payment method
                     $status = 'successful'; // Payment status
-
+                    $rid=$rentId;
                     $sql_payment = "INSERT INTO tblpayment (rid,tid,amount,pdate,pmethod, status) 
                     VALUES ('$rentId', '$uid', '$amount','$payment_date', '$payment_method', '$status')";
 
                     if (mysqli_query($conn, $sql_payment)) {
                         $_SESSION['payment_msg'] = "Payment successful Thank you";
-                        header("Location: /houserental-master/homlisti/Payment.php");
+                          $_SESSION['rentID']=$rid;
+                          
+                        header("Location: /houserental-master/homlisti/Genrate_Bill/Send_bill.php");
                         exit();
                     } else {
                         echo "Error inserting payment data: " . mysqli_error($conn);

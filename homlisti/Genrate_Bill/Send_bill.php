@@ -1,0 +1,197 @@
+<?php
+session_start();
+if (!isset($_SESSION['loggedin'])) {
+    header("Location: /houserental-master/homlisti/my-account/index.php");
+    exit();
+}
+//session_start();
+$hostname = "localhost";
+$username = "root";
+$password = "";
+$database = "house_rental";
+
+$conn = mysqli_connect($hostname, $username, $password, $database);
+if (!$conn) {
+    echo "<script>alert('Connection failed: " . mysqli_connect_error() . "');</script>";
+    exit();
+}
+require 'vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use setasign\Fpdi\Fpdi;
+
+require 'C:\XAMPP\htdocs\houserental-master\PHPMailer-master\src\PHPMailer.php';
+require 'C:\XAMPP\htdocs\houserental-master\PHPMailer-master\src\Exception.php';
+require 'C:\XAMPP\htdocs\houserental-master\PHPMailer-master\src\SMTP.php';
+
+$email=$_SESSION['email'];
+$rentID = $_SESSION['rentID'];           
+
+// Fetch details from the database
+$result = mysqli_query($conn, "SELECT * FROM tblpayment p inner join tblrent r on r.rid=p.rid inner join property t on t.pid=r.pid WHERE p.rid='$rentID'");
+$row = mysqli_fetch_assoc($result);
+
+if (!$row) {
+    echo "Payment item details not found.";
+    exit;
+}
+
+
+
+
+// Function to send email with OTP and attached PDF
+function sendEmail($recipient_email, $paymentDetails) {
+    try {
+        // Generate PDF and get the saved file path
+        $pdfPath = generatePDF($paymentDetails);
+
+        // Initialize PHPMailer
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'ashishvaghasiya150@gmail.com';
+        $mail->Password = 'dnvjaacfmzrpovwi';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        // Set sender and recipient
+        $mail->setFrom('ashishvaghasiya150@gmail.com', 'RentEase');
+        $mail->addAddress($recipient_email);
+
+        // Email content
+        $mail->isHTML(true);
+        $mail->Subject = 'Invoice from RentEase';
+        $mail->Body = getEmailTemplate($paymentDetails);
+
+        // Attach the saved PDF
+        $mail->addAttachment($pdfPath, 'invoice.pdf');
+
+        // Send the email
+        $mail->send();
+
+        echo "<script>alert('Email with PDF sent successfully');</script>";
+    } catch (Exception $e) {
+        echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';
+    }
+}
+
+class BillPDF extends Fpdi {
+
+    // Header
+    function Header() {
+        $this->Image('C:\XAMPP\htdocs\houserental-master\homlisti\wp-content\uploads\2021\09\cropped-favicon-homlisti-180x180.png', 10, 6, 15); // Adjust the path as needed
+        $this->SetFont('Arial', 'B', 15);
+        $this->Cell(50);
+        $this->Cell(90, 10, 'RentEase', 0, 0, 'C');
+        $this->Ln(20);
+    }
+
+    // Footer
+    function Footer() {
+        $this->SetY(-15);
+        $this->SetFont('Arial', 'I', 8);
+        $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+    }
+}
+
+function generatePDF($paymentDetails) {
+    // Define the path to store invoices and load the invoice counter
+    $invoicesDir = 'invoices';
+    $counterFile = $invoicesDir . '/invoice_counter.txt';
+
+    // Create the invoices directory if it doesn't exist
+    if (!file_exists($invoicesDir)) {
+        mkdir($invoicesDir, 0777, true);
+    }
+
+    // Read the current invoice number from the counter file or start from 1
+    if (file_exists($counterFile)) {
+        $invoiceNum = (int) file_get_contents($counterFile) + 1;
+    } else {
+        $invoiceNum = 1;
+    }
+
+    // Save the new invoice number back to the counter file
+    file_put_contents($counterFile, $invoiceNum);
+
+    // Generate the PDF
+    $pdf = new BillPDF();
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 12);
+
+    // Customer Information
+    $pdf->Cell(0, 10, 'Invoice #: ' . $invoiceNum, 0, 1);
+    $pdf->Cell(0, 10, 'Payment ID: ' . $paymentDetails['id'], 0, 1);
+    $pdf->Cell(0, 10, 'Rent ID: ' . $paymentDetails['rid'], 0, 1);
+    $pdf->Cell(0, 10, 'Property: ' . $paymentDetails['adress'], 0, 1);
+    $pdf->Cell(0, 10, 'User Email: ' . $_SESSION['email'], 0, 1);
+    
+    $pdf->Cell(0, 10, 'Payment Date: ' . $paymentDetails['pdate'], 0, 1);
+    $pdf->Ln(10);
+
+    // Table headers
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(40, 10, 'Description', 1);
+    $pdf->Cell(40, 10, 'Amount', 1);
+    $pdf->Ln();
+
+    // Payment details
+    $pdf->SetFont('Arial', '', 12);
+    $pdf->Cell(40, 10, 'Rent Payment', 1);
+    $pdf->Cell(40, 10, 'Rs.' . number_format($paymentDetails['amount'], 2), 1);
+    $pdf->Ln(10);
+
+    // Save the PDF with a unique filename in the invoices directory
+    $filename = $invoicesDir . '/Invoice_' . $invoiceNum . '.pdf';
+    $pdf->Output('F', $filename); // Save file to disk
+
+    return $filename;
+}
+
+// HTML email template
+function getEmailTemplate($paymentDetails) {
+    return '
+    <html>
+    <head>
+        <style>
+            body { font-family: Arial, sans-serif; }
+            .container { padding: 20px; }
+            .header { background-color: #004f9f; color: white; padding: 10px; }
+            .content { margin-top: 20px; }
+            .footer { color: gray; margin-top: 20px; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>RentEase</h1>
+            </div>
+            <div class="content">
+                <p>Dear User,</p>
+                <p>Your payment details:</p>
+                <ul>
+                    <li>Payment ID: ' . $paymentDetails['id'] . '</li>
+                    <li>Rent ID: ' . $paymentDetails['rid'] . '</li>
+                    <li>Amount: Rs.' . number_format($paymentDetails['amount'], 2) . '</li>
+                    <li>Status: ' . $paymentDetails['status'] . '</li>
+                    <li>Payment Date: ' . $paymentDetails['pdate'] . '</li>
+                </ul>
+                <p>The invoice is attached to this email.</p>
+            </div>
+            <div class="footer">
+                <p>© 2024 RentEase. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+    </html>';
+}
+
+
+// Example usage
+sendEmail($email,$row);
+header("Loaction:/houserental-master/homlisti/Payment.php");
+die();// Call sendEmail with the recipient's email address
+?>

@@ -16,11 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Accept the request and reject others for the same property
         $accept_query = "UPDATE rental_applications SET status = 'Accepted' WHERE user_id = '$request_id'";
         $PUpadte_query="UPDATE property SET AvailabilityStatus = 'Booked' WHERE  pid= '$pid'";
-        $email_query="select u.email,r.property_id from tbl_users u inner join rental_applications r on u.id=r.user_id where u.id='$request_id'";
+        $email_query="select u.email,p.adress from tbl_users u inner join rental_applications r on u.id=r.user_id inner join property p on p.pid=r.property_id where u.id='$request_id'";
        $Aemail= mysqli_query($conn, $email_query);
        $res= mysqli_fetch_assoc($Aemail);
        $sendemail=$res['email'];
-       $prid=$res['property_id'];
+       $prid=$res['adress'];
        $t='Accepted';
        sendMail($sendemail,$t,$prid);
        
@@ -43,13 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($action === 'reject') {
         // Reject the specific request
         $reject_query = "UPDATE rental_applications SET status = 'Rejected' WHERE user_id = '$request_id'";
-       $email_query="select u.email,r.property_id from tbl_users u inner join rental_applications r on u.id=r.user_id where u.id='$request_id'";
+       $email_query="select u.email,p.adress from tbl_users u inner join rental_applications r on u.id=r.user_id inner join property p on p.pid=r.property_id where u.id='$request_id'";
         $Remail= mysqli_query($conn, $email_query);
         
         $res= mysqli_fetch_assoc($Remail);
        $sendemail=$res['email'];
       
-       $prid=$res['property_id'];
+       $prid=$res['adress'];
       $t='Rejected';
         sendMail($sendemail,$t,$prid);
         
@@ -157,7 +157,7 @@ require 'C:\XAMPP\htdocs\houserental-master\PHPMailer-master\src\SMTP.php';
             <div class='content'>
                 <h2></h2>
                 <p>Dear User,</p>
-                <p>Your Rental request has been marked as <strong>$type</strong> for property id  <strong>$propertyid</strong> .</p>
+                <p>Your Rental request has been marked as <strong>$type</strong> for property <strong>$propertyid</strong> .</p>
                 <p>Thank you for helping us improve our service!</p>
                 <p>Warm regards,<br>RentEase Team</p>
             </div>

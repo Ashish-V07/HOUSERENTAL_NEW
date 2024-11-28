@@ -81,6 +81,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
 // Get user ID from session
 
 // Fetch search parameters

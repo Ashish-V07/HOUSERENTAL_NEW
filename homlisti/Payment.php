@@ -15,6 +15,12 @@ if (isset($_SESSION['payment_msg'])) {
     </script>";
     unset($_SESSION['payment_msg']);
 }
+if (isset($_SESSION['rating'])) {
+    echo "<script>
+        alert('" . addslashes($_SESSION['rating']) . "');
+    </script>";
+    unset($_SESSION['rating']);
+}
 if (isset($_SESSION['pdf'])) {
     echo "<script>alert('". addslashes($_SESSION['pdf']) ."');</script>";
     unset($_SESSION['pdf']);
@@ -135,6 +141,28 @@ $properties_result = mysqli_query($conn, $properties_sql);
                 margin-left: 240px; /* Ensure there's space for the sidebar */
                 margin-top: 50px;
             }
+            .rating-button-container {
+            display: flex;
+            justify-content: flex-end; /* Align the button to the right */
+            margin-bottom: 15px; /* Add some space below the button */
+        }
+
+        .rating-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            margin-right:30px; 
+            margin-top: -20px;
+        }
+
+        .rating-button:hover {
+            background-color: #218838;
+        }
         </style>
     </head>
     <body>
@@ -145,6 +173,7 @@ $properties_result = mysqli_query($conn, $properties_sql);
                 <li><a href="Profile.php">Profile Overview</a></li>
                 <li><a href="Profile1.php">Update Profile</a></li>
                 <li><a href="home.php">My Properties</a></li>
+                 <li><a href="demo2.php">Maintenance</a> </li>
                 <li><a href="Payment.php">Payments</a> </li>
                 <li><a href="changePassword.php">Change Password</a></li>
                 <li><a href="/houserental-master/homlisti/my-account/logout.php">Logout</a></li>
@@ -153,7 +182,10 @@ $properties_result = mysqli_query($conn, $properties_sql);
 
         <!-- Main content -->
         <h2>&nbsp;&nbsp;Your Payments</h2>
-
+ <div class="rating-button-container">
+        <!-- Button redirects to the Rating page -->
+        <a href="Rating.php" class="rating-button">Rate a Property</a>
+    </div>
         <div>
             <table>
                 <tr>

@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 if ($_SESSION['email'] == "22bmiit150@gmail.com") {
@@ -56,7 +56,7 @@ if (isset($_POST['btnupdate'])) {
     $parking = $_POST['parking'];
     $description = $_POST['description'];
     $size = $_POST['size'];
-
+$sec=$_POST['sd'];
     // Handle document update
     $document = $property['document'];
     if (isset($_FILES['document']) && $_FILES['document']['error'] == 0) {
@@ -65,7 +65,7 @@ if (isset($_POST['btnupdate'])) {
 
     // Update property information
     $update_sql = "UPDATE property 
-                   SET cid = '$cid', adress = '$address', rent = '$rent', bedroom = '$bedroom', 
+                   SET cid = '$cid', adress = '$address',SecurityDeposit='$sec',rent = '$rent', bedroom = '$bedroom', 
                        bathroom = '$bathroom', kitchen = '$kitchen', floor = '$floor', 
                        parking = '$parking', description = '$description', size = '$size', document = '$document'
                    WHERE pid = '$property_id' AND uid = '$uid'";
@@ -85,8 +85,9 @@ if (isset($_POST['btnupdate'])) {
             }
         }
 
-        echo "Property updated successfully!";
+        $_SESSION['property']="Property updated successfully!";
         header("Location:home.php");
+        die();
     } else {
         echo "Error: " . $update_sql . "<br>" . mysqli_error($conn);
     }
@@ -325,7 +326,10 @@ if (isset($_POST['btnupdate'])) {
                         <label for="description">Description:</label>
                         <textarea id="description" name="description" rows="3"><?php echo $property['description']; ?></textarea>
                     </div>
-
+<div>
+                        <label for="sd">Security Deposit:</label>
+                        <input type="number" id="sd" name="sd" value="<?php echo $property['SecurityDeposit'];?>" required oninput="validateNumberInput(this)">
+                    </div>
                     <!-- Document -->
                     <div>
                         <label for="document">Update Document:</label>

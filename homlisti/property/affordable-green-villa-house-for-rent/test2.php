@@ -185,7 +185,7 @@ if (count($properties) > 0) {
         echo "</div></div>";
         echo "<div class='action-icons'>";
        // echo "<a href='#'><i class='fas fa-heart'></i> Save</a>";
-        echo "<a href='#'><i class='fas fa-eye'></i> View</a>";
+        echo "<a href='view_property.php?property_id=".$details['pid']."'><i class='fas fa-eye'></i> View</a>";
         echo "<form action='../../request_rent.php' method='POST'>";
         echo "<input type='hidden' name='property_id' value='" . $details['pid'] . "' />";
        // echo "<input type='hidden' name='user_id' value='" . $uid . "' />";

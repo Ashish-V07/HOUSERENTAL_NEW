@@ -36,6 +36,12 @@ function getTotalUsers($conn) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <title>Admin Dashboard</title>
+        <style>
+            body{
+                 
+                 height :100vh;
+            }
+        </style>
     </head>
 
     <body>
@@ -67,7 +73,10 @@ function getTotalUsers($conn) {
                                 <a class="nav-link" href="manage_users.php">Manage Users</a> <!-- New Manage Users Link -->
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="ManageFeedback.php">Mange Feedback</a>
+                                <a class="nav-link" href="ManageFeedback.php">Manage Feedback</a>
+                            </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="changePassword.php">Change Password</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="logout.php">Logout</a>

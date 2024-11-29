@@ -52,6 +52,9 @@ $result = mysqli_query($conn, $sql);
                                 <a class="nav-link" href="ManageFeedback.php">Manage Feedback</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="changePassword.php">Change Password</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="logout.php">Logout</a>
                             </li>
                         </ul>

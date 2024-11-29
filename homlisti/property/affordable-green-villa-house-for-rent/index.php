@@ -27,8 +27,7 @@ $query = "
     SELECT p.*, i.image 
     FROM property p
     LEFT JOIN tblimage i ON p.pid = i.pid
-    WHERE p.status = 'Allow' and p.AvailabilityStatus='Available' $searchQuery
-    LIMIT $offset, $propertiesPerPage
+    WHERE p.status = 'Allow' and p.AvailabilityStatus='Available'
 ";
 
 $result = $conn->query($query);
@@ -1588,16 +1587,16 @@ $(document).ready(function() {
         }
         ?>
     </div>
-    <nav>
+<!--    <nav>
         <ul class="pagination justify-content-center">
             <?php
-            for ($i = 1; $i <= $totalPages; $i++) {
-                $active = $i == $page ? 'active' : '';
-                echo "<li class='page-item $active'><a class='page-link' href='?page=$i'>$i</a></li>";
-            }
+//            for ($i = 1; $i <= $totalPages; $i++) {
+//                $active = $i == $page ? 'active' : '';
+//                echo "<li class='page-item $active'><a class='page-link' href='?page=$i'>$i</a></li>";
+//            }
             ?>
         </ul>
-    </nav>
+    </nav>-->
 </div>
 
 

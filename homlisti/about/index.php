@@ -3075,7 +3075,7 @@ session_start();
                                                             View of RealEstate Field.</h2>
 
                                                         <!--Description-->
-                                                        <div class="description"><p>when an unknown printer took a galley of type and scrambled it to make type specimen bookt has survived not only five centuries alsoey jequery the leap into electronic typesetting.</p></div>
+                                                        <div class="description"><p>Welcome to HomeListi - RentEase, your trusted platform for effortless property rentals and management. We connect landlords and tenants, making the process smooth, secure, and convenient for everyone.</p></div>
                                                     </div>
                                                 </div>		</div>
                                         </div>

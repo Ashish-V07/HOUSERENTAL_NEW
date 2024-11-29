@@ -26,10 +26,20 @@ require 'C:\XAMPP\htdocs\houserental-master\PHPMailer-master\src\Exception.php';
 require 'C:\XAMPP\htdocs\houserental-master\PHPMailer-master\src\SMTP.php';
 
 $email=$_SESSION['email'];
-$rentID = $_SESSION['rentID'];           
+$rentID = $_COOKIE['rentID'];           
 
 // Fetch details from the database
-$result = mysqli_query($conn, "SELECT * FROM tblpayment p inner join tblrent r on r.rid=p.rid inner join property t on t.pid=r.pid WHERE p.rid='$rentID'");
+$result = mysqli_query($conn, "SELECT 
+        p.id , 
+        p.rid , 
+        p.amount, 
+        p.status AS payment_status, 
+        p.pdate, 
+        t.adress 
+    FROM tblpayment p 
+    INNER JOIN tblrent r ON r.rid = p.rid 
+    INNER JOIN property t ON t.pid = r.pid 
+    WHERE p.rid = '$rentID'");
 $row = mysqli_fetch_assoc($result);
 
 if (!$row) {
@@ -71,7 +81,7 @@ function sendEmail($recipient_email, $paymentDetails) {
         // Send the email
         $mail->send();
 
-        echo "<script>alert('Email with PDF sent successfully');</script>";
+        $_SESSION['pdf']="Email with PDF sent successfully";
     } catch (Exception $e) {
         echo '<script>alert("Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '");</script>';
     }
@@ -176,7 +186,7 @@ function getEmailTemplate($paymentDetails) {
                     <li>Payment ID: ' . $paymentDetails['id'] . '</li>
                     <li>Rent ID: ' . $paymentDetails['rid'] . '</li>
                     <li>Amount: Rs.' . number_format($paymentDetails['amount'], 2) . '</li>
-                    <li>Status: ' . $paymentDetails['status'] . '</li>
+                    <li>Status: ' . $paymentDetails['payment_status'] . '</li>
                     <li>Payment Date: ' . $paymentDetails['pdate'] . '</li>
                 </ul>
                 <p>The invoice is attached to this email.</p>
@@ -192,6 +202,6 @@ function getEmailTemplate($paymentDetails) {
 
 // Example usage
 sendEmail($email,$row);
-header("Loaction:/houserental-master/homlisti/Payment.php");
+header("Location:/houserental-master/homlisti/Payment.php");
 die();// Call sendEmail with the recipient's email address
 ?>

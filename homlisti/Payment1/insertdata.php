@@ -61,8 +61,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 
                     if (mysqli_query($conn, $sql_payment)) {
                         $_SESSION['payment_msg'] = "Payment successful Thank you";
-                          $_SESSION['rentID']=$rid;
-                          
+                          //$_SESSION['rentID']=$rid;
+                          setcookie("rentID",$rid,time()+86400*365,"/");
                         header("Location: /houserental-master/homlisti/Genrate_Bill/Send_bill.php");
                         exit();
                     } else {

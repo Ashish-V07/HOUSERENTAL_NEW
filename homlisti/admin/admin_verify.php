@@ -103,7 +103,7 @@ function sendDenialEmail($recipient_email, $property_id) {
             <div class='content'>
                 <h2>Property Submission Denied</h2>
                 <p>Dear User,</p>
-                <p>We regret to inform you that your property with ID <strong>$property_id</strong> has been denied. Please ensure that all the information provided is accurate and complete, then try submitting again.</p>
+                <p>We regret to inform you that your property <strong>$property_id</strong> has been denied. Please ensure that all the information provided is accurate and complete, then try submitting again.</p>
                 <p>If you need further assistance, feel free to reach out to our support team.</p>
                 <p>Thank you for your understanding.</p>
                 <p>Warm regards,<br>RentEase Team</p>
@@ -209,7 +209,7 @@ function sendApprovalEmail($recipient_email, $property_id) {
             <div class='content'>
                 <h2>Congratulations!</h2>
                 <p>Dear User,</p>
-                <p>Your property with ID <strong>$property_id</strong> has been approved and is now listed for rental on our platform.</p>
+                <p>Your property <strong>$property_id</strong> has been approved and is now listed for rental on our platform.</p>
                 <p>Thank you for trusting us with your property. We wish you great success in finding the perfect tenants!</p>
                 <p>Warm regards,<br>RentEase Team</p>
             </div>
@@ -258,9 +258,42 @@ $result = mysqli_query($conn, $sql);
         <title>Admin Property Verification</title>
         <style>
             .property-image {
-                width: 200px; /* Adjust the size as needed */
-                height: auto; /* Maintain aspect ratio */
+                width: 200px; /* Set a fixed width */
+                height: 150px; /* Set a fixed height */
+                object-fit: cover; /* Ensures the image fits the dimensions without distortion */
+                margin: 5px; /* Adds space between images */
             }
+            .allow {
+    background-color: #28a745; /* Green for 'Allow' */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.allow:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.deny {
+    background-color: #dc3545; /* Red for 'Deny' */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.deny:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+           
         </style>
 
     </head>
@@ -384,7 +417,7 @@ $result = mysqli_query($conn, $sql);
                                 echo "<p class='text-danger'>This property has been denied.</p>
                               <form action='admin_verify.php' method='POST'>
                                 <input type='hidden' name='pid' value='" . $row['pid'] . "'>
-                                <input type='submit' name='reallow' value='Re-allow for Update' class='reallow'>
+                                <input type='submit' name='reallow' value='Re-allow for Update' class='allow'>
                               </form>";
                             }
 
@@ -403,15 +436,16 @@ $result = mysqli_query($conn, $sql);
 // Handle Allow, Deny, and Re-Allow Actions
         if (isset($_POST['allow'])) {
             $pid = $_POST['pid'];
-            $sql = "UPDATE property SET status = 'Allow', propertyVerification = 1 WHERE pid = '$pid'";
+            $sql = "UPDATE property SET status = 'Allow' WHERE pid = '$pid'";
 
             if (mysqli_query($conn, $sql)) {
                 // Fetch user's email and send approval notification
-                $email_query = "SELECT u.email FROM tbl_users u JOIN property p ON u.id = p.uid WHERE p.pid = '$pid'";
+                $email_query = "SELECT u.email,p.adress FROM tbl_users u JOIN property p ON u.id = p.uid WHERE p.pid = '$pid'";
                 $email_result = mysqli_query($conn, $email_query);
                 if ($email_row = mysqli_fetch_assoc($email_result)) {
                     $user_email = $email_row['email'];
-                    sendApprovalEmail($user_email, $pid);
+                    $adress=$email_row['adress'];
+                    sendApprovalEmail($user_email,$adress );
                 }
 
                 header("Location: admin_verify.php");
@@ -420,15 +454,16 @@ $result = mysqli_query($conn, $sql);
             }
         } elseif (isset($_POST['deny'])) {
             $pid = $_POST['pid'];
-            $sql = "UPDATE property SET status = 'Denied', propertyVerification = 0 WHERE pid = '$pid'";
+            $sql = "UPDATE property SET status = 'Denied' WHERE pid = '$pid'";
 
             if (mysqli_query($conn, $sql)) {
                 // Fetch user's email and send denial notification
-                $email_query = "SELECT u.email FROM tbl_users u JOIN property p ON u.id = p.uid WHERE p.pid = '$pid'";
+                $email_query = "SELECT u.email,p.adress FROM tbl_users u JOIN property p ON u.id = p.uid WHERE p.pid = '$pid'";
                 $email_result = mysqli_query($conn, $email_query);
                 if ($email_row = mysqli_fetch_assoc($email_result)) {
                     $user_email = $email_row['email'];
-                    sendDenialEmail($user_email, $pid);
+                     $adress=$email_row['adress'];
+                    sendDenialEmail($user_email, $adress);
                 }
 
                 header("Location: admin_verify.php");
@@ -437,24 +472,26 @@ $result = mysqli_query($conn, $sql);
             }
         } elseif (isset($_POST['reallow'])) {
             $pid = $_POST['pid'];
-            $sql = "UPDATE property SET status = 'Pending', propertyVerification = 0 WHERE pid = '$pid'";
+            $sql = "UPDATE property SET status = 'Pending' WHERE pid = '$pid'";
 
             if (mysqli_query($conn, $sql)) {
                 // Fetch the user's email and notify them
-                $email_query = "SELECT u.email FROM tbl_users u JOIN property p ON u.id = p.uid WHERE p.pid = '$pid'";
+                $email_query = "SELECT u.email,p.adress FROM tbl_users u JOIN property p ON u.id = p.uid WHERE p.pid = '$pid'";
                 $email_result = mysqli_query($conn, $email_query);
+                
                 if ($email_row = mysqli_fetch_assoc($email_result)) {
                     $user_email = $email_row['email'];
+                        $adress=$email_row['adress'];
                     $mail = new PHPMailer(true);
                     try {
                         $mail->isSMTP();
                         $mail->Host = 'smtp.gmail.com';
                         $mail->SMTPAuth = true;
-                        $mail->Username = '22bmiit009@gmail.com';
-                        $mail->Password = 'vaguqlcfibgnxfbf';
+                        $mail->Username = 'ashishvaghasiya150@gmail.com';
+                        $mail->Password = 'dnvjaacfmzrpovwi';
                         $mail->SMTPSecure = 'tls';
                         $mail->Port = 587;
-                        $mail->setFrom('22bmiit009@gmail.com', 'RentEase');
+                        $mail->setFrom('ashishvaghasiya150@gmail.com', 'RentEase');
                         $mail->addAddress($user_email);
                         $mail->isHTML(true);
                        
@@ -521,7 +558,7 @@ $result = mysqli_query($conn, $sql);
             <div class='content'>
                 <h2>Property Ready for Updates</h2>
                 <p>Dear User,</p>
-                <p>Your property with ID <strong>$pid</strong> is now ready for updates. You can update the property details and resubmit it for verification.</p>
+                <p>Your property  <strong>$adress</strong> is now ready for updates. You can update the property details and resubmit it for verification.</p>
                 <p>We appreciate your continued partnership with us!</p>
                 <p>Warm regards,<br>RentEase Team</p>
             </div>

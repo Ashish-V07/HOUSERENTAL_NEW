@@ -17,7 +17,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 try {
-$id=$_GET['pid'];
+$id=$_GET['prid'];
 $sql2="select adress from property where pid='$id'";
 
 $res= mysqli_query($conn, $sql2);

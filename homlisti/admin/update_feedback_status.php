@@ -5,7 +5,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fid = $_POST['fid'];
     $uid = $_POST['uid'];
-
+    
+    
     // Update the feedback status to 'done'
     $sql = "UPDATE tblfeedback SET status = 'DONE' WHERE fid = '$fid'";
     if (mysqli_query($conn, $sql)) {
@@ -15,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (mysqli_num_rows($userResult) > 0) {
             $user = mysqli_fetch_assoc($userResult);
             $email = $user['email'];
-
+            $type=$_POST['type'];
             // Send email using PHPMailer
-            sendMail($email, $fid);
+            sendMail($email,$type);
             
             echo 'success';
         } else {
@@ -120,7 +121,7 @@ require 'C:\XAMPP\htdocs\houserental-master\PHPMailer-master\src\SMTP.php';
             <div class='content'>
                 <h2>Feedback Status Updated</h2>
                 <p>Dear User,</p>
-                <p>Your feedback (ID: <strong>$fid</strong>) has been marked as <strong>done</strong>.</p>
+                <p>Your feedback About <strong>$fid</strong> has been marked as <strong>done</strong>.</p>
                 <p>Thank you for helping us improve our service!</p>
                 <p>Warm regards,<br>RentEase Team</p>
             </div>

@@ -110,7 +110,7 @@ $result = mysqli_query($conn, $sql);
                                     echo "<td>" . $row['status'] . "</td>";
                                     // Check if status is 'underreview' to show the 'Done' button
                                     if ($row['status'] == 'UNDER REVIEW') {
-                                        echo "<td><button class='btn btn-success done-btn' id='btnDone' data-fid='" . $row['fid'] . "' data-uid='" . $row['uid'] . "'>Done</button></td>";
+                                        echo "<td><button class='btn btn-success done-btn' id='btnDone' data-fid='" . $row['fid'] . "' data-uid='" . $row['uid'] . "' data-type='" . $row['type'] . "'>Done</button></td>";
                                     } else {
                                         echo "<td><button class='btn btn-secondary' disabled>Done</button></td>";
                                     }
@@ -152,11 +152,12 @@ $result = mysqli_query($conn, $sql);
                                     $(document).on('click', '#btnDone', function () {
                                         var feedbackId = $(this).data('fid');
                                         var userId = $(this).data('uid');
-
+                                        var type=$(this).data('type');
+                                        
                                         $.ajax({
                                             url: 'update_feedback_status.php',
                                             method: 'POST',
-                                            data: {fid: feedbackId, uid: userId},
+                                            data: {fid: feedbackId, uid: userId, type: type},
                                             success: function (response) {
 
                                                 alert('Feedback status updated and email sent.');

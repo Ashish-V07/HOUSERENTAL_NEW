@@ -15,7 +15,10 @@ if (isset($_SESSION['payment_msg'])) {
     </script>";
     unset($_SESSION['payment_msg']);
 }
-
+if (isset($_SESSION['pdf'])) {
+    echo "<script>alert('". addslashes($_SESSION['pdf']) ."');</script>";
+    unset($_SESSION['pdf']);
+}
 $conn = mysqli_connect("localhost", "root", "", "house_rental");
 
 if (!$conn) {
@@ -168,9 +171,9 @@ $properties_result = mysqli_query($conn, $properties_sql);
                     while ($property = mysqli_fetch_assoc($properties_result))
                     {
                            $status = "pending";
-                        if(isset($_SESSION['rentID']))
+                        if(isset($_COOKIE['rentID']))
                         {
-                            $rentID = $_SESSION['rentID'];
+                            $rentID = $_COOKIE['rentID'];
                             $sql = "select status from tblpayment where rid='$rentID'";
                              $res = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($res) > 0) {

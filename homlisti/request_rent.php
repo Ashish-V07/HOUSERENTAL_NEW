@@ -48,7 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['property_id'])) {
         }
     }
      $asql = "SELECT aadhar,mobile FROM tbl_users WHERE id = '$user_id'";
-
+ $rent = "SELECT rid FROM tblrent WHERE uid = '$user_id'";
+  $rentRes = mysqli_query($conn, $rent);
+    $rentResult = mysqli_fetch_assoc($rentRes);
+  if ($rentResult['rid'] > 0) {
+       
+        $_SESSION['rentmsg'] = "You are already rented one house";
+            header("Location: /houserental-master/homlisti/NEWDashboard.php");
+            exit();
+    }
     $ar = mysqli_query($conn, $asql);
     $res = mysqli_fetch_assoc($ar);
     if (!$res['aadhar'] > 0 or !$res['mobile'] > 0) {

@@ -26,9 +26,10 @@ $property_id = (int)$_GET['property_id'];
 
 // Fetch property details
 $query = "
-    SELECT p.*, c.cname 
-    FROM property p
-    LEFT JOIN tblcategory c ON p.cid = c.id
+    SELECT p.*, c.cname,u.fname 
+    FROM tblcategory c
+    inner JOIN property p ON p.cid = c.id
+    inner join tbl_users u on p.uid=u.id
     WHERE p.pid = $property_id
 ";
 $result = $conn->query($query);
@@ -177,6 +178,7 @@ $conn->close();
             <p><strong>Floor:</strong> <?php echo htmlspecialchars($property['floor']); ?></p>
             <p><strong>Parking:</strong> <?php echo $property['parking'] == 1 ? 'Yes' : 'No'; ?></p>
             <p><strong>Size:</strong> <?php echo htmlspecialchars($property['size']); ?> sq ft</p>
+            <h2><strong>Owner Name:</strong> <?php echo htmlspecialchars($property['fname']); ?> </h2>
             <?php
              echo "<form action='../../request_rent.php' method='POST'>";
                 echo "<input type='hidden' name='property_id' value='" . $property['pid'] . "' />";

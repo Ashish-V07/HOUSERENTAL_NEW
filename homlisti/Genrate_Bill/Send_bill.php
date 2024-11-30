@@ -27,7 +27,8 @@ require 'C:\XAMPP\htdocs\houserental-master\PHPMailer-master\src\SMTP.php';
 
 $email=$_SESSION['email'];
 $rentID = $_COOKIE['rentID'];           
-
+//$rentID = 21;
+//$email="22bmiit150@gmail.com";
 // Fetch details from the database
 $result = mysqli_query($conn, "SELECT 
         p.id , 
@@ -87,21 +88,88 @@ function sendEmail($recipient_email, $paymentDetails) {
     }
 }
 
+//class BillPDF extends Fpdi {
+//
+//    // Header
+//    function Header() {
+//        $this->Image('C:\XAMPP\htdocs\houserental-master\homlisti\wp-content\uploads\2021\09\cropped-favicon-homlisti-180x180.png', 10, 6, 15); // Adjust the path as needed
+//        $this->SetFont('Arial', 'B', 15);
+//        $this->Cell(50);
+//        $this->Cell(90, 10, 'RentEase', 0, 0, 'C');
+//        $this->Ln(20);
+//    }
+//
+//    // Footer
+//    function Footer() {
+//        $this->SetY(-15);
+//        $this->SetFont('Arial', 'I', 8);
+//        $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+//    }
+//}
 class BillPDF extends Fpdi {
 
-    // Header
-    function Header() {
-        $this->Image('C:\XAMPP\htdocs\houserental-master\homlisti\wp-content\uploads\2021\09\cropped-favicon-homlisti-180x180.png', 10, 6, 15); // Adjust the path as needed
-        $this->SetFont('Arial', 'B', 15);
-        $this->Cell(50);
-        $this->Cell(90, 10, 'RentEase', 0, 0, 'C');
-        $this->Ln(20);
+    protected $angle = 0;
+
+    // Rotate method for watermark
+    function Rotate($angle, $x = -1, $y = -1) {
+        if ($x == -1)
+            $x = $this->x;
+        if ($y == -1)
+            $y = $this->y;
+        if ($this->angle != 0)
+            $this->_out('Q');
+        $this->angle = $angle;
+        if ($angle != 0) {
+            $angleRad = $angle * M_PI / 180;
+            $c = cos($angleRad);
+            $s = sin($angleRad);
+            $cx = $x * $this->k;
+            $cy = ($this->h - $y) * $this->k;
+            $this->_out(sprintf('q %.5F %.5F %.5F %.5F %.5F %.5F cm 1 0 0 1 %.5F %.5F cm', $c, $s, -$s, $c, $cx, $cy, -$cx, -$cy));
+        }
     }
 
-    // Footer
+    function _endpage() {
+        if ($this->angle != 0) {
+            $this->angle = 0;
+            $this->_out('Q');
+        }
+        parent::_endpage();
+    }
+
+    // Custom Header
+    function Header() {
+        // Add header background
+        
+        // Add logo
+       $this->Image('C:\XAMPP\htdocs\houserental-master\homlisti\wp-content\uploads\2021\09\cropped-favicon-homlisti-180x180.png', 10, 6, 15); // Adjust the path as needed
+      
+        // Add watermark
+        $this->SetFont('Arial', 'B', 100);
+        $this->SetTextColor(220, 220, 220); // Light gray for watermark
+// Center watermark by calculating page center
+        $x = ($this->w - $this->GetStringWidth('RentEase')) / 2; // Center horizontally
+        $y = $this->h / 2; // Center vertically
+
+        $this->Rotate(60, $this->w / 2, $this->h / 2.5); // Diagonal rotation centered
+        $this->Text($x, $y, 'RentEase'); // Apply centered watermark text
+        $this->Rotate(0); // Reset rotation
+        // Add header text
+        $this->SetFont('Arial', 'B', 14);
+        $this->SetTextColor(255, 255, 255); // White text
+        $this->Cell(80);
+         $this->Cell(90, 10, 'RentEase', 0, 0, 'C');
+//       
+       $this->Ln(10);
+
+        $this->SetTextColor(0, 0, 0); // Reset text color for content
+    }
+
     function Footer() {
-        $this->SetY(-15);
+        $this->SetY(-30);
         $this->SetFont('Arial', 'I', 8);
+        $this->Cell(0, 10, 'Thank you for your business! This pdf not need signature', 0, 1, 'C');
+        $this->Cell(0, 10, 'For queries, contact us at support@rentease.com', 0, 1, 'C');
         $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
 }

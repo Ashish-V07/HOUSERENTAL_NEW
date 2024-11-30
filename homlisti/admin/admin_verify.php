@@ -245,7 +245,7 @@ if (isset($_GET['status'])) {
     }
 }
 
-$sql = "SELECT * FROM property WHERE status = '$status_filter'";
+$sql = "SELECT p.*,u.email FROM property p inner join tbl_users u on u.id=p.uid WHERE status = '$status_filter'";
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -348,8 +348,8 @@ $result = mysqli_query($conn, $sql);
                             <div class='card-body'>
                                 <table>
                                  <tr style='font-weight: bold;'>
-                                        <td><strong>By(User ID):&nbsp</strong></td>
-                                        <td>" . $row['uid'] . "</td>
+                                        <td><strong>Email:&nbsp</strong></td>
+                                        <td>" . $row['email'] . "</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Address:</strong></td>
